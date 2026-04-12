@@ -108,7 +108,7 @@ typedef enum {
  * and \c |E| edges is \c O(|E|+|V|).
  */
 typedef struct igraph_s {
-    igraph_integer_t n;
+    igraph_int_t n;
     igraph_bool_t directed;
     igraph_vector_int_t from;
     igraph_vector_int_t to;

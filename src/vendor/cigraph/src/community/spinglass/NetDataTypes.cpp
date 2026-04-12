@@ -83,7 +83,7 @@ NLink *NNode::Get_LinkToNeighbour(const NNode* neighbour) {
     }
 }
 
-igraph_integer_t NNode::Disconnect_From(NNode* neighbour) {
+igraph_int_t NNode::Disconnect_From(NNode* neighbour) {
     //sollen doppelte Links erlaubt sein??  s.o.
     neighbours.fDelete(neighbour);
     n_links.fDelete(Get_LinkToNeighbour(neighbour));
@@ -92,8 +92,8 @@ igraph_integer_t NNode::Disconnect_From(NNode* neighbour) {
     return 1;
 }
 
-igraph_integer_t NNode::Disconnect_From_All() {
-    igraph_integer_t number_of_neighbours = 0;
+igraph_int_t NNode::Disconnect_From_All() {
+    igraph_int_t number_of_neighbours = 0;
     while (neighbours.Size()) {
         Disconnect_From(neighbours.Pop());
         number_of_neighbours++;
