@@ -61,6 +61,7 @@ add_library(
   core/progress.c
   core/psumtree.c
   core/set.c
+  core/setup.c
   core/sparsemat.c
   core/stack.c
   core/statusbar.c
@@ -80,6 +81,7 @@ add_library(
   linalg/lapack.c
 
   random/random.c
+  random/random_device.cpp
   random/rng_glibc2.c
   random/rng_mt19937.c
   random/rng_pcg32.c

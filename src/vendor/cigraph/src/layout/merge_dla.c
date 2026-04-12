@@ -84,7 +84,6 @@ igraph_error_t igraph_layout_merge_dla(
     IGRAPH_VECTOR_INIT_FINALLY(&ny, coords_len);
     IGRAPH_VECTOR_INIT_FINALLY(&nr, coords_len);
 
-    RNG_BEGIN();
 
     for (i = 0; i < coords_len; i++) {
         igraph_matrix_t *mat = igraph_matrix_list_get_ptr(coords, i);
@@ -166,7 +165,6 @@ igraph_error_t igraph_layout_merge_dla(
         }
     }
 
-    RNG_END();
 
     igraph_i_layout_mergegrid_destroy(&grid);
     igraph_vector_destroy(&sizes);
