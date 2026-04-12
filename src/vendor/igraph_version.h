@@ -28,11 +28,11 @@
 
 __BEGIN_DECLS
 
-#define IGRAPH_VERSION "0.11.0"
+#define IGRAPH_VERSION "0.11.0-3-g2f10b49f9"
 #define IGRAPH_VERSION_MAJOR 0
 #define IGRAPH_VERSION_MINOR 11
 #define IGRAPH_VERSION_PATCH 0
-#define IGRAPH_VERSION_PRERELEASE "cmake-experimental"
+#define IGRAPH_VERSION_PRERELEASE "3-g2f10b49f9"
 
 IGRAPH_EXPORT void igraph_version(const char **version_string,
                                   int *major,

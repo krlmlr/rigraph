@@ -146,32 +146,32 @@
  * igraph_rng_set_default() function.
  */
 
-extern IGRAPH_THREAD_LOCAL igraph_rng_t igraph_i_rng_default; /* defined in rng_pcg32.c */
+extern igraph_rng_t igraph_i_rng_default; /* defined in rng_pcg32.c */
+IGRAPH_THREAD_LOCAL igraph_rng_t *igraph_i_rng_default_ptr = &igraph_i_rng_default;
 
 /**
  * \function igraph_rng_set_default
  * \brief Set the default igraph random number generator.
  *
- * This function \em copies the internal structure of the given \type igraph_rng_t
- * object to igraph's internal default RNG structure. The structure itself
- * contains two pointers only, one to the "methods" of the RNG and one to the
- * memory buffer holding the internal state of the RNG. This means that if you
- * keep on generating random numbers from the RNG after setting it as the
- * default, it will affect the state of the default RNG as well because the two
- * share the same state pointer. However, do \em not expect
- * \ref igraph_rng_default() to return the same pointer as the one you passed
- * in here - the state is shared, but the entire structure is not.
+ * This function updates the default RNG used by igraph to be the one
+ * pointed to by \p rng, and returns a pointer to the previous default
+ * RNG. Future calls to \ref igraph_rng_default() will return the same
+ * pointer as \p rng. The RNG pointed to by \p rng must not be destroyed
+ * for as long as it is used as the default.
  *
  * \param rng The random number generator to use as default from now
  *    on. Calling \ref igraph_rng_destroy() on it, while it is still
  *    being used as the default will result in crashes and/or
  *    unpredictable results.
+ * \return Pointer the previous default RNG.
  *
  * Time complexity: O(1).
  */
 
-void igraph_rng_set_default(igraph_rng_t *rng) {
-    igraph_i_rng_default = (*rng);
+igraph_rng_t *igraph_rng_set_default(igraph_rng_t *rng) {
+    igraph_rng_t *old_rng = igraph_i_rng_default_ptr;
+    igraph_i_rng_default_ptr = rng;
+    return old_rng;
 }
 
 
@@ -187,7 +187,7 @@ void igraph_rng_set_default(igraph_rng_t *rng) {
  */
 
 igraph_rng_t *igraph_rng_default(void) {
-    return &igraph_i_rng_default;
+    return igraph_i_rng_default_ptr;
 }
 
 /* ------------------------------------ */
@@ -995,7 +995,6 @@ igraph_error_t igraph_random_sample(igraph_vector_int_t *res, igraph_integer_t l
     igraph_vector_int_clear(res);
     IGRAPH_CHECK(igraph_vector_int_reserve(res, length));
 
-    RNG_BEGIN();
 
     Vprime = exp(log(RNG_UNIF01()) * ninv);
     l = l - 1;
@@ -1061,7 +1060,6 @@ igraph_error_t igraph_random_sample(igraph_vector_int_t *res, igraph_integer_t l
         igraph_vector_int_push_back(res, l);    /* allocated */
     }
 
-    RNG_END();
 
     return IGRAPH_SUCCESS;
 }
@@ -1101,7 +1099,7 @@ static void igraph_i_random_sample_alga_real(igraph_vector_t *res,
 
 /**
  * \ingroup nongraph
- * \function igraph_random_sample_real
+ * \function igraph_i_random_sample_real
  * \brief Generates an increasing random sequence of integers (igraph_real_t version).
  *
  * This function is the 'real' version of \ref igraph_random_sample(), and was added
@@ -1126,7 +1124,7 @@ static void igraph_i_random_sample_alga_real(igraph_vector_t *res,
  *         size of the candidate pool.
  */
 
-igraph_error_t igraph_random_sample_real(igraph_vector_t *res, igraph_real_t l,
+igraph_error_t igraph_i_random_sample_real(igraph_vector_t *res, igraph_real_t l,
                     igraph_real_t h, igraph_integer_t length) {
     /* This function is the 'real' version of igraph_random_sample, and was added
      * so erdos_renyi_game_gnm can use a random sample of doubles instead of integers
@@ -1181,7 +1179,6 @@ igraph_error_t igraph_random_sample_real(igraph_vector_t *res, igraph_real_t l,
     igraph_vector_clear(res);
     IGRAPH_CHECK(igraph_vector_reserve(res, length));
 
-    RNG_BEGIN();
 
     Vprime = exp(log(RNG_UNIF01()) * ninv);
     l = l - 1;
@@ -1252,7 +1249,6 @@ igraph_error_t igraph_random_sample_real(igraph_vector_t *res, igraph_real_t l,
         igraph_vector_push_back(res, l);    /* allocated */
     }
 
-    RNG_END();
 
     return IGRAPH_SUCCESS;
 }

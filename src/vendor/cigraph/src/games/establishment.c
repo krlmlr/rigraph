@@ -147,7 +147,6 @@ igraph_error_t igraph_establishment_game(igraph_t *graph, igraph_integer_t nodes
         IGRAPH_VECTOR_INT_INIT_FINALLY(nodetypes, nodes);
     }
 
-    RNG_BEGIN();
 
     for (i = 0; i < nodes; i++) {
         igraph_real_t uni = RNG_UNIF(0, maxcum);
@@ -168,7 +167,6 @@ igraph_error_t igraph_establishment_game(igraph_t *graph, igraph_integer_t nodes
         }
     }
 
-    RNG_END();
 
     if (! node_type_vec) {
         igraph_vector_int_destroy(nodetypes);
