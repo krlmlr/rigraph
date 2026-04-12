@@ -41,12 +41,12 @@ IGRAPH_EXPORT igraph_error_t igraph_graphlets_project(const igraph_t *graph,
                                            const igraph_vector_t *weights,
                                            const igraph_vector_int_list_t *cliques,
                                            igraph_vector_t *Mu, igraph_bool_t startMu,
-                                           igraph_integer_t niter);
+                                           igraph_int_t niter);
 
 IGRAPH_EXPORT igraph_error_t igraph_graphlets(const igraph_t *graph,
                                    const igraph_vector_t *weights,
                                    igraph_vector_int_list_t *cliques,
-                                   igraph_vector_t *Mu, igraph_integer_t niter);
+                                   igraph_vector_t *Mu, igraph_int_t niter);
 
 __END_DECLS
 
