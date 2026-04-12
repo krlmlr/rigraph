@@ -293,13 +293,13 @@ Other deterministic constructors:
 
 ``` r
 make_graph(c(1, 2, 2, 3, 3, 4, 5, 6), directed = FALSE)
-#> IGRAPH 157eb81 U--- 6 4 -- 
-#> + edges from 157eb81:
+#> IGRAPH 6642dd1 U--- 6 4 -- 
+#> + edges from 6642dd1:
 #> [1] 1--2 2--3 3--4 5--6
 make_graph(c("A", "B", "B", "C", "C", "D"), directed = FALSE)
-#> IGRAPH 85263c7 UN-- 4 3 -- 
+#> IGRAPH 7245d7e UN-- 4 3 -- 
 #> + attr: name (v/c)
-#> + edges from 85263c7 (vertex names):
+#> + edges from 7245d7e (vertex names):
 #> [1] A--B B--C C--D
 
 solids <- list(
