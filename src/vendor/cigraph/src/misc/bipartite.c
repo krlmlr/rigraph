@@ -647,31 +647,32 @@ igraph_error_t igraph_incidence(
  */
 
 igraph_error_t igraph_biadjacency(
-    igraph_t *graph, igraph_vector_bool_t *types,
-    const igraph_matrix_t *input, igraph_bool_t directed,
-    igraph_neimode_t mode, igraph_bool_t multiple
-) {
+        igraph_t *graph,
+        igraph_vector_bool_t *types,
+        const igraph_matrix_t *biadjmatrix,
+        igraph_bool_t directed,
+        igraph_neimode_t mode,
+        igraph_bool_t multiple) {
 
-    igraph_int_t n1 = igraph_matrix_nrow(input);
-    igraph_int_t n2 = igraph_matrix_ncol(input);
-    igraph_int_t no_of_nodes = n1 + n2;
+    const igraph_int_t n1 = igraph_matrix_nrow(biadjmatrix);
+    const igraph_int_t n2 = igraph_matrix_ncol(biadjmatrix);
+    const igraph_int_t no_of_nodes = n1 + n2;
     igraph_vector_int_t edges;
-    igraph_int_t i, j, k;
 
     IGRAPH_VECTOR_INT_INIT_FINALLY(&edges, 0);
 
-    if (n1 > 0 && n2 > 0 && igraph_matrix_min(input) < 0) {
-        IGRAPH_ERRORF(
-            "Bipartite adjacencey matrix elements should be non-negative, found %g.",
-            IGRAPH_EINVAL, igraph_matrix_min(input)
-        );
-    }
-
     if (multiple) {
 
-        for (i = 0; i < n1; i++) {
-            for (j = 0; j < n2; j++) {
-                igraph_int_t elem = ceil(MATRIX(*input, i, j));
+        if (n1 > 0 && n2 > 0 && igraph_matrix_min(biadjmatrix) < 0) {
+            IGRAPH_ERRORF(
+                "Bipartite adjacency matrix elements should be non-negative, found %g.",
+                IGRAPH_EINVAL, igraph_matrix_min(biadjmatrix)
+            );
+        }
+
+        for (igraph_int_t j = 0; j < n2; j++) {
+            for (igraph_int_t i = 0; i < n1; i++) {
+                igraph_int_t elem = MATRIX(*biadjmatrix, i, j);
                 igraph_int_t from, to;
 
                 if (elem == 0) {
@@ -687,12 +688,12 @@ igraph_error_t igraph_biadjacency(
                 }
 
                 if (mode != IGRAPH_ALL || !directed) {
-                    for (k = 0; k < elem; k++) {
+                    for (igraph_int_t k = 0; k < elem; k++) {
                         IGRAPH_CHECK(igraph_vector_int_push_back(&edges, from));
                         IGRAPH_CHECK(igraph_vector_int_push_back(&edges, to));
                     }
                 } else {
-                    for (k = 0; k < elem; k++) {
+                    for (igraph_int_t k = 0; k < elem; k++) {
                         IGRAPH_CHECK(igraph_vector_int_push_back(&edges, from));
                         IGRAPH_CHECK(igraph_vector_int_push_back(&edges, to));
                         IGRAPH_CHECK(igraph_vector_int_push_back(&edges, to));
@@ -704,11 +705,11 @@ igraph_error_t igraph_biadjacency(
 
     } else {
 
-        for (i = 0; i < n1; i++) {
-            for (j = 0; j < n2; j++) {
+        for (igraph_int_t j = 0; j < n2; j++) {
+            for (igraph_int_t i = 0; i < n1; i++) {
                 igraph_int_t from, to;
 
-                if (MATRIX(*input, i, j) != 0) {
+                if (MATRIX(*biadjmatrix, i, j) != 0) {
                     if (mode == IGRAPH_IN) {
                         from = n1 + j;
                         to = i;
@@ -734,17 +735,19 @@ igraph_error_t igraph_biadjacency(
     IGRAPH_CHECK(igraph_create(graph, &edges, no_of_nodes, directed));
     igraph_vector_int_destroy(&edges);
     IGRAPH_FINALLY_CLEAN(1);
+
     IGRAPH_FINALLY(igraph_destroy, graph);
 
     if (types) {
         IGRAPH_CHECK(igraph_vector_bool_resize(types, no_of_nodes));
         igraph_vector_bool_null(types);
-        for (i = n1; i < no_of_nodes; i++) {
-            VECTOR(*types)[i] = 1;
+        for (igraph_int_t i = n1; i < no_of_nodes; i++) {
+            VECTOR(*types)[i] = true;
         }
     }
 
     IGRAPH_FINALLY_CLEAN(1);
+
     return IGRAPH_SUCCESS;
 }
 
