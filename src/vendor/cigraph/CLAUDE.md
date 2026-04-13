@@ -35,6 +35,7 @@ cmake --build . --target build_tests
 ```
 
 To also build benchmarks:
+
 ```bash
 cmake --build . --target build_tests --target build_benchmarks
 ```
@@ -47,6 +48,7 @@ ctest --output-on-failure
 ```
 
 Run tests in parallel (replace `4` with the number of CPU cores):
+
 ```bash
 ctest --output-on-failure -j4
 ```
@@ -66,6 +68,7 @@ ctest --output-on-failure -j4
 | `USE_CCACHE`                 | ON      | Use ccache when available                            |
 
 Example – build with all external dependencies:
+
 ```bash
 cmake .. -GNinja \
   -DIGRAPH_USE_INTERNAL_BLAS=OFF \
@@ -77,7 +80,7 @@ cmake .. -GNinja \
 
 ## Project layout
 
-```
+```txt
 src/          C source code
 include/      Public headers
 tests/
