@@ -399,7 +399,7 @@ void Rx_igraph_attribute_clean_preserve_list(void) {
   }
 }
 
-igraph_error_t Rx_igraph_attribute_init(igraph_t *graph, igraph_vector_ptr_t *attr) {
+igraph_error_t Rx_igraph_attribute_init(igraph_t *graph, const igraph_attribute_record_list_t *attr) {
   SEXP result, names, gal;
   int px = 0;
 
@@ -426,12 +426,12 @@ igraph_error_t Rx_igraph_attribute_init(igraph_t *graph, igraph_vector_ptr_t *at
   graph->attr=result;
 
   /* Add graph attributes */
-  igraph_integer_t attrno= attr==NULL ? 0 : igraph_vector_ptr_size(attr);
+  igraph_integer_t attrno= attr==NULL ? 0 : igraph_attribute_record_list_size(attr);
   SET_VECTOR_ELT(result, 1, NEW_LIST(attrno));
   gal=VECTOR_ELT(result, 1);
   PROTECT(names=NEW_CHARACTER(attrno)); px++;
   for (igraph_integer_t i=0; i<attrno; i++) {
-    igraph_attribute_record_t *rec=VECTOR(*attr)[i];
+    igraph_attribute_record_t *rec=igraph_attribute_record_list_get_ptr(attr, i);
     igraph_vector_t *vec;
     igraph_vector_bool_t *log;
     igraph_strvector_t *strvec;
@@ -439,21 +439,21 @@ igraph_error_t Rx_igraph_attribute_init(igraph_t *graph, igraph_vector_ptr_t *at
     SET_VECTOR_ELT(gal, i, R_NilValue);
     switch (rec->type) {
     case IGRAPH_ATTRIBUTE_NUMERIC:
-      vec=(igraph_vector_t*) rec->value;
+      vec=rec->value.as_vector;
       if (igraph_vector_size(vec) > 0) {
         SET_VECTOR_ELT(gal, i, NEW_NUMERIC(1));
         REAL(VECTOR_ELT(gal, i))[0]=VECTOR(*vec)[0];
       }
       break;
     case IGRAPH_ATTRIBUTE_BOOLEAN:
-      log=(igraph_vector_bool_t*) rec->value;
+      log=rec->value.as_vector_bool;
       if (igraph_vector_bool_size(log) > 0) {
         SET_VECTOR_ELT(gal, i, NEW_LOGICAL(1));
         LOGICAL(VECTOR_ELT(gal, i))[0]=VECTOR(*log)[0];
       }
       break;
     case IGRAPH_ATTRIBUTE_STRING:
-      strvec=(igraph_strvector_t*) rec->value;
+      strvec=rec->value.as_strvector;
       if (igraph_strvector_size(strvec) > 0) {
         SET_VECTOR_ELT(gal, i, NEW_CHARACTER(1));
         SET_STRING_ELT(VECTOR_ELT(gal,i), 0, Rf_mkChar(igraph_strvector_get(strvec, 0)));
@@ -509,22 +509,22 @@ igraph_error_t Rx_igraph_attribute_copy(igraph_t *to, const igraph_t *from,
   return 0;
 }
 
-SEXP Rx_igraph_attribute_add_vertices_append1(igraph_vector_ptr_t *nattr,
+SEXP Rx_igraph_attribute_add_vertices_append1(const igraph_attribute_record_list_t *nattr,
                                              int j, int nv) {
 
   SEXP app = R_NilValue;
-  igraph_attribute_record_t *tmprec=VECTOR(*nattr)[j-1];
+  igraph_attribute_record_t *tmprec=igraph_attribute_record_list_get_ptr(nattr, j-1);
   igraph_integer_t len = 0;
 
   switch (tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
-    len = igraph_vector_size(tmprec->value);
+    len = igraph_vector_size(tmprec->value.as_vector);
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    len = igraph_vector_bool_size(tmprec->value);
+    len = igraph_vector_bool_size(tmprec->value.as_vector_bool);
     break;
   case IGRAPH_ATTRIBUTE_STRING:
-    len = igraph_strvector_size(tmprec->value);
+    len = igraph_strvector_size(tmprec->value.as_strvector);
     break;
   case IGRAPH_ATTRIBUTE_OBJECT:
     igraph_error("R objects not implemented yet", __FILE__, __LINE__,
@@ -547,13 +547,13 @@ SEXP Rx_igraph_attribute_add_vertices_append1(igraph_vector_ptr_t *nattr,
   switch (tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
     PROTECT(app=NEW_NUMERIC(nv));
-    igraph_vector_copy_to(tmprec->value, REAL(app));
+    igraph_vector_copy_to(tmprec->value.as_vector, REAL(app));
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value));
+    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value.as_vector_bool));
     break;
   default: /* IGRAPH_ATTRIBUTE_STRING */
-    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value));
+    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value.as_strvector));
     break;
   }
 
@@ -562,7 +562,7 @@ SEXP Rx_igraph_attribute_add_vertices_append1(igraph_vector_ptr_t *nattr,
 }
 
 void Rx_igraph_attribute_add_vertices_append(SEXP val, igraph_integer_t nv,
-                                            igraph_vector_ptr_t *nattr) {
+                                            const igraph_attribute_record_list_t *nattr) {
   SEXP names;
   igraph_integer_t valno, nattrno;
   SEXP rep = R_NilValue;
@@ -573,7 +573,7 @@ void Rx_igraph_attribute_add_vertices_append(SEXP val, igraph_integer_t nv,
   if (nattr==NULL) {
     nattrno=0;
   } else {
-    nattrno=igraph_vector_ptr_size(nattr);
+    nattrno=igraph_attribute_record_list_size(nattr);
   }
 
   for (igraph_integer_t i=0; i<valno; i++) {
@@ -582,7 +582,7 @@ void Rx_igraph_attribute_add_vertices_append(SEXP val, igraph_integer_t nv,
     igraph_bool_t l=0;
     igraph_integer_t j;
     for (j=0; !l && j<nattrno; j++) {
-      igraph_attribute_record_t *tmp=VECTOR(*nattr)[j];
+      igraph_attribute_record_t *tmp=igraph_attribute_record_list_get_ptr(nattr, j);
       l=!strcmp(sexpname, tmp->name);
     }
     if (l) {
@@ -618,7 +618,7 @@ SEXP Rx_igraph_attribute_add_vertices_dup(SEXP attr) {
 }
 
 igraph_error_t Rx_igraph_attribute_add_vertices(igraph_t *graph, igraph_integer_t nv,
-                                    igraph_vector_ptr_t *nattr) {
+                                    const igraph_attribute_record_list_t *nattr) {
   SEXP attr=graph->attr;
   SEXP val, rep=0, names, newnames;
   igraph_vector_int_t news;
@@ -634,7 +634,7 @@ igraph_error_t Rx_igraph_attribute_add_vertices(igraph_t *graph, igraph_integer_
   if (nattr==NULL) {
     nattrno=0;
   } else {
-    nattrno=igraph_vector_ptr_size(nattr);
+    nattrno=igraph_attribute_record_list_size(nattr);
   }
   origlen=igraph_vcount(graph)-nv;
 
@@ -643,7 +643,7 @@ igraph_error_t Rx_igraph_attribute_add_vertices(igraph_t *graph, igraph_integer_
   if (igraph_vector_int_init(&news, 0)) Rf_error("Out of memory");
   IGRAPH_FINALLY_PV(igraph_vector_int_destroy, &news);
   for (igraph_integer_t i=0; i<nattrno; i++) {
-    igraph_attribute_record_t *nattr_entry=VECTOR(*nattr)[i];
+    igraph_attribute_record_t *nattr_entry=igraph_attribute_record_list_get_ptr(nattr, i);
     const char *nname=nattr_entry->name;
     igraph_bool_t l=0;
     for (igraph_integer_t j=0; !l && j<valno; j++) {
@@ -664,7 +664,7 @@ igraph_error_t Rx_igraph_attribute_add_vertices(igraph_t *graph, igraph_integer_
     SEXP l4 = PROTECT(Rf_lang3(l1, l2, l3));
     PROTECT(rep = Rf_eval(l4, R_GlobalEnv));
     for (igraph_integer_t i=0; i<newattrs; i++) {
-      igraph_attribute_record_t *tmp = VECTOR(*nattr)[VECTOR(news)[i]];
+      igraph_attribute_record_t *tmp = igraph_attribute_record_list_get_ptr(nattr, VECTOR(news)[i]);
       SET_VECTOR_ELT(app, i, rep);
       SET_STRING_ELT(newnames, i, Rf_mkChar(tmp->name));
     }
@@ -849,22 +849,22 @@ SEXP Rx_igraph_attribute_add_edges_dup(SEXP attr) {
   return newattr;
 }
 
-SEXP Rx_igraph_attribute_add_edges_append1(igraph_vector_ptr_t *nattr, igraph_integer_t j,
+SEXP Rx_igraph_attribute_add_edges_append1(const igraph_attribute_record_list_t *nattr, igraph_integer_t j,
                                           igraph_integer_t ne) {
 
   SEXP app = R_NilValue;
-  igraph_attribute_record_t *tmprec=VECTOR(*nattr)[j-1];
+  igraph_attribute_record_t *tmprec=igraph_attribute_record_list_get_ptr(nattr, j-1);
   igraph_integer_t len = 0;
 
   switch(tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
-    len = igraph_vector_size(tmprec->value);
+    len = igraph_vector_size(tmprec->value.as_vector);
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    len = igraph_vector_bool_size(tmprec->value);
+    len = igraph_vector_bool_size(tmprec->value.as_vector_bool);
     break;
   case IGRAPH_ATTRIBUTE_STRING:
-    len = igraph_strvector_size(tmprec->value);
+    len = igraph_strvector_size(tmprec->value.as_strvector);
     break;
   case IGRAPH_ATTRIBUTE_OBJECT:
     igraph_error("R objects not implemented yet", __FILE__, __LINE__,
@@ -887,13 +887,13 @@ SEXP Rx_igraph_attribute_add_edges_append1(igraph_vector_ptr_t *nattr, igraph_in
   switch (tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
     PROTECT(app=NEW_NUMERIC(ne));
-    igraph_vector_copy_to(tmprec->value, REAL(app));
+    igraph_vector_copy_to(tmprec->value.as_vector, REAL(app));
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value));
+    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value.as_vector_bool));
     break;
   default: /* IGRAPH_ATTRIBUTE_STRING */
-    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value));
+    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value.as_strvector));
     break;
   }
 
@@ -903,7 +903,7 @@ SEXP Rx_igraph_attribute_add_edges_append1(igraph_vector_ptr_t *nattr, igraph_in
 
 void Rx_igraph_attribute_add_edges_append(SEXP eal,
                                          const igraph_vector_int_t *edges,
-                                         igraph_vector_ptr_t *nattr) {
+                                         const igraph_attribute_record_list_t *nattr) {
   SEXP names;
   igraph_integer_t ealno;
   igraph_integer_t ne=igraph_vector_int_size(edges)/2, nattrno;
@@ -915,7 +915,7 @@ void Rx_igraph_attribute_add_edges_append(SEXP eal,
   if (nattr==NULL) {
     nattrno=0;
   } else {
-    nattrno=igraph_vector_ptr_size(nattr);
+    nattrno=igraph_attribute_record_list_size(nattr);
   }
 
   for (igraph_integer_t i=0; i<ealno; i++) {
@@ -924,7 +924,7 @@ void Rx_igraph_attribute_add_edges_append(SEXP eal,
     igraph_bool_t l=0;
     igraph_integer_t j;
     for (j=0; !l && j<nattrno; j++) {
-      igraph_attribute_record_t *tmp=VECTOR(*nattr)[j];
+      igraph_attribute_record_t *tmp=igraph_attribute_record_list_get_ptr(nattr, j);
       l=!strcmp(sexpname, tmp->name);
     }
     if (l) {
@@ -952,7 +952,7 @@ void Rx_igraph_attribute_add_edges_append(SEXP eal,
 }
 
 igraph_error_t Rx_igraph_attribute_add_edges(igraph_t *graph, const igraph_vector_int_t *edges,
-                                igraph_vector_ptr_t *nattr) {
+                                const igraph_attribute_record_list_t *nattr) {
   SEXP attr=graph->attr;
   SEXP eal, names, newnames;
   igraph_vector_int_t news;
@@ -972,14 +972,14 @@ igraph_error_t Rx_igraph_attribute_add_edges(igraph_t *graph, const igraph_vecto
   if (nattr==NULL) {
     nattrno=0;
   } else {
-    nattrno=igraph_vector_ptr_size(nattr);
+    nattrno=igraph_attribute_record_list_size(nattr);
   }
   origlen=igraph_ecount(graph)-ne;
 
   /* First add the new attributes, if any */
   newattrs=0;
   for (igraph_integer_t i=0; i<nattrno; i++) {
-    igraph_attribute_record_t *nattr_entry=VECTOR(*nattr)[i];
+    igraph_attribute_record_t *nattr_entry=igraph_attribute_record_list_get_ptr(nattr, i);
     const char *nname=nattr_entry->name;
     igraph_bool_t l=0;
     for (igraph_integer_t j=0; !l && j<ealno; j++) {
@@ -1001,7 +1001,7 @@ igraph_error_t Rx_igraph_attribute_add_edges(igraph_t *graph, const igraph_vecto
     SEXP rep = PROTECT(Rf_eval(l4, R_GlobalEnv));
     for (igraph_integer_t i=0; i<newattrs; i++) {
       igraph_attribute_record_t *tmp=
-        VECTOR(*nattr)[VECTOR(news)[i]];
+        igraph_attribute_record_list_get_ptr(nattr, VECTOR(news)[i]);
       SET_VECTOR_ELT(app, i, rep);
       SET_STRING_ELT(newnames, i, Rf_mkChar(tmp->name));
     }
