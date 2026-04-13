@@ -822,9 +822,10 @@
     Code
       erdos_renyi_game_gnp_impl(n = 5, p = 0.5, directed = TRUE, loops = TRUE)
     Output
-      IGRAPH D--- 5 15 -- 
+      IGRAPH D--- 5 17 -- 
       + edges:
-       [1] 2->1 3->1 4->1 5->1 1->2 2->2 3->2 5->2 1->3 2->3 4->3 5->3 1->4 4->4 1->5
+       [1] 4->1 5->1 1->2 3->2 4->2 5->2 1->3 2->3 3->3 4->3 1->4 2->4 3->4 5->4 1->5
+      [16] 2->5 5->5
 
 # erdos_renyi_game_gnp_impl errors
 
@@ -851,7 +852,7 @@
     Output
       IGRAPH D--- 5 3 -- 
       + edges:
-      [1] 4->3 5->4 3->5
+      [1] 5->2 4->3 1->4
 
 # erdos_renyi_game_gnm_impl errors
 
@@ -880,7 +881,7 @@
       IGRAPH U--- 5 8 -- Growing random graph
       + attr: name (g/c), m (g/n), citation (g/l)
       + edges:
-      [1] 1--2 1--2 2--3 2--3 3--4 1--4 4--5 1--5
+      [1] 1--2 1--2 1--3 2--3 1--4 1--4 3--5 3--5
 
 ---
 
@@ -980,7 +981,7 @@
     Output
       IGRAPH D--- 5 4 -- 
       + edges:
-      [1] 1->2 2->3 3->4 4->5
+      [1] 1->3 2->4 3->4 4->5
 
 # rewire_directed_edges_impl errors
 
@@ -1006,10 +1007,10 @@
       forest_fire_game_impl(nodes = 5, fw_prob = 0.5, bw_factor = 0.2, ambs = 2,
         directed = FALSE)
     Output
-      IGRAPH U--- 5 9 -- Forest fire model
+      IGRAPH U--- 5 6 -- Forest fire model
       + attr: name (g/c), fw_prob (g/n), bw_factor (g/n), ambs (g/n)
       + edges:
-      [1] 1--2 2--3 1--3 3--4 1--4 4--5 1--5 3--5 2--5
+      [1] 1--2 2--3 1--4 3--4 1--5 2--5
 
 # forest_fire_game_impl errors
 
@@ -1058,10 +1059,10 @@
       chung_lu_game_impl(out_weights = c(1, 2, 3), in_weights = c(1, 2, 3), loops = FALSE,
       variant = "maxent")
     Output
-      IGRAPH D--- 3 4 -- Chung-Lu model
+      IGRAPH D--- 3 3 -- Chung-Lu model
       + attr: name (g/c), variant (g/n)
       + edges:
-      [1] 3->2 3->1 2->1 1->3
+      [1] 3->2 2->3 1->3
 
 # chung_lu_game_impl errors
 
@@ -1091,7 +1092,7 @@
       IGRAPH D--- 3 3 -- Static fitness model
       + attr: name (g/c), loops (g/l), multiple (g/l)
       + edges:
-      [1] 3->3 3->2 3->1
+      [1] 3->2 2->1 3->1
 
 # static_fitness_game_impl errors
 
@@ -1123,7 +1124,7 @@
       + attr: name (g/c), exponent_out (g/n), exponent_in (g/n), loops (g/l),
       | multiple (g/l), finite_size_correction (g/l)
       + edges:
-      [1] 5->1 5->2 5->5 3->4
+      [1] 2->3 2->5 5->2 5->5
 
 # static_power_law_game_impl errors
 
@@ -1152,7 +1153,7 @@
       IGRAPH D--- 5 10 -- k-regular graph
       + attr: name (g/c), k (g/n)
       + edges:
-       [1] 2->3 3->4 1->5 4->1 3->1 4->5 5->2 2->2 5->4 1->3
+       [1] 1->2 4->4 3->5 1->3 2->4 5->2 5->1 3->1 2->3 4->5
 
 # k_regular_game_impl errors
 
@@ -1179,10 +1180,10 @@
       sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3),
       directed = TRUE, loops = TRUE)
     Output
-      IGRAPH D--- 5 12 -- Stochastic block model
+      IGRAPH D--- 5 8 -- Stochastic block model
       + attr: name (g/c), loops (g/l)
       + edges:
-       [1] 2->1 1->2 2->2 1->3 2->3 1->4 1->5 2->5 4->1 5->1 3->2 4->3
+      [1] 1->2 2->3 1->4 2->4 3->1 5->2 3->4 5->5
 
 # sbm_game_impl errors
 
@@ -1246,10 +1247,10 @@
     Code
       correlated_game_impl(old_graph = g, corr = 0.5)
     Output
-      IGRAPH U--- 5 3 -- Correlated random graph
+      IGRAPH U--- 5 4 -- Correlated random graph
       + attr: name (g/c), corr (g/n), p (g/n)
       + edges:
-      [1] 1--2 3--4 4--5
+      [1] 1--2 1--3 2--3 4--5
 
 # correlated_game_impl errors
 
@@ -1281,14 +1282,14 @@
       correlated_pair_game_impl(n = 5, corr = 0.5, p = 0.5, directed = TRUE)
     Output
       $graph1
-      IGRAPH D--- 5 9 -- 
+      IGRAPH D--- 5 10 -- 
       + edges:
-      [1] 1->5 2->1 3->1 5->1 2->5 3->2 3->5 4->3 5->3
+       [1] 1->5 2->1 3->1 4->1 1->2 3->2 4->2 4->3 5->3 1->4
       
       $graph2
-      IGRAPH D--- 5 12 -- 
+      IGRAPH D--- 5 13 -- 
       + edges:
-       [1] 1->5 2->1 3->1 4->1 5->1 2->5 3->2 2->3 3->5 4->3 5->3 2->4
+       [1] 1->5 2->1 3->1 4->1 5->1 1->2 3->2 4->2 3->5 4->3 5->3 1->4 3->4
       
 
 # correlated_pair_game_impl errors
@@ -1307,7 +1308,7 @@
     Condition
       Warning in `dot_product_game_impl()`:
       Greater than 1 connection probability in dot-product graph.
-      Source: games/dotproduct.c:89
+      Source: games/dotproduct.c:87
     Output
       IGRAPH U--- 2 1 -- 
       + edge:
@@ -1320,7 +1321,7 @@
     Condition
       Warning in `dot_product_game_impl()`:
       Greater than 1 connection probability in dot-product graph.
-      Source: games/dotproduct.c:89
+      Source: games/dotproduct.c:87
     Output
       IGRAPH D--- 2 2 -- 
       + edges:
@@ -1671,7 +1672,7 @@
       voronoi_impl(graph = g, generators = c(1, 5), mode = c("out", "in", "all"))
     Output
       $membership
-       [1] 0 0 1 1 1 1 1 1 0 0
+       [1] 0 0 1 1 1 1 1 0 0 0
       
       $distances
        [1] 0 1 2 1 0 1 2 3 2 1
@@ -1795,7 +1796,7 @@
       spanner_impl(graph = g, stretch = 2)
     Output
       + 5/5 edges:
-      [1] 1--2 1--5 2--3 3--4 4--5
+      [1] 2--3 4--5 1--2 1--5 3--4
 
 # spanner_impl errors
 
@@ -3842,11 +3843,11 @@
     Output
       $vertices
       + 3/3 vertices:
-      [1] 1 2 1
+      [1] 1 2 3
       
       $edges
       + 2/2 edges:
-      [1] 1--2 1--2
+      [1] 1--2 2--3
       
 
 ---
@@ -4182,7 +4183,7 @@
       $graph
       IGRAPH D--- 4 3 -- 
       + edges:
-      [1] 3->1 3->2 4->1
+      [1] 3->1 3->2 4->2
       
       $types
       [1] FALSE FALSE  TRUE  TRUE
@@ -4219,7 +4220,7 @@
       $graph
       IGRAPH D--- 4 1 -- 
       + edge:
-      [1] 3->1
+      [1] 4->1
       
       $types
       [1] FALSE FALSE  TRUE  TRUE
@@ -4820,10 +4821,10 @@
     Code
       layout_random_impl(graph = g)
     Output
-                 [,1]        [,2]
-      [1,]  0.9529726  0.51489282
-      [2,] -0.1126023 -0.00883571
-      [3,] -0.3264402  0.38257401
+                 [,1]       [,2]
+      [1,] -0.9976353  0.1562495
+      [2,] -0.8095746 -0.7799359
+      [3,] -0.5303533  0.1344410
 
 # layout_random_impl errors
 
@@ -4966,10 +4967,10 @@
     Code
       layout_random_3d_impl(graph = g)
     Output
-                 [,1]       [,2]       [,3]
-      [1,]  0.5255311 -0.8095746 -0.7799359
-      [2,]  0.8279609 -0.5303533  0.1344410
-      [3,] -0.9976353  0.1562495  0.9557839
+                [,1]       [,2]       [,3]
+      [1,] 0.3094074 -0.5005200  0.4290209
+      [2,] 0.7202961 -0.4991218 -0.7588784
+      [3,] 0.7410471 -0.8955542 -0.8333141
 
 # layout_random_3d_impl errors
 
@@ -5120,10 +5121,10 @@
     Code
       layout_gem_impl(graph = g, res = matrix(0, nrow = 3, ncol = 2))
     Output
-                [,1]       [,2]
-      [1,] 249.85838 -228.97996
-      [2,] 268.13531  -26.87973
-      [3,] -69.99859  140.62365
+                 [,1]        [,2]
+      [1,] -101.22917 -114.445152
+      [2,]  -74.79524  115.995573
+      [3,] -262.71499    3.525802
 
 ---
 
@@ -5131,10 +5132,10 @@
       layout_gem_impl(graph = g, res = matrix(0, nrow = 3, ncol = 2), use_seed = TRUE,
       maxiter = 10, temp_max = 2, temp_min = 0.1, temp_init = 1)
     Output
-                [,1]       [,2]
-      [1,]  1.229812  3.7696766
-      [2,] -1.480114 -0.8784577
-      [3,]  2.433227 -2.6956516
+                 [,1]      [,2]
+      [1,] -2.4602668 -1.364042
+      [2,]  2.9491616 -2.516514
+      [3,]  0.9556338  2.797365
 
 # layout_gem_impl errors
 
@@ -5149,10 +5150,10 @@
     Code
       layout_davidson_harel_impl(graph = g, res = matrix(0, nrow = 3, ncol = 2))
     Output
-                [,1]      [,2]
-      [1,] -4.125864 -1.994981
-      [2,] -4.415980 -4.030314
-      [3,] -4.784785 -6.058830
+                 [,1]       [,2]
+      [1,]  0.4658497  1.5943674
+      [2,]  0.1867345 -0.4425932
+      [3,] -0.1207244 -2.4645410
 
 ---
 
@@ -5162,10 +5163,10 @@
       weight_border = 1, weight_edge_lengths = 0.1, weight_edge_crossings = 0.2,
       weight_node_edge_dist = 0.3)
     Output
-                [,1]      [,2]
-      [1,] -4.898864 -5.415715
-      [2,] -3.639739 -3.614945
-      [3,] -2.701048 -1.625952
+                 [,1]      [,2]
+      [1,] -3.9877064 -3.137775
+      [2,] -2.0975516 -1.959023
+      [3,] -0.2729999 -0.643720
 
 # layout_davidson_harel_impl errors
 
@@ -5526,7 +5527,7 @@
     Code
       community_fluid_communities_impl(graph = g, no_of_communities = 2)
     Output
-      [1] 0 1 1
+      [1] 1 1 0
 
 # community_fluid_communities_impl errors
 
@@ -5900,19 +5901,19 @@
       hrg_resize_impl(hrg = hrg_model, newsize = 5)
     Output
       $left
-      [1] -6 -5 -4  1
+      [1] -7 -4 -9 -5
       
       $right
-      [1] 9 7 4 8
+      [1]  8  5  9 -3
       
       $prob
       [1] 1 1 1 1
       
       $edges
-      [1] 9 2 2 1
+      [1] 9 6 3 8
       
       $vertices
-      [1] 10  3  3  2
+      [1] 10  7  4  6
       
 
 # hrg_resize_impl errors
@@ -5948,8 +5949,8 @@
       $graph
       IGRAPH D--- 19 18 -- 
       + edges:
-       [1] 11->15 11-> 7 12-> 5 12->10 13-> 2 13-> 3 14->16 14->17 15->14 15->18
-      [11] 16-> 1 16-> 9 17->19 17->12 18->13 18-> 8 19-> 4 19-> 6
+       [1] 11->14 11->15 12-> 5 12->10 13-> 3 13-> 8 14->17 14-> 4 15-> 2 15-> 9
+      [11] 16->19 16-> 7 17->18 17->16 18-> 1 18->13 19->12 19-> 6
       
       $prob
        [1] NaN NaN NaN NaN NaN NaN NaN NaN NaN NaN   1   1   1   1   1   1   1   1   1
@@ -7852,7 +7853,7 @@
       [1] 0
       
       $options$numreo
-      [1] 3
+      [1] 2
       
       
 
@@ -7864,15 +7865,15 @@
     Output
       $X
                 [,1]       [,2]
-      [1,] 0.1720265  0.7864357
-      [2,] 0.6311790  0.3743620
-      [3,] 0.7563200 -0.4912963
+      [1,] 0.1720265 -0.7864357
+      [2,] 0.6311790 -0.3743620
+      [3,] 0.7563200  0.4912963
       
       $Y
                 [,1]       [,2]
-      [1,] 0.1720265  0.7864357
-      [2,] 0.6311790  0.3743620
-      [3,] 0.7563200 -0.4912963
+      [1,] 0.1720265 -0.7864357
+      [2,] 0.6311790 -0.3743620
+      [3,] 0.7563200  0.4912963
       
       $D
       [1] 4.669079 1.476024
@@ -7936,7 +7937,7 @@
       [1] 0
       
       $options$numreo
-      [1] 2
+      [1] 3
       
       
 
@@ -7955,15 +7956,15 @@
     Output
       $X
                  [,1]       [,2]
-      [1,]  0.7071068  0.7071068
-      [2,] -1.4142136  0.0000000
-      [3,]  0.7071068 -0.7071068
+      [1,] -0.7071068  0.7071068
+      [2,]  1.4142136  0.0000000
+      [3,] -0.7071068 -0.7071068
       
       $Y
                  [,1]       [,2]
-      [1,]  0.7071068  0.7071068
-      [2,] -1.4142136  0.0000000
-      [3,]  0.7071068 -0.7071068
+      [1,] -0.7071068  0.7071068
+      [2,]  1.4142136  0.0000000
+      [3,] -0.7071068 -0.7071068
       
       $D
       [1] 3 1
@@ -8091,29 +8092,29 @@
       [1] 0
       
       $options$iter
-      [1] 15
+      [1] 32
       
       $options$nconv
       [1] 1
       
       $options$numop
-      [1] 16
+      [1] 33
       
       $options$numopb
       [1] 0
       
       $options$numreo
-      [1] 9
+      [1] 16
       
       
       $values
-      [1] -1.414214
+      [1] 1.414214
       
       $vectors
-                 [,1]
-      [1,] -0.5000000
-      [2,]  0.7071068
-      [3,] -0.5000000
+                [,1]
+      [1,] 0.5000000
+      [2,] 0.7071068
+      [3,] 0.5000000
       
       $cmplxvalues
       complex(0)
@@ -8200,30 +8201,30 @@
     Output
       [[1]]
       [[1]]$times
-      [1]  0.000000  6.366343 15.625754 19.094875
+      [1] 0.000000 9.259411
       
       [[1]]$NS
-      [1] 2 1 1 1
+      [1] 2 2
       
       [[1]]$NI
-      [1] 1 2 1 0
+      [1] 1 0
       
       [[1]]$NR
-      [1] 0 0 1 2
+      [1] 0 1
       
       
       [[2]]
       [[2]]$times
-      [1] 0.000000 2.645283
+      [1]  0.000000  3.168979  6.788936 14.724784
       
       [[2]]$NS
-      [1] 2 2
+      [1] 2 1 1 1
       
       [[2]]$NI
-      [1] 1 0
+      [1] 1 2 1 0
       
       [[2]]$NR
-      [1] 0 1
+      [1] 0 0 1 2
       
       
       [[3]]
@@ -10053,7 +10054,7 @@
     Output
       IGRAPH D--- 3 2 -- 
       + edges:
-      [1] 3->1 3->2
+      [1] 3->1 1->2
 
 # tree_game_impl errors
 
@@ -10172,10 +10173,10 @@
       strategies = c(1, 2, 3), mode = "in")
     Output
       $quantities
-      [1] 1 3 3
+      [1] 1 1 3
       
       $strategies
-      [1] 1 3 3
+      [1] 1 1 3
       
 
 # moran_process_impl errors
@@ -10218,7 +10219,7 @@
       stochastic_imitation_impl(graph = g, vid = 1, algo = 1, quantities = c(1, 2, 3),
       strategies = c(1, 2, 3))
     Output
-      [1] 1 2 3
+      [1] 2 2 3
 
 ---
 
@@ -10665,8 +10666,8 @@
     Output
       IGRAPH U--- 10 17 -- 
       + edges:
-       [1] 1-- 2 1-- 3 2-- 3 3-- 4 1-- 4 1-- 5 2-- 5 1-- 6 2-- 6 4-- 7 5-- 7 5-- 8
-      [13] 1-- 8 7-- 9 1-- 9 7--10 2--10
+       [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 1-- 5 2-- 5 4-- 6 2-- 6 4-- 7 6-- 7 4-- 8
+      [13] 2-- 8 6-- 9 2-- 9 1--10 2--10
 
 # grg_game_impl basic
 
@@ -11123,7 +11124,7 @@
       $graph
       IGRAPH U--- 10 10 -- 
       + edges:
-       [1] 1-- 7 2-- 7 1-- 8 5-- 8 2-- 9 5-- 9 2--10 3--10 4--10 5--10
+       [1] 3-- 6 4-- 6 2-- 7 4-- 8 2-- 9 3-- 9 5-- 9 1--10 4--10 5--10
       
       $types
        [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
@@ -11260,7 +11261,7 @@
     Output
       IGRAPH U--- 4 4 -- 
       + edges:
-      [1] 1--4 1--3 2--4 2--3
+      [1] 1--2 1--4 2--3 3--4
 
 # connect_neighborhood_impl basic
 
@@ -11795,13 +11796,13 @@
     Code
       layout_merge_dla_impl(graphs = list(g1, g2), coords = list(coords1, coords2))
     Output
-                  [,1]      [,2]
-      [1,] -2.27950706  0.000000
-      [2,]  0.00000000  0.000000
-      [3,]  2.27950706  0.000000
-      [4,]  0.01039606 -4.035698
-      [5,]  2.28990312 -4.035698
-      [6,]  4.56941017 -4.035698
+                 [,1]     [,2]
+      [1,] -2.2795071 0.000000
+      [2,]  0.0000000 0.000000
+      [3,]  2.2795071 0.000000
+      [4,] -1.7646224 4.588453
+      [5,]  0.5148846 4.588453
+      [6,]  2.7943917 4.588453
 
 # get_eid_impl basic
 
@@ -11841,14 +11842,14 @@
       community_voronoi_impl(graph = g)
     Output
       $membership
-       [1] 3 0 0 3 3 2 2 2 1 1
+       [1] 4 0 4 0 2 2 2 3 1 1
       
       $generators
-      + 4/10 vertices:
-      [1] 2 9 6 1
+      + 5/10 vertices:
+      [1] 2 9 5 8 1
       
       $modularity
-      [1] 0.2962963
+      [1] 0.1111111
       
 
 # community_voronoi_impl errors
