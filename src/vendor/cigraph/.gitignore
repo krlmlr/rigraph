@@ -11,3 +11,4 @@
 /tools/**/*.pyc
 /src/io/parsers/
 /tests/unit/*.tmp
+/Testing/
