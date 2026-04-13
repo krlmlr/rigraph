@@ -54,7 +54,11 @@ IGRAPH_EXPORT igraph_error_t igraph_add_vertices(
 );
 IGRAPH_EXPORT igraph_error_t igraph_delete_edges(igraph_t *graph, igraph_es_t edges);
 IGRAPH_EXPORT igraph_error_t igraph_delete_vertices(igraph_t *graph, const igraph_vs_t vertices);
-IGRAPH_EXPORT igraph_error_t igraph_delete_vertices_idx(igraph_t *graph, const igraph_vs_t vertices,
+IGRAPH_EXPORT igraph_error_t igraph_delete_vertices_map(
+    igraph_t *graph, const igraph_vs_t vertices, igraph_vector_int_t *map,
+    igraph_vector_int_t *invmap
+);
+IGRAPH_DEPRECATED IGRAPH_EXPORT igraph_error_t igraph_delete_vertices_idx(igraph_t *graph, const igraph_vs_t vertices,
                                              igraph_vector_int_t *idx,
                                              igraph_vector_int_t *invidx);
 IGRAPH_EXPORT IGRAPH_FUNCATTR_PURE igraph_int_t igraph_vcount(const igraph_t *graph);
