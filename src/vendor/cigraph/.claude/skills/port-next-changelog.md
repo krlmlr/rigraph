@@ -8,123 +8,91 @@ user_invocable: true
 
 You are porting changes from the `next` branch to the `main-dev` branch of the igraph C library, one changelog entry at a time.
 
+## Helper tool
+
+`tools/port-next-helper.sh` automates the mechanical parts. Available commands:
+
+| Command | What it does |
+|---------|-------------|
+| `tools/port-next-helper.sh identify` | Finds the next unported entry and prints its content |
+| `tools/port-next-helper.sh before` | Saves `git diff --numstat HEAD..next` to `/tmp/igraph_numstat_before.txt` |
+| `tools/port-next-helper.sh after` | Saves `git diff --numstat HEAD..next` to `/tmp/igraph_numstat_after.txt` |
+| `tools/port-next-helper.sh table FILE...` | Prints the 4-column proof-of-work table for specified files |
+| `tools/port-next-helper.sh diff FILE` | Shows `git diff main-dev..next -- FILE` |
+| `tools/port-next-helper.sh show FILE` | Shows `FILE` from the `next` branch |
+| `tools/port-next-helper.sh setup` | Ensures build dir exists and deps are installed |
+
 ## Overview
 
 The `changelog/` directory on `next` has subdirectories `1-nfc/`, `2-added/`, `3-modified/`, `4-deprecated/`, each containing numbered markdown files (`0010-*.md`, `0020-*.md`, ...). The `main-dev` branch has a subset of these already ported. Your job is to port the **next unported entry** (in numerical order within each category, processing all of `1-nfc/` before `2-added/`, etc.).
 
 ## Step-by-step procedure
 
-### 1. Setup (do all in parallel)
+### 1. Setup
 
 ```bash
 git fetch origin main-dev next
 git checkout main-dev
 git pull origin main-dev
-```
-
-Ensure a build directory exists:
-
-```bash
-cd /home/user/igraph
-if [ ! -f build/CMakeCache.txt ]; then
-  mkdir -p build && cd build && cmake .. -GNinja && cd ..
-fi
-```
-
-Install dependencies if not already done:
-
-```bash
-tools/install-deps.sh
+tools/port-next-helper.sh setup
 ```
 
 ### 2. Identify the next changelog entry to port
 
-Compare what's on `main-dev` vs `next` in the changelog directories. Process categories in order: `1-nfc`, `2-added`, `3-modified`, `4-deprecated`.
-
 ```bash
-# List what main-dev has
-for dir in 1-nfc 2-added 3-modified 4-deprecated; do
-  echo "=== $dir on main-dev ==="
-  git ls-tree --name-only main-dev:changelog/$dir/ 2>/dev/null || echo "(not present)"
-done
-
-# List what next has
-for dir in 1-nfc 2-added 3-modified 4-deprecated; do
-  echo "=== $dir on next ==="
-  git ls-tree --name-only next:changelog/$dir/ 2>/dev/null || echo "(not present)"
-done
+tools/port-next-helper.sh identify
 ```
 
-The **first file** in the `next` listing that is NOT in the `main-dev` listing (ignoring README.md) is the target. Call it `TARGET_FILE` in category `TARGET_DIR`.
+This prints `NEXT_ENTRY=<dir>/<file>` and the full changelog content. That file is your `TARGET_FILE` in `TARGET_DIR`.
 
-### 3. Read the changelog entry
-
-```bash
-git show next:changelog/TARGET_DIR/TARGET_FILE
-```
-
-This describes the change. Use it to understand what code modifications are needed.
-
-### 4. Capture the BEFORE proof-of-work
-
-Run `git diff --numstat HEAD..next` and filter to only files that will be modified by this change. Save the output — you'll need the "before" numbers.
-
-To identify which files are relevant, look at the diff between `main-dev` and `next` for files mentioned in or related to the changelog entry:
+### 3. Capture the BEFORE proof-of-work
 
 ```bash
-# Get the full numstat for reference
-git diff --numstat HEAD..next > /tmp/numstat_before.txt
-cat /tmp/numstat_before.txt
+tools/port-next-helper.sh before
 ```
+
+Saves the full numstat to `/tmp/igraph_numstat_before.txt`. You'll use it after the change.
+
+### 4. Identify the relevant files and diff
+
+```bash
+# See all differences for a specific file
+tools/port-next-helper.sh diff path/to/file
+
+# See the file as it exists on next
+tools/port-next-helper.sh show path/to/file
+```
+
+Use the changelog entry description to determine which files are affected. Show their diffs to understand which hunks belong to this entry.
 
 ### 5. Apply the change
 
-The change should be a subset of `git diff main-dev..next`. Extract only the relevant hunks:
+**IMPORTANT**: The diff between `main-dev` and `next` contains ALL remaining changes, not just this one entry. Select only the hunks that correspond to the current changelog entry.
 
-```bash
-# Show the full diff for a specific file between main-dev and next
-git diff main-dev..next -- path/to/file
-```
-
-For each relevant file:
-
-1. Read the current file on `main-dev` (which is HEAD)
-2. Read the target version on `next`: `git show next:path/to/file`
-3. Apply only the hunks related to THIS changelog entry, not other changes
-
-**IMPORTANT**: The diff between `main-dev` and `next` contains ALL remaining changes, not just this one entry. You must carefully select only the hunks that correspond to the current changelog entry. Look at the changelog description to understand what the change does, then pick only matching hunks.
-
-**Strategy for identifying relevant hunks:**
-
+**Strategy:**
 - Read the changelog entry carefully — it describes specific functions, types, or behaviors that changed
-- Use `git diff main-dev..next -- <file>` to see all remaining differences
+- Use `tools/port-next-helper.sh diff <file>` to see remaining differences per file
 - Select only hunks that modify the specific functions/types/behaviors described in the changelog
 - Leave other hunks untouched — they belong to later changelog entries
 
 **Applying changes:**
-
-- Use the Edit tool to make targeted edits to files on main-dev
-- Do NOT use `git checkout next -- <file>` as that would apply ALL changes, not just this entry's
-- Do NOT use `git cherry-pick` as the changes were not made as individual commits on `next`
+- Use the Edit tool to make targeted edits to files on `main-dev`
+- Do NOT use `git checkout next -- <file>` (applies ALL changes, not just this entry's)
+- Do NOT use `git cherry-pick` (changes were not made as individual commits on `next`)
 
 ### 6. Include test changes
 
-Check if there are test changes related to this entry:
-
 ```bash
-git diff main-dev..next -- tests/
+tools/port-next-helper.sh diff tests/
 ```
 
 Look for tests that exercise the specific functions/behavior described in the changelog entry. Include those test changes too.
 
-### 7. Copy the changelog file
+### 7. Copy the changelog file from next
 
 ```bash
-# Ensure the target directory exists on main-dev
 mkdir -p changelog/TARGET_DIR/
-
-# Copy the changelog file from next
-git show next:changelog/TARGET_DIR/TARGET_FILE > changelog/TARGET_DIR/TARGET_FILE
+tools/port-next-helper.sh show changelog/TARGET_DIR/TARGET_FILE > changelog/TARGET_DIR/TARGET_FILE
 ```
 
 ### 8. Build and test
@@ -132,51 +100,38 @@ git show next:changelog/TARGET_DIR/TARGET_FILE > changelog/TARGET_DIR/TARGET_FIL
 ```bash
 cd /home/user/igraph/build
 cmake --build . --target build_tests 2>&1 | tail -30
-```
-
-If build fails, fix the issues. Common problems:
-
-- Missing type definitions or function declarations that are part of a different changelog entry — add minimal forward declarations or stubs
-- Conflicting changes with previously ported entries — adapt minimally
-
-Run tests:
-
-```bash
-cd /home/user/igraph/build
 ctest --output-on-failure -j4 2>&1 | tail -50
 ```
 
-If tests fail, investigate and fix. Re-build and re-test until green.
+If build fails, fix the issues. Common problems:
+- Missing type definitions or declarations that are part of a different changelog entry — add minimal forward declarations or stubs
+- Conflicting changes with previously ported entries — adapt minimally
 
-### 9. Capture the AFTER proof-of-work
+Fix failures and repeat until green.
 
-1. Create a temporary commit
-2. Capture `git diff --numstat HEAD..next` for affected files
-3. Amend the commit with the final message
+### 9. Create a temporary commit and capture AFTER numstat
 
 ```bash
-# Stage all changes
 git add -A
-# Create temp commit
 git commit -m "temp"
-# Capture after numstat
-git diff --numstat HEAD..next > /tmp/numstat_after.txt
-# We'll amend this commit with the real message
+tools/port-next-helper.sh after
 ```
 
-### 10. Prepare the proof-of-work table
+### 10. Generate the proof-of-work table
 
-For each file that was modified, create a side-by-side table with four numbers:
-
-```txt
-add-before  del-before  add-after  del-after  filename
+```bash
+tools/port-next-helper.sh table changelog/TARGET_DIR/TARGET_FILE path/to/file1 path/to/file2 ...
 ```
 
-Extract the relevant lines from `/tmp/numstat_before.txt` and `/tmp/numstat_after.txt`. The format of `git diff --numstat` is `ADD\tDEL\tFILE`. Combine before and after into four columns.
+List all files you modified. The tool reads both before/after numstat files and prints the 4-column table:
+
+```
+add-b  del-b  add-a  del-a  file
+```
 
 ### 11. Update the changelog file with proof-of-work
 
-Append to the changelog file `changelog/TARGET_DIR/TARGET_FILE`:
+Append to `changelog/TARGET_DIR/TARGET_FILE`:
 
 `````markdown
 
@@ -187,7 +142,7 @@ Append to the changelog file `changelog/TARGET_DIR/TARGET_FILE`:
 Before and after the change, side by side (add-before, del-before, add-after, del-after, file):
 
 ```
-<table here>
+<table from step 10>
 ```
 
 Notes on remaining differences:
@@ -196,7 +151,7 @@ Notes on remaining differences:
 
 ### 12. Commit
 
-Amend the temporary commit (or create a new one) with a descriptive message:
+Amend the temporary commit with a descriptive message:
 
 ```bash
 git add -A
@@ -215,7 +170,6 @@ EOF
 ```
 
 **Commit message format** (follow the pattern of existing commits):
-
 - Title: `nfc: <short description>` for NFC changes, or descriptive title for other categories
 - Body: explanation of what changed
 - Proof of work section with the numstat table
@@ -227,20 +181,20 @@ EOF
 git push -u origin main-dev
 ```
 
-If push fails due to network errors, retry up to 4 times with exponential backoff.
+If push fails due to network errors, retry up to 4 times with exponential backoff (2s, 4s, 8s, 16s).
 
 ## Key principles
 
-- **Minimal adaptation**: Apply the diff from `next` as-is whenever possible. Capture all diffs that are relevant for the change. Only adapt if strictly necessary for compilation/tests.
+- **Minimal adaptation**: Apply the diff from `next` as-is whenever possible. Only adapt if strictly necessary for compilation/tests.
 - **One entry at a time**: Only port the single next changelog entry, nothing more.
 - **Proof of work**: The numstat comparison proves the change was correctly ported by showing the diff to `next` decreased for affected files.
-- **Explain increases**: If any file shows an increase in diff to `next` after the change, explain why in the notes (e.g., proof-of-work section added to changelog file).
+- **Explain increases**: If any file shows an increase in diff to `next` after the change, explain why in the notes (e.g., proof-of-work section added to changelog file increases the `del` count since `next` doesn't have that section).
 - **Tests must pass**: Build and run the full test suite. Fix any failures before committing.
 
 ## Token-saving tips
 
-- Use `git diff main-dev..next -- <specific-file>` instead of reading full files when possible
+- Use `tools/port-next-helper.sh diff <file>` instead of reading full files when possible
 - Read only the sections of large files that are relevant to the change
-- Use `grep` / `Grep` to find relevant function definitions rather than reading entire files
-- Capture numstat early and filter to only relevant files
+- Use the Grep tool to find relevant function definitions rather than reading entire files
+- The helper's `table` command does the numstat arithmetic — don't do it manually
 - Don't read files you won't modify
