@@ -28,13 +28,14 @@
 #include "igraph_constants.h"
 #include "igraph_datatype.h"
 #include "igraph_error.h"
+#include "igraph_graphicality.h"
 #include "igraph_matrix.h"
 #include "igraph_matrix_list.h"
 #include "igraph_types.h"
 #include "igraph_vector.h"
 #include "igraph_vector_list.h"
 
-__BEGIN_DECLS
+IGRAPH_BEGIN_C_DECLS
 
 /* -------------------------------------------------- */
 /* Constructors, games (=stochastic)                  */
@@ -49,10 +50,24 @@ IGRAPH_EXPORT igraph_error_t igraph_barabasi_game(igraph_t *graph, igraph_int_t 
                                        igraph_bool_t directed,
                                        igraph_barabasi_algorithm_t algo,
                                        const igraph_t *start_from);
-IGRAPH_EXPORT igraph_error_t igraph_erdos_renyi_game_gnp(igraph_t *graph, igraph_int_t n, igraph_real_t p,
-                                              igraph_bool_t directed, igraph_bool_t loops);
-IGRAPH_EXPORT igraph_error_t igraph_erdos_renyi_game_gnm(igraph_t *graph, igraph_int_t n, igraph_int_t m,
-                                              igraph_bool_t directed, igraph_bool_t loops);
+IGRAPH_EXPORT igraph_error_t igraph_erdos_renyi_game_gnp(
+        igraph_t *graph,
+        igraph_int_t n, igraph_real_t p,
+        igraph_bool_t directed,
+        igraph_edge_type_sw_t allowed_edge_types,
+        igraph_bool_t edge_labeled);
+
+IGRAPH_EXPORT igraph_error_t igraph_erdos_renyi_game_gnm(
+        igraph_t *graph,
+        igraph_int_t n, igraph_int_t m,
+        igraph_bool_t directed,
+        igraph_edge_type_sw_t allowed_edge_types,
+        igraph_bool_t edge_labeled);
+
+IGRAPH_EXPERIMENTAL IGRAPH_EXPORT igraph_error_t igraph_iea_game(
+        igraph_t *graph,
+        igraph_int_t n, igraph_int_t m,
+        igraph_bool_t directed, igraph_bool_t loops);
 IGRAPH_EXPORT igraph_error_t igraph_degree_sequence_game(igraph_t *graph, const igraph_vector_int_t *out_deg,
                                               const igraph_vector_int_t *in_deg,
                                               igraph_degseq_t method);
@@ -223,13 +238,6 @@ IGRAPH_EXPORT igraph_error_t igraph_sample_sphere_volume(igraph_int_t dim, igrap
 IGRAPH_EXPORT igraph_error_t igraph_sample_dirichlet(igraph_int_t n, const igraph_vector_t *alpha,
                                           igraph_matrix_t *res);
 
-/* Deprecated functions: */
-
-IGRAPH_EXPORT IGRAPH_DEPRECATED igraph_error_t igraph_erdos_renyi_game(
-    igraph_t *graph, igraph_erdos_renyi_t type, igraph_int_t n,
-    igraph_real_t p_or_m, igraph_bool_t directed, igraph_bool_t loops
-);
-
-__END_DECLS
+IGRAPH_END_C_DECLS
 
 #endif
