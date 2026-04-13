@@ -1392,9 +1392,9 @@ igraph_error_t igraph_weighted_sparsemat(igraph_t *graph, const igraph_sparsemat
     }
 
     /* Prepare attribute record */
-    attr_rec.name = attr ? attr : default_attr;
+    attr_rec.name = (char *)(attr ? attr : default_attr);
     attr_rec.type = IGRAPH_ATTRIBUTE_NUMERIC;
-    attr_rec.value = &weights;
+    attr_rec.value.as_vector = &weights;
     VECTOR(attr_vec)[0] = &attr_rec;
 
     /* Create graph */
