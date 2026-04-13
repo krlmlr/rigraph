@@ -1672,7 +1672,7 @@ SEXP Rx_igraph_ac_random_numeric(SEXP attr,
   PROTECT(attr2=AS_NUMERIC(attr));
   PROTECT(res=NEW_NUMERIC(len));
 
-  RNG_BEGIN();
+  GetRNGstate();
 
   for (igraph_integer_t i=0; i<len; i++) {
     igraph_vector_int_t *v=igraph_vector_int_list_get_ptr(merges, i);
@@ -1687,7 +1687,7 @@ SEXP Rx_igraph_ac_random_numeric(SEXP attr,
     }
   }
 
-  RNG_END();
+  PutRNGstate();
 
   UNPROTECT(2);
   return res;
@@ -2383,7 +2383,7 @@ void checkInterruptFn(void *dummy) {
   R_CheckUserInterrupt();
 }
 
-igraph_error_t Rx_igraph_interrupt_handler(void *data) {
+igraph_bool_t Rx_igraph_interrupt_handler(void) {
   /* We need to call R_CheckUserInterrupt() regularly to enable interruptions.
    * However, if an interruption is pending, R_CheckUserInterrupt() will
    * longjmp back to the top level so we cannot clean up ourselves by calling
@@ -2399,9 +2399,9 @@ igraph_error_t Rx_igraph_interrupt_handler(void *data) {
    */
   if (R_ToplevelExec(checkInterruptFn, NULL) == FALSE) {
     IGRAPH_FINALLY_FREE();
-    return IGRAPH_INTERRUPTED;
+    return true;
   }
-  return IGRAPH_SUCCESS;
+  return false;
 }
 
 igraph_error_t Rx_igraph_progress_handler(const char *message, double percent,
@@ -4146,7 +4146,7 @@ static igraph_error_t distances_johnson(const igraph_t *graph,
   }
   if (mode == IGRAPH_ALL && negw) {
     /* Reject undirected grahs with negative weights, just like igraph_shortest_paths_johnson() would. */
-    IGRAPH_ERROR("Undirected graph with negative weight.", IGRAPH_ENEGLOOP);
+    IGRAPH_ERROR("Undirected graph with negative weight.", IGRAPH_ENEGCYCLE);
   }
   if (! negw) {
     /* Fall back to Dijstra when there are no negative weights, just like igraph_shortest_paths_johnson() would. */
