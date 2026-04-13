@@ -5,6 +5,7 @@
 
 /tags
 /IGRAPH_VERSION
+/NEXT_VERSION
 /build
 /build-*
 /tools/**/*.pyc
