@@ -109,6 +109,30 @@ If build fails, fix the issues. Common problems:
 
 Fix failures and repeat until green.
 
+### 8a. Validate Stimulus interface descriptions
+
+After a successful build, run the Stimulus CI check to ensure `interfaces/functions.yaml` matches the C function prototypes:
+
+```bash
+cd interfaces
+.venv/bin/stimulus -f functions.yaml -t types.yaml -l ci:validate -o /tmp/test.cpp
+clang++ -std=c++14 -c /tmp/test.cpp -I ../include -I ../build/include
+```
+
+If validation fails with **prototype mismatch** errors, the `CTYPE` for a type in `interfaces/types.yaml` may be out of date. For example:
+
+- If a function's `attr` parameter changed from `void *` to `const igraph_attribute_record_list_t *`, update the `ATTRIBUTES` type:
+
+  ```yaml
+  ATTRIBUTES:
+      CTYPE: igraph_attribute_record_list_t
+      FLAGS: BY_REF
+  ```
+
+More generally: find the type name used in `functions.yaml` for the mismatched parameter, look it up in `types.yaml`, and update its `CTYPE` to match the actual C type shown in the error message.
+
+Check `interfaces/functions.yaml` as well — if the ported change adds or modifies a public function, ensure its entry exists with the correct type names (or add it if missing).
+
 ### 9. Create a temporary commit and capture AFTER numstat
 
 ```bash
