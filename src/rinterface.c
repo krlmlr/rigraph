@@ -8990,7 +8990,7 @@ SEXP R_igraph_bipartite_game_gnp(SEXP n1, SEXP n2, SEXP p, SEXP directed, SEXP m
   c_directed = LOGICAL(directed)[0];
   c_mode = (igraph_neimode_t) Rf_asInteger(mode);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_bipartite_game_gnp(&c_graph, &c_types, c_n1, c_n2, c_p, c_directed, c_mode));
+  IGRAPH_R_CHECK(igraph_bipartite_game_gnp(&c_graph, &c_types, c_n1, c_n2, c_p, c_directed, c_mode, IGRAPH_SIMPLE_SW, 0));
 
                                         /* Convert output */
   PROTECT(r_result=NEW_LIST(2));
@@ -9042,7 +9042,7 @@ SEXP R_igraph_bipartite_game_gnm(SEXP n1, SEXP n2, SEXP m, SEXP directed, SEXP m
   c_directed = LOGICAL(directed)[0];
   c_mode = (igraph_neimode_t) Rf_asInteger(mode);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_bipartite_game_gnm(&c_graph, &c_types, c_n1, c_n2, c_m, c_directed, c_mode));
+  IGRAPH_R_CHECK(igraph_bipartite_game_gnm(&c_graph, &c_types, c_n1, c_n2, c_m, c_directed, c_mode, IGRAPH_SIMPLE_SW, 0));
 
                                         /* Convert output */
   PROTECT(r_result=NEW_LIST(2));
