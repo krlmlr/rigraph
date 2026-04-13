@@ -210,82 +210,82 @@ neighborhood_size(g, order = 2, 1:3)
 
 ego(g, order = 0, 1:3)
 #> [[1]]
-#> + 1/10 vertex, from 38e173c:
+#> + 1/10 vertex, from 260c049:
 #> [1] 1
 #> 
 #> [[2]]
-#> + 1/10 vertex, from 38e173c:
+#> + 1/10 vertex, from 260c049:
 #> [1] 2
 #> 
 #> [[3]]
-#> + 1/10 vertex, from 38e173c:
+#> + 1/10 vertex, from 260c049:
 #> [1] 3
 #> 
 ego(g, order = 1, 1:3)
 #> [[1]]
-#> + 3/10 vertices, from 38e173c:
+#> + 3/10 vertices, from 260c049:
 #> [1]  1  2 10
 #> 
 #> [[2]]
-#> + 3/10 vertices, from 38e173c:
+#> + 3/10 vertices, from 260c049:
 #> [1] 2 1 3
 #> 
 #> [[3]]
-#> + 3/10 vertices, from 38e173c:
+#> + 3/10 vertices, from 260c049:
 #> [1] 3 2 4
 #> 
 ego(g, order = 2, 1:3)
 #> [[1]]
-#> + 5/10 vertices, from 38e173c:
+#> + 5/10 vertices, from 260c049:
 #> [1]  1  2 10  3  9
 #> 
 #> [[2]]
-#> + 5/10 vertices, from 38e173c:
+#> + 5/10 vertices, from 260c049:
 #> [1]  2  1  3 10  4
 #> 
 #> [[3]]
-#> + 5/10 vertices, from 38e173c:
+#> + 5/10 vertices, from 260c049:
 #> [1] 3 2 4 1 5
 #> 
 
 # neighborhood() is an alias of ego()
 neighborhood(g, order = 0, 1:3)
 #> [[1]]
-#> + 1/10 vertex, from 38e173c:
+#> + 1/10 vertex, from 260c049:
 #> [1] 1
 #> 
 #> [[2]]
-#> + 1/10 vertex, from 38e173c:
+#> + 1/10 vertex, from 260c049:
 #> [1] 2
 #> 
 #> [[3]]
-#> + 1/10 vertex, from 38e173c:
+#> + 1/10 vertex, from 260c049:
 #> [1] 3
 #> 
 neighborhood(g, order = 1, 1:3)
 #> [[1]]
-#> + 3/10 vertices, from 38e173c:
+#> + 3/10 vertices, from 260c049:
 #> [1]  1  2 10
 #> 
 #> [[2]]
-#> + 3/10 vertices, from 38e173c:
+#> + 3/10 vertices, from 260c049:
 #> [1] 2 1 3
 #> 
 #> [[3]]
-#> + 3/10 vertices, from 38e173c:
+#> + 3/10 vertices, from 260c049:
 #> [1] 3 2 4
 #> 
 neighborhood(g, order = 2, 1:3)
 #> [[1]]
-#> + 5/10 vertices, from 38e173c:
+#> + 5/10 vertices, from 260c049:
 #> [1]  1  2 10  3  9
 #> 
 #> [[2]]
-#> + 5/10 vertices, from 38e173c:
+#> + 5/10 vertices, from 260c049:
 #> [1]  2  1  3 10  4
 #> 
 #> [[3]]
-#> + 5/10 vertices, from 38e173c:
+#> + 5/10 vertices, from 260c049:
 #> [1] 3 2 4 1 5
 #> 
 
@@ -293,41 +293,41 @@ neighborhood(g, order = 2, 1:3)
 V(g)$name <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
 make_ego_graph(g, order = 2, 1:3)
 #> [[1]]
-#> IGRAPH 19df7e4 UN-- 5 4 -- Ring graph
+#> IGRAPH f40d59c UN-- 5 4 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)
-#> + edges from 19df7e4 (vertex names):
+#> + edges from f40d59c (vertex names):
 #> [1] a--b b--c a--j i--j
 #> 
 #> [[2]]
-#> IGRAPH f073cfe UN-- 5 4 -- Ring graph
+#> IGRAPH 7f507ad UN-- 5 4 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)
-#> + edges from f073cfe (vertex names):
+#> + edges from 7f507ad (vertex names):
 #> [1] a--b b--c c--d a--j
 #> 
 #> [[3]]
-#> IGRAPH aff84e5 UN-- 5 4 -- Ring graph
+#> IGRAPH 041d427 UN-- 5 4 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)
-#> + edges from aff84e5 (vertex names):
+#> + edges from 041d427 (vertex names):
 #> [1] a--b b--c c--d d--e
 #> 
 # make_neighborhood_graph() is an alias of make_ego_graph()
 make_neighborhood_graph(g, order = 2, 1:3)
 #> [[1]]
-#> IGRAPH a4cf8ef UN-- 5 4 -- Ring graph
+#> IGRAPH 6d50d01 UN-- 5 4 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)
-#> + edges from a4cf8ef (vertex names):
+#> + edges from 6d50d01 (vertex names):
 #> [1] a--b b--c a--j i--j
 #> 
 #> [[2]]
-#> IGRAPH ffe2067 UN-- 5 4 -- Ring graph
+#> IGRAPH 75b0464 UN-- 5 4 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)
-#> + edges from ffe2067 (vertex names):
+#> + edges from 75b0464 (vertex names):
 #> [1] a--b b--c c--d a--j
 #> 
 #> [[3]]
-#> IGRAPH 8b6f646 UN-- 5 4 -- Ring graph
+#> IGRAPH bf3cd24 UN-- 5 4 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)
-#> + edges from 8b6f646 (vertex names):
+#> + edges from bf3cd24 (vertex names):
 #> [1] a--b b--c c--d d--e
 #> 
 
