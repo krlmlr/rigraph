@@ -50,7 +50,7 @@ IGRAPH_EXPORT IGRAPH_FUNCATTR_PURE igraph_int_t igraph_adjlist_size(const igraph
 IGRAPH_EXPORT igraph_error_t igraph_adjlist_init_complementer(const igraph_t *graph,
                                                    igraph_adjlist_t *al,
                                                    igraph_neimode_t mode,
-                                                   igraph_bool_t loops);
+                                                   igraph_loops_t loops);
 IGRAPH_EXPORT igraph_error_t igraph_adjlist_init_from_inclist(
     const igraph_t *graph, igraph_adjlist_t *al, const igraph_inclist_t *il);
 IGRAPH_EXPORT void igraph_adjlist_destroy(igraph_adjlist_t *al);
