@@ -74,7 +74,7 @@ static igraph_error_t igraph_i_induced_subgraph_copy_and_delete(
 
     IGRAPH_CHECK(igraph_copy(res, graph));
     IGRAPH_FINALLY(igraph_destroy, res);
-    IGRAPH_CHECK(igraph_delete_vertices_idx(res, igraph_vss_vector(&delete),
+    IGRAPH_CHECK(igraph_delete_vertices_map(res, igraph_vss_vector(&delete),
                                             map, invmap));
 
     igraph_vector_int_destroy(&delete);
@@ -129,10 +129,11 @@ static igraph_error_t igraph_i_induced_subgraph_create_from_scratch(
         my_vids_old2new = map;
         if (!map_is_prepared) {
             IGRAPH_CHECK(igraph_vector_int_resize(map, no_of_nodes));
-            igraph_vector_int_null(map);
+            igraph_vector_int_fill(map, -1);
         }
     } else {
         IGRAPH_VECTOR_INT_INIT_FINALLY(&vids_old2new, no_of_nodes);
+        igraph_vector_int_fill(&vids_old2new, -1);
     }
     IGRAPH_VECTOR_INT_INIT_FINALLY(&vids_vec, 0);
 
@@ -158,10 +159,10 @@ static igraph_error_t igraph_i_induced_subgraph_create_from_scratch(
 
         /* Cater for duplicate vertex IDs in the input vertex selector; we use
          * the first occurrence of each vertex ID and ignore the rest */
-        if (VECTOR(*my_vids_old2new)[vid] == 0) {
+        if (VECTOR(*my_vids_old2new)[vid] < 0) {
             IGRAPH_CHECK(igraph_vector_int_push_back(my_vids_new2old, vid));
-            no_of_new_nodes++;
             VECTOR(*my_vids_old2new)[vid] = no_of_new_nodes;
+            no_of_new_nodes++;
         }
     }
     igraph_vector_int_destroy(&vids_vec);
@@ -182,12 +183,12 @@ static igraph_error_t igraph_i_induced_subgraph_create_from_scratch(
                 eid = VECTOR(nei_edges)[j];
 
                 to = VECTOR(*my_vids_old2new)[ IGRAPH_TO(graph, eid) ];
-                if (!to) {
+                if (to < 0) {
                     continue;
                 }
 
                 IGRAPH_CHECK(igraph_vector_int_push_back(&new_edges, new_vid));
-                IGRAPH_CHECK(igraph_vector_int_push_back(&new_edges, to - 1));
+                IGRAPH_CHECK(igraph_vector_int_push_back(&new_edges, to));
                 IGRAPH_CHECK(igraph_vector_int_push_back(&eids_new2old, eid));
             }
         } else {
@@ -204,10 +205,9 @@ static igraph_error_t igraph_i_induced_subgraph_create_from_scratch(
                 }
 
                 to = VECTOR(*my_vids_old2new)[ IGRAPH_TO(graph, eid) ];
-                if (!to) {
+                if (to < 0) {
                     continue;
                 }
-                to -= 1;
 
                 if (new_vid == to) {
                     /* this is a loop edge; check whether we need to skip it */
