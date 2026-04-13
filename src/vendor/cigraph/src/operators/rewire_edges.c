@@ -29,6 +29,7 @@
 #include "igraph_random.h"
 
 #include "graph/attributes.h"
+#include "misc/graphicality.h"
 
 static igraph_error_t igraph_i_rewire_edges_no_multiple(igraph_t *graph, igraph_real_t prob,
                                              igraph_bool_t loops,
@@ -205,10 +206,8 @@ static igraph_error_t igraph_i_rewire_edges_no_multiple(igraph_t *graph, igraph_
  *    directed or undirected.
  * \param prob The rewiring probability a constant between zero and
  *    one (inclusive).
- * \param loops Boolean, whether loop edges are allowed in the new
- *    graph, or not.
- * \param multiple Boolean, whether multiple edges are allowed in the
- *    new graph.
+ * \param allowed_edge_types Controls whether multi-edges and self-loops
+ *     are allowed in the new graph. See \ref igraph_edge_type_sw_t.
  * \return Error code.
  *
  * \sa \ref igraph_watts_strogatz_game() uses this function for the
@@ -217,7 +216,7 @@ static igraph_error_t igraph_i_rewire_edges_no_multiple(igraph_t *graph, igraph_
  * Time complexity: O(|V|+|E|).
  */
 igraph_error_t igraph_rewire_edges(igraph_t *graph, igraph_real_t prob,
-                        igraph_bool_t loops, igraph_bool_t multiple) {
+                                   igraph_edge_type_sw_t allowed_edge_types) {
 
     igraph_t newgraph;
     igraph_int_t no_of_edges = igraph_ecount(graph);
@@ -225,6 +224,9 @@ igraph_error_t igraph_rewire_edges(igraph_t *graph, igraph_real_t prob,
     igraph_int_t endpoints = no_of_edges * 2;
     igraph_int_t to_rewire;
     igraph_vector_int_t edges;
+    igraph_bool_t loops, multiple;
+
+    IGRAPH_CHECK(igraph_i_edge_type_to_loops_multiple(allowed_edge_types, &loops, &multiple));
 
     if (prob < 0 || prob > 1) {
         IGRAPH_ERROR("Rewiring probability should be between zero and one",
@@ -272,8 +274,7 @@ igraph_error_t igraph_rewire_edges(igraph_t *graph, igraph_real_t prob,
     IGRAPH_FINALLY_CLEAN(1);
 
     IGRAPH_FINALLY(igraph_destroy, &newgraph);
-    IGRAPH_I_ATTRIBUTE_DESTROY(&newgraph);
-    IGRAPH_I_ATTRIBUTE_COPY(&newgraph, graph, 1, 1, 1);
+    IGRAPH_CHECK(igraph_i_attribute_copy(&newgraph, graph, true, true, true));
     IGRAPH_FINALLY_CLEAN(1);
     igraph_destroy(graph);
     *graph = newgraph;
@@ -377,14 +378,13 @@ igraph_error_t igraph_rewire_directed_edges(igraph_t *graph, igraph_real_t prob,
         IGRAPH_FINALLY_CLEAN(1);
 
         IGRAPH_FINALLY(igraph_destroy, &newgraph);
-        IGRAPH_I_ATTRIBUTE_DESTROY(&newgraph);
-        IGRAPH_I_ATTRIBUTE_COPY(&newgraph, graph, 1, 1, 1);
+        IGRAPH_CHECK(igraph_i_attribute_copy(&newgraph, graph, true, true, true));
         IGRAPH_FINALLY_CLEAN(1);
         igraph_destroy(graph);
         *graph = newgraph;
 
     } else {
-        IGRAPH_CHECK(igraph_rewire_edges(graph, prob, loops, /* multiple = */ 1));
+        IGRAPH_CHECK(igraph_rewire_edges(graph, prob, IGRAPH_MULTI_SW | (loops ? IGRAPH_LOOPS_SW : IGRAPH_SIMPLE_SW)));
     }
 
     return IGRAPH_SUCCESS;
