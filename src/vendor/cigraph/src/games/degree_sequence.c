@@ -1,5 +1,5 @@
 /*
-   igraph library.
+   IGraph library.
    Copyright (C) 2003-2024  The igraph development team <igraph@igraph.org>
 
    This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ static igraph_error_t configuration(
         const igraph_vector_int_t *out_seq,
         const igraph_vector_int_t *in_seq) {
 
-    const igraph_bool_t directed = (in_seq != NULL);
+    const igraph_bool_t directed = (in_seq != NULL && igraph_vector_int_size(in_seq) != 0);
     igraph_int_t outsum = 0, insum = 0;
     igraph_bool_t graphical;
     igraph_int_t no_of_nodes, no_of_edges;
@@ -766,10 +766,13 @@ igraph_error_t edge_switching(
  * https://doi.org/10.1088/2632-072x/abced5.
  *
  * \param graph Pointer to an uninitialized graph object.
- * \param out_degrees A vector of integers specifying the degree sequence for
- *     undirected graphs or the out-degree sequence for directed graphs.
- * \param in_degrees A vector of integers specifying the in-degree sequence for
- *     directed graphs. For undirected graphs, it must be \c NULL.
+ * \param out_deg The degree sequence for an undirected graph (if
+ *        \p in_seq is \c NULL or of length zero), or the out-degree
+ *        sequence of a directed graph (if \p in_deq is not
+ *        of length zero).
+ * \param in_deg It is either a zero-length vector or
+ *        \c NULL (if an undirected
+ *        graph is generated), or the in-degree sequence.
  * \param method The method to generate the graph. Possible values:
  *        \clist
  *          \cli IGRAPH_DEGSEQ_CONFIGURATION
@@ -846,33 +849,37 @@ igraph_error_t edge_switching(
 
 igraph_error_t igraph_degree_sequence_game(
         igraph_t *graph,
-        const igraph_vector_int_t *out_degrees,
-        const igraph_vector_int_t *in_degrees,
+        const igraph_vector_int_t *out_deg,
+        const igraph_vector_int_t *in_deg,
         igraph_degseq_t method) {
+
+    if (in_deg && igraph_vector_int_empty(in_deg) && !igraph_vector_int_empty(out_deg)) {
+        in_deg = NULL;
+    }
 
     switch (method) {
     case IGRAPH_DEGSEQ_CONFIGURATION:
-        return configuration(graph, out_degrees, in_degrees);
+        return configuration(graph, out_deg, in_deg);
 
     case IGRAPH_DEGSEQ_VL:
-        return igraph_i_degree_sequence_game_vl(graph, out_degrees, in_degrees);
+        return igraph_i_degree_sequence_game_vl(graph, out_deg, in_deg);
 
     case IGRAPH_DEGSEQ_FAST_HEUR_SIMPLE:
-        if (! in_degrees) {
-            return fast_heur_undirected(graph, out_degrees);
+        if (! in_deg) {
+            return fast_heur_undirected(graph, out_deg);
         } else {
-            return fast_heur_directed(graph, out_degrees, in_degrees);
+            return fast_heur_directed(graph, out_deg, in_deg);
         }
 
     case IGRAPH_DEGSEQ_CONFIGURATION_SIMPLE:
-        if (! in_degrees) {
-            return configuration_simple_undirected(graph, out_degrees);
+        if (! in_deg) {
+            return configuration_simple_undirected(graph, out_deg);
         } else {
-            return configuration_simple_directed(graph, out_degrees, in_degrees);
+            return configuration_simple_directed(graph, out_deg, in_deg);
         }
 
     case IGRAPH_DEGSEQ_EDGE_SWITCHING_SIMPLE:
-        return edge_switching(graph, out_degrees, in_degrees);
+        return edge_switching(graph, out_deg, in_deg);
 
     default:
         IGRAPH_ERROR("Invalid degree sequence game method.", IGRAPH_EINVAL);

@@ -25,8 +25,6 @@
 #include "igraph_interface.h"
 #include "igraph_memory.h"
 
-#include <string.h>
-
 #include "graph/attributes.h"
 #include "graph/caching.h"
 #include "graph/internal.h"
@@ -97,8 +95,10 @@ static igraph_error_t igraph_i_create_start_vectors(
  * Time complexity: O(|V|) for a graph with
  * |V| vertices (and no edges).
  */
-igraph_error_t igraph_empty_attrs(igraph_t *graph, igraph_int_t n, igraph_bool_t directed,
-                                  const igraph_attribute_record_list_t *attr) {
+igraph_error_t igraph_empty_attrs(
+    igraph_t *graph, igraph_int_t n, igraph_bool_t directed,
+    const igraph_attribute_record_list_t *attr
+) {
 
     if (n < 0) {
         IGRAPH_ERROR("Number of vertices must not be negative.", IGRAPH_EINVAL);
@@ -126,6 +126,7 @@ igraph_error_t igraph_empty_attrs(igraph_t *graph, igraph_int_t n, igraph_bool_t
     VECTOR(graph->is)[0] = 0;
 
     /* init attributes */
+    graph->attr = 0;
     IGRAPH_CHECK(igraph_i_attribute_init(graph, attr));
 
     /* add the vertices */
@@ -153,7 +154,7 @@ igraph_error_t igraph_empty_attrs(igraph_t *graph, igraph_int_t n, igraph_bool_t
  */
 void igraph_destroy(igraph_t *graph) {
 
-    IGRAPH_I_ATTRIBUTE_DESTROY(graph);
+    igraph_i_attribute_destroy(graph);
 
     igraph_i_property_cache_destroy(graph->cache);
     IGRAPH_FREE(graph->cache);
@@ -216,7 +217,7 @@ igraph_error_t igraph_copy(igraph_t *to, const igraph_t *from) {
     IGRAPH_CHECK(igraph_i_property_cache_copy(to->cache, from->cache));
     IGRAPH_FINALLY(igraph_i_property_cache_destroy, to->cache);
 
-    IGRAPH_I_ATTRIBUTE_COPY(to, from, true, true, true); /* does IGRAPH_CHECK */
+    IGRAPH_CHECK(igraph_i_attribute_copy(to, from, true, true, true));
 
     IGRAPH_FINALLY_CLEAN(8);
     return IGRAPH_SUCCESS;
@@ -251,8 +252,10 @@ igraph_error_t igraph_copy(igraph_t *to, const igraph_t *from) {
  *
  * \example examples/simple/creation.c
  */
-igraph_error_t igraph_add_edges(igraph_t *graph, const igraph_vector_int_t *edges,
-                     const igraph_attribute_record_list_t *attr) {
+igraph_error_t igraph_add_edges(
+    igraph_t *graph, const igraph_vector_int_t *edges,
+    const igraph_attribute_record_list_t *attr
+) {
     igraph_int_t no_of_edges = igraph_vector_int_size(&graph->from);
     igraph_int_t edges_to_add = igraph_vector_int_size(edges) / 2;
     igraph_int_t new_no_of_edges;
@@ -384,8 +387,9 @@ igraph_error_t igraph_add_edges(igraph_t *graph, const igraph_vector_int_t *edge
  *
  * \example examples/simple/creation.c
  */
-igraph_error_t igraph_add_vertices(igraph_t *graph, igraph_int_t nv,
-                                  const igraph_attribute_record_list_t *attr) {
+igraph_error_t igraph_add_vertices(
+    igraph_t *graph, igraph_int_t nv, const igraph_attribute_record_list_t *attr
+) {
     igraph_int_t ec = igraph_ecount(graph);
     igraph_int_t vc = igraph_vcount(graph);
     igraph_int_t new_vc;
@@ -612,14 +616,14 @@ igraph_error_t igraph_delete_edges(igraph_t *graph, igraph_es_t edges) {
 
 /**
  * \ingroup interface
- * \function igraph_delete_vertices_map
+ * \function igraph_delete_vertices_idx
  * \brief Removes some vertices (with all their edges) from the graph.
  *
  * </para><para>
  * This function changes the IDs of the vertices (except in some very
  * special cases, but these should not be relied on anyway). You can use the
- * \p map argument to obtain the mapping from old vertex IDs to the new ones,
- * and the \p invmap argument to obtain the reverse mapping.
+ * \c idx argument to obtain the mapping from old vertex IDs to the new ones,
+ * and the \c newidx argument to obtain the reverse mapping.
  *
  * </para><para>
  * This function invalidates all iterators.
@@ -627,10 +631,12 @@ igraph_error_t igraph_delete_edges(igraph_t *graph, igraph_es_t edges) {
  * \param graph The graph to work on.
  * \param vertices The IDs of the vertices to remove, in a vector. The vector
  *     may contain the same ID more than once.
- * \param map An optional pointer to a vector that provides the mapping from
+ * \param idx An optional pointer to a vector that provides the mapping from
  *     the vertex IDs \em before the removal to the vertex IDs \em after
- *     the removal. You can supply \c NULL here if you are not interested.
- * \param invmap An optional pointer to a vector that provides the mapping from
+ *     the removal, \em plus one. Zero is used to represent vertices that were
+ *     removed during the operation. You can supply \c NULL here if you are not
+ *     interested.
+ * \param invidx An optional pointer to a vector that provides the mapping from
  *     the vertex IDs \em after the removal to the vertex IDs \em before
  *     the removal. You can supply \c NULL here if you are not interested.
  * \return Error code:
@@ -638,10 +644,12 @@ igraph_error_t igraph_delete_edges(igraph_t *graph, igraph_es_t edges) {
  *
  * Time complexity: O(|V|+|E|), |V| and |E| are the number of vertices and
  * edges in the original graph.
+ *
+ * \example examples/simple/igraph_delete_vertices.c
  */
-igraph_error_t igraph_delete_vertices_map(
-    igraph_t *graph, const igraph_vs_t vertices, igraph_vector_int_t *map,
-    igraph_vector_int_t *invmap
+igraph_error_t igraph_delete_vertices_idx(
+    igraph_t *graph, const igraph_vs_t vertices, igraph_vector_int_t *idx,
+    igraph_vector_int_t *invidx
 ) {
     igraph_int_t no_of_edges = igraph_ecount(graph);
     igraph_int_t no_of_nodes = igraph_vcount(graph);
@@ -650,12 +658,14 @@ igraph_error_t igraph_delete_vertices_map(
     igraph_vit_t vit;
     igraph_t newgraph;
     igraph_int_t i, j;
+
+    memset(&newgraph, 0, sizeof(igraph_t));
     igraph_int_t remaining_vertices, remaining_edges;
 
-    if (map) {
-        my_vertex_recoding = map;
-        IGRAPH_CHECK(igraph_vector_int_resize(map, no_of_nodes));
-        igraph_vector_int_null(map);
+    if (idx) {
+        my_vertex_recoding = idx;
+        IGRAPH_CHECK(igraph_vector_int_resize(idx, no_of_nodes));
+        igraph_vector_int_null(idx);
     } else {
         IGRAPH_VECTOR_INT_INIT_FINALLY(&vertex_recoding, no_of_nodes);
     }
@@ -669,32 +679,31 @@ igraph_error_t igraph_delete_vertices_map(
     for (; !IGRAPH_VIT_END(vit); IGRAPH_VIT_NEXT(vit) ) {
         igraph_int_t vertex = IGRAPH_VIT_GET(vit);
         if (vertex < 0 || vertex >= no_of_nodes) {
-            IGRAPH_ERROR("Cannot delete vertices.", IGRAPH_EINVVID);
+            IGRAPH_ERROR("Cannot delete vertices", IGRAPH_EINVVID);
         }
         VECTOR(*my_vertex_recoding)[vertex] = 1;
     }
     /* create vertex recoding vector */
     for (remaining_vertices = 0, i = 0; i < no_of_nodes; i++) {
         if (VECTOR(*my_vertex_recoding)[i] == 0) {
-            VECTOR(*my_vertex_recoding)[i] = remaining_vertices;
+            VECTOR(*my_vertex_recoding)[i] = remaining_vertices + 1;
             remaining_vertices++;
         } else {
-            VECTOR(*my_vertex_recoding)[i] = -1;
+            VECTOR(*my_vertex_recoding)[i] = 0;
         }
     }
     /* create edge recoding vector */
     for (remaining_edges = 0, i = 0; i < no_of_edges; i++) {
         igraph_int_t from = VECTOR(graph->from)[i];
         igraph_int_t to = VECTOR(graph->to)[i];
-        if (VECTOR(*my_vertex_recoding)[from] >= 0 &&
-            VECTOR(*my_vertex_recoding)[to  ] >= 0) {
+        if (VECTOR(*my_vertex_recoding)[from] != 0 &&
+            VECTOR(*my_vertex_recoding)[to  ] != 0) {
             VECTOR(edge_recoding)[i] = remaining_edges + 1;
             remaining_edges++;
         }
     }
 
     /* start creating the graph */
-    memset(&newgraph, 0, sizeof(igraph_t));
     newgraph.n = remaining_vertices;
     newgraph.directed = graph->directed;
 
@@ -711,8 +720,8 @@ igraph_error_t igraph_delete_vertices_map(
         if (VECTOR(edge_recoding)[i] > 0) {
             igraph_int_t from = VECTOR(graph->from)[i];
             igraph_int_t to = VECTOR(graph->to  )[i];
-            VECTOR(newgraph.from)[j] = VECTOR(*my_vertex_recoding)[from];
-            VECTOR(newgraph.to  )[j] = VECTOR(*my_vertex_recoding)[to];
+            VECTOR(newgraph.from)[j] = VECTOR(*my_vertex_recoding)[from] - 1;
+            VECTOR(newgraph.to  )[j] = VECTOR(*my_vertex_recoding)[to] - 1;
             j++;
         }
     }
@@ -735,8 +744,8 @@ igraph_error_t igraph_delete_vertices_map(
     IGRAPH_FINALLY(igraph_i_property_cache_destroy, newgraph.cache);
 
     /* attributes */
-    IGRAPH_I_ATTRIBUTE_COPY(&newgraph, graph,
-                            /*graph=*/ 1, /*vertex=*/0, /*edge=*/0);
+    IGRAPH_CHECK(igraph_i_attribute_copy(&newgraph, graph,
+                            /*graph=*/ 1, /*vertex=*/0, /*edge=*/0));
 
     /* at this point igraph_destroy can take over the responsibility of
      * deallocating the graph */
@@ -748,8 +757,8 @@ igraph_error_t igraph_delete_vertices_map(
         IGRAPH_VECTOR_INT_INIT_FINALLY(&iidx, remaining_vertices);
         for (i = 0; i < no_of_nodes; i++) {
             igraph_int_t jj = VECTOR(*my_vertex_recoding)[i];
-            if (jj >= 0) {
-                VECTOR(iidx)[ jj ] = i;
+            if (jj != 0) {
+                VECTOR(iidx)[ jj - 1 ] = i;
             }
         }
         IGRAPH_CHECK(igraph_i_attribute_permute_vertices(graph,
@@ -775,17 +784,17 @@ igraph_error_t igraph_delete_vertices_map(
     IGRAPH_FINALLY_CLEAN(3);
 
     /* TODO: this is duplicate */
-    if (invmap) {
-        IGRAPH_CHECK(igraph_vector_int_resize(invmap, remaining_vertices));
+    if (invidx) {
+        IGRAPH_CHECK(igraph_vector_int_resize(invidx, remaining_vertices));
         for (i = 0; i < no_of_nodes; i++) {
             igraph_int_t newid = VECTOR(*my_vertex_recoding)[i];
-            if (newid >= 0) {
-                VECTOR(*invmap)[newid] = i;
+            if (newid != 0) {
+                VECTOR(*invidx)[newid - 1] = i;
             }
         }
     }
 
-    if (!map) {
+    if (!idx) {
         igraph_vector_int_destroy(my_vertex_recoding);
         IGRAPH_FINALLY_CLEAN(1);
     }
@@ -1149,20 +1158,10 @@ igraph_bool_t igraph_is_directed(const igraph_t *graph) {
  * O(d) otherwise, where d is the degree.
  */
 igraph_error_t igraph_degree_1(const igraph_t *graph, igraph_int_t *deg,
-                               igraph_int_t vid, igraph_neimode_t mode, igraph_loops_t loops) {
-    igraph_int_t loop_counter;
+                               igraph_int_t vid, igraph_neimode_t mode, igraph_bool_t loops) {
 
     if (!igraph_is_directed(graph)) {
         mode = IGRAPH_ALL;
-    }
-
-    if (loops != IGRAPH_NO_LOOPS && loops != IGRAPH_LOOPS_ONCE &&
-        loops != IGRAPH_LOOPS_TWICE) {
-        IGRAPH_ERROR("Invalid loops argument.", IGRAPH_EINVAL);
-    }
-
-    if (loops == IGRAPH_LOOPS_ONCE && (mode & IGRAPH_ALL) != IGRAPH_ALL) {
-        loops = IGRAPH_LOOPS_TWICE;
     }
 
     *deg = 0;
@@ -1172,31 +1171,22 @@ igraph_error_t igraph_degree_1(const igraph_t *graph, igraph_int_t *deg,
     if (mode & IGRAPH_IN) {
         *deg += (VECTOR(graph->is)[vid + 1] - VECTOR(graph->is)[vid]);
     }
-
-    if (loops != IGRAPH_LOOPS_TWICE) {
-        /* When loops should not be counted (or counted only once), we remove
-         * their contribution from the previously computed degree. */
-        loop_counter = 0;
+    if (! loops) {
+        /* When loops should not be counted, we remove their contribution from the
+         * previously computed degree. */
         if (mode & IGRAPH_OUT) {
             for (igraph_int_t i = VECTOR(graph->os)[vid]; i < VECTOR(graph->os)[vid + 1]; i++) {
                 if (VECTOR(graph->to)[ VECTOR(graph->oi)[i] ] == vid) {
-                    loop_counter++;
+                    *deg -= 1;
                 }
             }
         }
         if (mode & IGRAPH_IN) {
             for (igraph_int_t i = VECTOR(graph->is)[vid]; i < VECTOR(graph->is)[vid + 1]; i++) {
                 if (VECTOR(graph->from)[ VECTOR(graph->ii)[i] ] == vid) {
-                    loop_counter++;
+                    *deg -= 1;
                 }
             }
-        }
-
-        if (loops == IGRAPH_NO_LOOPS || mode != IGRAPH_ALL) {
-            *deg -= loop_counter;
-        } else {
-            /* loops == IGRAPH_LOOPS_ONCE && mode == IGRAPH_ALL */
-            *deg -= loop_counter / 2;
         }
     }
 
@@ -1248,7 +1238,7 @@ igraph_error_t igraph_degree_1(const igraph_t *graph, igraph_int_t *deg,
  */
 igraph_error_t igraph_degree(const igraph_t *graph, igraph_vector_int_t *res,
                   const igraph_vs_t vids,
-                  igraph_neimode_t mode, igraph_loops_t loops) {
+                  igraph_neimode_t mode, igraph_bool_t loops) {
 
     igraph_int_t nodes_to_calc;
     igraph_int_t i, j;
@@ -1261,19 +1251,13 @@ igraph_error_t igraph_degree(const igraph_t *graph, igraph_vector_int_t *res,
         IGRAPH_ERROR("Invalid mode for degree calculation.", IGRAPH_EINVMODE);
     }
 
-    if (loops == IGRAPH_NO_LOOPS || loops == IGRAPH_LOOPS_ONCE) {
+    if (! loops) {
         /* If the graph is known not to have loops, we can use the faster
-         * loops == IGRAPH_LOOPS_TWICE code path, which has O(1) complexity
-         * instead of O(d). */
+         * loops == true code path, which has O(1) complexity instead of of O(d). */
         if (igraph_i_property_cache_has(graph, IGRAPH_PROP_HAS_LOOP) &&
             !igraph_i_property_cache_get_bool(graph, IGRAPH_PROP_HAS_LOOP)) {
-            loops = IGRAPH_LOOPS_TWICE;
+            loops = true;
         }
-    }
-
-    if (loops == IGRAPH_LOOPS_ONCE && mode != IGRAPH_ALL) {
-        /* We can use the faster loops == IGRAPH_LOOPS_TWICE path again */
-        loops = IGRAPH_LOOPS_TWICE;
     }
 
     nodes_to_calc = IGRAPH_VIT_SIZE(vit);
@@ -1284,7 +1268,7 @@ igraph_error_t igraph_degree(const igraph_t *graph, igraph_vector_int_t *res,
     IGRAPH_CHECK(igraph_vector_int_resize(res, nodes_to_calc));
     igraph_vector_int_null(res);
 
-    if (loops == IGRAPH_LOOPS_TWICE) {
+    if (loops) {
         if (mode & IGRAPH_OUT) {
             for (IGRAPH_VIT_RESET(vit), i = 0;
                  !IGRAPH_VIT_END(vit);
@@ -1301,105 +1285,56 @@ igraph_error_t igraph_degree(const igraph_t *graph, igraph_vector_int_t *res,
                 VECTOR(*res)[i] += (VECTOR(graph->is)[vid + 1] - VECTOR(graph->is)[vid]);
             }
         }
-    } else if (loops == IGRAPH_LOOPS_ONCE) {
-        IGRAPH_ASSERT((mode & IGRAPH_ALL) == IGRAPH_ALL);
+    } else if (igraph_vs_is_all(&vids)) { /* no loops, calculating degree for all vertices */
+        // When calculating degree for all vertices, iterating over edges is faster
+        igraph_int_t no_of_edges = igraph_ecount(graph);
 
-        /* We arbitrarily count loop edges in the (mode & IGRAPH_OUT) branch but
-         * not in the (mode & IGRAPH_IN) branch */
-
-        if (igraph_vs_is_all(&vids)) {
-            /* When calculating degree for all vertices, iterating over edges is faster */
-            igraph_int_t no_of_edges = igraph_ecount(graph);
-
-            /* mode & IGRAPH_OUT branch */
+        if (mode & IGRAPH_OUT) {
             for (igraph_int_t edge = 0; edge < no_of_edges; ++edge) {
                 igraph_int_t from = IGRAPH_FROM(graph, edge);
-                VECTOR(*res)[from]++;
+                if (from != IGRAPH_TO(graph, edge)) {
+                    VECTOR(*res)[from]++;
+                }
             }
-
-            /* mode & IGRAPH_IN branch */
+        }
+        if (mode & IGRAPH_IN) {
             for (igraph_int_t edge = 0; edge < no_of_edges; ++edge) {
                 igraph_int_t to = IGRAPH_TO(graph, edge);
                 if (IGRAPH_FROM(graph, edge) != to) {
                     VECTOR(*res)[to]++;
                 }
             }
-        } else {
-            /* mode & IGRAPH_OUT branch */
+        }
+    } else { /* no loops */
+        if (mode & IGRAPH_OUT) {
             for (IGRAPH_VIT_RESET(vit), i = 0;
-                !IGRAPH_VIT_END(vit);
-                IGRAPH_VIT_NEXT(vit), i++) {
+                 !IGRAPH_VIT_END(vit);
+                 IGRAPH_VIT_NEXT(vit), i++) {
                 igraph_int_t vid = IGRAPH_VIT_GET(vit);
                 VECTOR(*res)[i] += (VECTOR(graph->os)[vid + 1] - VECTOR(graph->os)[vid]);
+                for (j = VECTOR(graph->os)[vid];
+                     j < VECTOR(graph->os)[vid + 1]; j++) {
+                    if (VECTOR(graph->to)[ VECTOR(graph->oi)[j] ] == vid) {
+                        VECTOR(*res)[i] -= 1;
+                    }
+                }
             }
-
-            /* mode & IGRAPH_IN branch */
+        }
+        if (mode & IGRAPH_IN) {
             for (IGRAPH_VIT_RESET(vit), i = 0;
-                !IGRAPH_VIT_END(vit);
-                IGRAPH_VIT_NEXT(vit), i++) {
+                 !IGRAPH_VIT_END(vit);
+                 IGRAPH_VIT_NEXT(vit), i++) {
                 igraph_int_t vid = IGRAPH_VIT_GET(vit);
                 VECTOR(*res)[i] += (VECTOR(graph->is)[vid + 1] - VECTOR(graph->is)[vid]);
                 for (j = VECTOR(graph->is)[vid];
-                    j < VECTOR(graph->is)[vid + 1]; j++) {
+                     j < VECTOR(graph->is)[vid + 1]; j++) {
                     if (VECTOR(graph->from)[ VECTOR(graph->ii)[j] ] == vid) {
                         VECTOR(*res)[i] -= 1;
                     }
                 }
             }
         }
-    } else {
-        /* no loops should be counted */
-        if (igraph_vs_is_all(&vids)) {
-            /* When calculating degree for all vertices, iterating over edges is faster */
-            igraph_int_t no_of_edges = igraph_ecount(graph);
-
-            if (mode & IGRAPH_OUT) {
-                for (igraph_int_t edge = 0; edge < no_of_edges; ++edge) {
-                    igraph_int_t from = IGRAPH_FROM(graph, edge);
-                    if (from != IGRAPH_TO(graph, edge)) {
-                        VECTOR(*res)[from]++;
-                    }
-                }
-            }
-            if (mode & IGRAPH_IN) {
-                for (igraph_int_t edge = 0; edge < no_of_edges; ++edge) {
-                    igraph_int_t to = IGRAPH_TO(graph, edge);
-                    if (IGRAPH_FROM(graph, edge) != to) {
-                        VECTOR(*res)[to]++;
-                    }
-                }
-            }
-        } else {
-            if (mode & IGRAPH_OUT) {
-                for (IGRAPH_VIT_RESET(vit), i = 0;
-                    !IGRAPH_VIT_END(vit);
-                    IGRAPH_VIT_NEXT(vit), i++) {
-                    igraph_int_t vid = IGRAPH_VIT_GET(vit);
-                    VECTOR(*res)[i] += (VECTOR(graph->os)[vid + 1] - VECTOR(graph->os)[vid]);
-                    for (j = VECTOR(graph->os)[vid];
-                        j < VECTOR(graph->os)[vid + 1]; j++) {
-                        if (VECTOR(graph->to)[ VECTOR(graph->oi)[j] ] == vid) {
-                            VECTOR(*res)[i] -= 1;
-                        }
-                    }
-                }
-            }
-            if (mode & IGRAPH_IN) {
-                for (IGRAPH_VIT_RESET(vit), i = 0;
-                    !IGRAPH_VIT_END(vit);
-                    IGRAPH_VIT_NEXT(vit), i++) {
-                    igraph_int_t vid = IGRAPH_VIT_GET(vit);
-                    VECTOR(*res)[i] += (VECTOR(graph->is)[vid + 1] - VECTOR(graph->is)[vid]);
-                    for (j = VECTOR(graph->is)[vid];
-                        j < VECTOR(graph->is)[vid + 1]; j++) {
-                        if (VECTOR(graph->from)[ VECTOR(graph->ii)[j] ] == vid) {
-                            VECTOR(*res)[i] -= 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    }  /* loops */
 
     igraph_vit_destroy(&vit);
     IGRAPH_FINALLY_CLEAN(1);
