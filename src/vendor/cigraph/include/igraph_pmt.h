@@ -1,6 +1,8 @@
+/* -*- mode: C -*-  */
 /*
-   igraph library.
-   Copyright (C) 2007-2025  The igraph development team <igraph@igraph.org>
+   IGraph library.
+   Copyright (C) 2007-2012  Gabor Csardi <csardi.gabor@gmail.com>
+   334 Harvard street, Cambridge, MA 02139 USA
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +15,10 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+   along with this program; if not, write to the Free Software
+   Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA
+   02110-1301 USA
+
 */
 
 #define CONCAT2x(a,b) a ## _ ## b
@@ -165,6 +170,7 @@
     #define FUNCTION(c) CONCAT2x(igraph_bitset_list,c)
     #define INTERNAL_FUNCTION(c) CONCAT2x(igraph_i_bitset_list,c)
     #define TYPE igraph_bitset_list_t
+
 #else
     #if defined(BASE_IGRAPH_REAL)
         #define FUNCTION(a,c) CONCAT2(a,c)
