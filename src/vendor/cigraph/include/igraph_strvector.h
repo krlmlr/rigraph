@@ -1,6 +1,8 @@
+/* -*- mode: C -*-  */
 /*
-   igraph library.
-   Copyright (C) 2009-2025  The igraph development team <igraph@igraph.org>
+   IGraph library.
+   Copyright (C) 2009-2012  Gabor Csardi <csardi.gabor@gmail.com>
+   334 Harvard street, Cambridge, MA 02139 USA
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,7 +15,10 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+   along with this program; if not, write to the Free Software
+   Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA
+   02110-1301 USA
+
 */
 
 #ifndef IGRAPH_STRVECTOR_H
@@ -23,7 +28,7 @@
 #include "igraph_error.h"
 #include "igraph_vector.h"
 
-IGRAPH_BEGIN_C_DECLS
+__BEGIN_DECLS
 
 /**
  * Vector of strings
@@ -32,9 +37,9 @@ IGRAPH_BEGIN_C_DECLS
 
 typedef struct s_igraph_strvector {
     /* Empty strings "" are represented using NULL. */
-    const char **stor_begin;
-    const char **stor_end;
-    const char **end;
+    char **stor_begin;
+    char **stor_end;
+    char **end;
 } igraph_strvector_t;
 
 /**
@@ -46,7 +51,7 @@ typedef struct s_igraph_strvector {
  * element. Use \ref igraph_strvector_set() to set an element instead.
  *
  * \param sv The string vector
- * \param i The index of the element.
+ * \param i The the index of the element.
  * \return The element at position \p i.
  *
  * Time complexity: O(1).
@@ -78,13 +83,12 @@ IGRAPH_EXPORT void igraph_strvector_remove(
     igraph_strvector_t *v, igraph_int_t elem);
 IGRAPH_EXPORT igraph_error_t igraph_strvector_init_copy(
     igraph_strvector_t *to, const igraph_strvector_t *from);
+IGRAPH_EXPORT igraph_error_t igraph_strvector_update(
+    igraph_strvector_t *to, const igraph_strvector_t *from);
 IGRAPH_EXPORT igraph_error_t igraph_strvector_append(
     igraph_strvector_t *to, const igraph_strvector_t *from);
 IGRAPH_EXPORT igraph_error_t igraph_strvector_merge(
     igraph_strvector_t *to, igraph_strvector_t *from);
-IGRAPH_EXPORT void igraph_strvector_swap(igraph_strvector_t *v1, igraph_strvector_t *v2);
-IGRAPH_EXPORT igraph_error_t igraph_strvector_update(
-    igraph_strvector_t *to, const igraph_strvector_t *from);
 IGRAPH_EXPORT igraph_error_t igraph_strvector_resize(
     igraph_strvector_t* v, igraph_int_t newsize);
 IGRAPH_EXPORT void igraph_strvector_resize_min(igraph_strvector_t *sv);
@@ -107,6 +111,13 @@ IGRAPH_EXPORT igraph_error_t igraph_strvector_reserve(igraph_strvector_t *sv,
 IGRAPH_EXPORT void igraph_strvector_swap_elements(igraph_strvector_t *sv,
                                                   igraph_int_t i, igraph_int_t j);
 
-IGRAPH_END_C_DECLS
+IGRAPH_EXPORT IGRAPH_DEPRECATED igraph_error_t igraph_strvector_add(igraph_strvector_t *v, const char *value);
+IGRAPH_EXPORT IGRAPH_DEPRECATED igraph_error_t igraph_strvector_copy(
+    igraph_strvector_t *to, const igraph_strvector_t *from);
+IGRAPH_EXPORT IGRAPH_DEPRECATED igraph_error_t igraph_strvector_set2(
+    igraph_strvector_t *sv, igraph_int_t idx, const char *value, size_t len
+);
+
+__END_DECLS
 
 #endif
