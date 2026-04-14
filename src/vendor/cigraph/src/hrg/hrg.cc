@@ -631,25 +631,26 @@ igraph_error_t igraph_hrg_dendrogram(igraph_t *graph, const igraph_hrg_t *hrg) {
     igraph_vector_int_t edges;
     igraph_int_t i, idx = 0;
     igraph_attribute_record_list_t vattrs;
-    igraph_attribute_record_t *rec;
+    igraph_vector_t prob;
+    igraph_attribute_record_t* rec;
 
     // Probability labels, for leaf nodes they are IGRAPH_NAN
+    IGRAPH_VECTOR_INIT_FINALLY(&prob, no_of_nodes);
+    for (i = 0; i < orig_nodes; i++) {
+        VECTOR(prob)[i] = IGRAPH_NAN;
+    }
+    for (i = 0; i < orig_nodes - 1; i++) {
+        VECTOR(prob)[orig_nodes + i] = VECTOR(hrg->prob)[i];
+    }
+
+    IGRAPH_VECTOR_INT_INIT_FINALLY(&edges, no_of_edges * 2);
     IGRAPH_CHECK(igraph_attribute_record_list_init(&vattrs, 1));
     IGRAPH_FINALLY(igraph_attribute_record_list_destroy, &vattrs);
 
     rec = igraph_attribute_record_list_get_ptr(&vattrs, 0);
     IGRAPH_CHECK(igraph_attribute_record_set_name(rec, "probability"));
     IGRAPH_CHECK(igraph_attribute_record_set_type(rec, IGRAPH_ATTRIBUTE_NUMERIC));
-    IGRAPH_CHECK(igraph_vector_resize(rec->value.as_vector, no_of_nodes));
-
-    for (i = 0; i < orig_nodes; i++) {
-        VECTOR(*rec->value.as_vector)[i] = IGRAPH_NAN;
-    }
-    for (i = 0; i < orig_nodes - 1; i++) {
-        VECTOR(*rec->value.as_vector)[orig_nodes + i] = VECTOR(hrg->prob)[i];
-    }
-
-    IGRAPH_VECTOR_INT_INIT_FINALLY(&edges, no_of_edges * 2);
+    igraph_vector_swap(rec->value.as_vector, &prob);
 
     for (i = 0; i < orig_nodes - 1; i++) {
         igraph_int_t left = VECTOR(hrg->left)[i];
@@ -668,7 +669,8 @@ igraph_error_t igraph_hrg_dendrogram(igraph_t *graph, const igraph_hrg_t *hrg) {
 
     igraph_attribute_record_list_destroy(&vattrs);
     igraph_vector_int_destroy(&edges);
-    IGRAPH_FINALLY_CLEAN(3);  // + 1 for graph
+    igraph_vector_destroy(&prob);
+    IGRAPH_FINALLY_CLEAN(4);  // + 1 for graph
 
     return IGRAPH_SUCCESS;
 }

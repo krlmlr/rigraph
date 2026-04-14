@@ -26,12 +26,6 @@
 
 IGRAPH_BEGIN_C_DECLS
 
-/* Backward-compatible macros for code not yet updated to use the new API */
-#define IGRAPH_I_ATTRIBUTE_DESTROY(graph) \
-    do { igraph_i_attribute_destroy(graph); } while (0)
-#define IGRAPH_I_ATTRIBUTE_COPY(to, from, ga, va, ea) \
-    do { IGRAPH_CHECK(igraph_i_attribute_copy((to), (from), (ga), (va), (ea))); } while (0)
-
 igraph_error_t igraph_i_attribute_init(
    igraph_t *graph, const igraph_attribute_record_list_t *attr
 );
@@ -113,5 +107,11 @@ igraph_error_t igraph_i_attribute_get_bool_edge_attr(const igraph_t *graph,
                                           igraph_vector_bool_t *value);
 
 IGRAPH_END_C_DECLS
+
+/* Compatibility macros for code not yet updated to use direct function calls */
+#define IGRAPH_I_ATTRIBUTE_DESTROY(graph) \
+    igraph_i_attribute_destroy(graph)
+#define IGRAPH_I_ATTRIBUTE_COPY(to, from, ga, va, ea) \
+    IGRAPH_CHECK(igraph_i_attribute_copy((to), (from), (ga), (va), (ea)))
 
 #endif /* IGRAPH_GRAPH_ATTRIBUTES_H */
