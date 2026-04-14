@@ -2009,7 +2009,7 @@ SEXP R_igraph_erdos_renyi_game_gnp(SEXP n, SEXP p, SEXP directed, SEXP loops) {
   IGRAPH_R_CHECK_BOOL(loops);
   c_loops = LOGICAL(loops)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_erdos_renyi_game_gnp(&c_graph, c_n, c_p, c_directed, c_loops));
+  IGRAPH_R_CHECK(igraph_erdos_renyi_game_gnp(&c_graph, c_n, c_p, c_directed, c_loops ? IGRAPH_LOOPS_SW : IGRAPH_SIMPLE_SW, /* edge_labeled= */ false));
 
                                         /* Convert output */
   IGRAPH_FINALLY(igraph_destroy, &c_graph);
@@ -2045,7 +2045,7 @@ SEXP R_igraph_erdos_renyi_game_gnm(SEXP n, SEXP m, SEXP directed, SEXP loops) {
   IGRAPH_R_CHECK_BOOL(loops);
   c_loops = LOGICAL(loops)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_erdos_renyi_game_gnm(&c_graph, c_n, c_m, c_directed, c_loops));
+  IGRAPH_R_CHECK(igraph_erdos_renyi_game_gnm(&c_graph, c_n, c_m, c_directed, c_loops ? IGRAPH_LOOPS_SW : IGRAPH_SIMPLE_SW, /* edge_labeled= */ false));
 
                                         /* Convert output */
   IGRAPH_FINALLY(igraph_destroy, &c_graph);
