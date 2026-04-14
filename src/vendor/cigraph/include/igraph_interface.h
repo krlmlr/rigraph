@@ -40,25 +40,21 @@ IGRAPH_BEGIN_C_DECLS
 IGRAPH_EXPORT igraph_error_t igraph_empty(igraph_t *graph, igraph_int_t n, igraph_bool_t directed);
 IGRAPH_EXPORT igraph_error_t igraph_empty_attrs(
     igraph_t *graph, igraph_int_t n, igraph_bool_t directed,
-    const igraph_attribute_record_list_t *attr
+    const igraph_attribute_record_list_t* attr
 );
 IGRAPH_EXPORT void igraph_destroy(igraph_t *graph);
 IGRAPH_EXPORT igraph_error_t igraph_copy(igraph_t *to, const igraph_t *from);
 IGRAPH_EXPORT igraph_error_t igraph_add_edges(
     igraph_t *graph, const igraph_vector_int_t *edges,
-    const igraph_attribute_record_list_t *attr
+    const igraph_attribute_record_list_t* attr
 );
 IGRAPH_EXPORT igraph_error_t igraph_add_vertices(
     igraph_t *graph, igraph_int_t nv,
-    const igraph_attribute_record_list_t *attr
+    const igraph_attribute_record_list_t* attr
 );
 IGRAPH_EXPORT igraph_error_t igraph_delete_edges(igraph_t *graph, igraph_es_t edges);
 IGRAPH_EXPORT igraph_error_t igraph_delete_vertices(igraph_t *graph, const igraph_vs_t vertices);
-IGRAPH_EXPORT igraph_error_t igraph_delete_vertices_map(
-    igraph_t *graph, const igraph_vs_t vertices, igraph_vector_int_t *map,
-    igraph_vector_int_t *invmap
-);
-IGRAPH_DEPRECATED IGRAPH_EXPORT igraph_error_t igraph_delete_vertices_idx(igraph_t *graph, const igraph_vs_t vertices,
+IGRAPH_EXPORT igraph_error_t igraph_delete_vertices_idx(igraph_t *graph, const igraph_vs_t vertices,
                                              igraph_vector_int_t *idx,
                                              igraph_vector_int_t *invidx);
 IGRAPH_EXPORT IGRAPH_FUNCATTR_PURE igraph_int_t igraph_vcount(const igraph_t *graph);
@@ -67,10 +63,10 @@ IGRAPH_EXPORT igraph_error_t igraph_neighbors(const igraph_t *graph, igraph_vect
                                    igraph_neimode_t mode);
 IGRAPH_EXPORT IGRAPH_FUNCATTR_PURE igraph_bool_t igraph_is_directed(const igraph_t *graph);
 IGRAPH_EXPORT igraph_error_t igraph_degree_1(const igraph_t *graph, igraph_int_t *deg,
-                                             igraph_int_t vid, igraph_neimode_t mode, igraph_loops_t loops);
+                                             igraph_int_t vid, igraph_neimode_t mode, igraph_bool_t loops);
 IGRAPH_EXPORT igraph_error_t igraph_degree(const igraph_t *graph, igraph_vector_int_t *res,
                                 const igraph_vs_t vids, igraph_neimode_t mode,
-                                igraph_loops_t loops);
+                                igraph_bool_t loops);
 IGRAPH_EXPORT igraph_error_t igraph_edge(const igraph_t *graph, igraph_int_t eid,
                               igraph_int_t *from, igraph_int_t *to);
 IGRAPH_EXPORT igraph_error_t igraph_edges(const igraph_t *graph, igraph_es_t eids,
