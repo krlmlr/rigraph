@@ -2623,7 +2623,7 @@ SEXP R_igraph_rewire_edges(SEXP graph, SEXP prob, SEXP loops, SEXP multiple) {
   IGRAPH_R_CHECK_BOOL(multiple);
   c_multiple = LOGICAL(multiple)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_rewire_edges(&c_graph, c_prob, c_loops, c_multiple));
+  IGRAPH_R_CHECK(igraph_rewire_edges(&c_graph, c_prob, (c_loops ? IGRAPH_LOOPS_SW : IGRAPH_SIMPLE_SW) | (c_multiple ? IGRAPH_MULTI_SW : 0)));
 
                                         /* Convert output */
   PROTECT(graph=Ry_igraph_to_SEXP(&c_graph));
