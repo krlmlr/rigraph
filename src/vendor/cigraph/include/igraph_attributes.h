@@ -345,7 +345,7 @@ IGRAPH_EXPORT igraph_error_t igraph_attribute_combination_query(const igraph_att
  *    types should be returned.
  * \member has_attr Check whether a graph has the named
  *    graph/vertex/edge attribute.
- * \member gettype Query the type of a graph/vertex/edge attribute.
+ * \member get_type Query the type of a graph/vertex/edge attribute.
  * \member get_numeric_graph_attr Query a numeric graph attribute. The
  *    value should be placed as the first element of the \p value
  *    vector.
