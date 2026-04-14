@@ -1,5 +1,7 @@
+/* -*- mode: C -*-  */
+/* vim:set ts=4 sw=4 sts=4 et: */
 /*
-   igraph library.
+   IGraph library.
    Copyright (C) 2007-2012  Gabor Csardi <csardi.gabor@gmail.com>
    334 Harvard street, Cambridge, MA 02139 USA
 
@@ -30,7 +32,7 @@
 #include "igraph_decls.h"
 #include "config.h" /* INTERNAL_BLAS */
 
-IGRAPH_BEGIN_C_DECLS
+__BEGIN_DECLS
 
 #ifndef INTERNAL_BLAS
     #define igraphdaxpy_    daxpy_
@@ -87,6 +89,6 @@ double igraphdnrm2_(int *n, double *x, int *incx);
 
 double igraphddot_(int *n, double *dx, int *incx, double *dy, int *incy);
 
-IGRAPH_END_C_DECLS
+__END_DECLS
 
 #endif
