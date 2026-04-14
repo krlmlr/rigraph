@@ -439,21 +439,21 @@ igraph_error_t Rx_igraph_attribute_init(igraph_t *graph, const igraph_attribute_
     SET_VECTOR_ELT(gal, i, R_NilValue);
     switch (rec->type) {
     case IGRAPH_ATTRIBUTE_NUMERIC:
-      vec=(igraph_vector_t*) rec->value;
+      vec=rec->value.as_vector;
       if (igraph_vector_size(vec) > 0) {
         SET_VECTOR_ELT(gal, i, NEW_NUMERIC(1));
         REAL(VECTOR_ELT(gal, i))[0]=VECTOR(*vec)[0];
       }
       break;
     case IGRAPH_ATTRIBUTE_BOOLEAN:
-      log=(igraph_vector_bool_t*) rec->value;
+      log=rec->value.as_vector_bool;
       if (igraph_vector_bool_size(log) > 0) {
         SET_VECTOR_ELT(gal, i, NEW_LOGICAL(1));
         LOGICAL(VECTOR_ELT(gal, i))[0]=VECTOR(*log)[0];
       }
       break;
     case IGRAPH_ATTRIBUTE_STRING:
-      strvec=(igraph_strvector_t*) rec->value;
+      strvec=rec->value.as_strvector;
       if (igraph_strvector_size(strvec) > 0) {
         SET_VECTOR_ELT(gal, i, NEW_CHARACTER(1));
         SET_STRING_ELT(VECTOR_ELT(gal,i), 0, Rf_mkChar(igraph_strvector_get(strvec, 0)));
@@ -518,13 +518,13 @@ SEXP Rx_igraph_attribute_add_vertices_append1(const igraph_attribute_record_list
 
   switch (tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
-    len = igraph_vector_size(tmprec->value);
+    len = igraph_vector_size(tmprec->value.as_vector);
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    len = igraph_vector_bool_size(tmprec->value);
+    len = igraph_vector_bool_size(tmprec->value.as_vector_bool);
     break;
   case IGRAPH_ATTRIBUTE_STRING:
-    len = igraph_strvector_size(tmprec->value);
+    len = igraph_strvector_size(tmprec->value.as_strvector);
     break;
   case IGRAPH_ATTRIBUTE_OBJECT:
     igraph_error("R objects not implemented yet", __FILE__, __LINE__,
@@ -547,13 +547,13 @@ SEXP Rx_igraph_attribute_add_vertices_append1(const igraph_attribute_record_list
   switch (tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
     PROTECT(app=NEW_NUMERIC(nv));
-    igraph_vector_copy_to(tmprec->value, REAL(app));
+    igraph_vector_copy_to(tmprec->value.as_vector, REAL(app));
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value));
+    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value.as_vector_bool));
     break;
   default: /* IGRAPH_ATTRIBUTE_STRING */
-    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value));
+    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value.as_strvector));
     break;
   }
 
@@ -858,13 +858,13 @@ SEXP Rx_igraph_attribute_add_edges_append1(const igraph_attribute_record_list_t 
 
   switch(tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
-    len = igraph_vector_size(tmprec->value);
+    len = igraph_vector_size(tmprec->value.as_vector);
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    len = igraph_vector_bool_size(tmprec->value);
+    len = igraph_vector_bool_size(tmprec->value.as_vector_bool);
     break;
   case IGRAPH_ATTRIBUTE_STRING:
-    len = igraph_strvector_size(tmprec->value);
+    len = igraph_strvector_size(tmprec->value.as_strvector);
     break;
   case IGRAPH_ATTRIBUTE_OBJECT:
     igraph_error("R objects not implemented yet", __FILE__, __LINE__,
@@ -887,13 +887,13 @@ SEXP Rx_igraph_attribute_add_edges_append1(const igraph_attribute_record_list_t 
   switch (tmprec->type) {
   case IGRAPH_ATTRIBUTE_NUMERIC:
     PROTECT(app=NEW_NUMERIC(ne));
-    igraph_vector_copy_to(tmprec->value, REAL(app));
+    igraph_vector_copy_to(tmprec->value.as_vector, REAL(app));
     break;
   case IGRAPH_ATTRIBUTE_BOOLEAN:
-    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value));
+    PROTECT(app=Ry_igraph_vector_bool_to_SEXP(tmprec->value.as_vector_bool));
     break;
   default: /* IGRAPH_ATTRIBUTE_STRING */
-    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value));
+    PROTECT(app=Rx_igraph_strvector_to_SEXP(tmprec->value.as_strvector));
     break;
   }
 
