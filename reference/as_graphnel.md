@@ -69,10 +69,10 @@ V(g)$name <- letters[1:10]
 GNEL <- as_graphnel(g)
 g2 <- graph_from_graphnel(GNEL)
 g2
-#> IGRAPH 140e31e UNW- 10 10 -- Ring graph
+#> IGRAPH 6ed3774 UNW- 10 10 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c), weight
 #> | (e/n)
-#> + edges from 140e31e (vertex names):
+#> + edges from 6ed3774 (vertex names):
 #>  [1] a--b a--j b--c c--d d--e e--f f--g g--h h--i i--j
 
 ## Directed
@@ -81,8 +81,8 @@ V(g3)$name <- letters[1:10]
 GNEL2 <- as_graphnel(g3)
 g4 <- graph_from_graphnel(GNEL2)
 g4
-#> IGRAPH 4db323d DNW- 10 9 -- In-star
+#> IGRAPH b7e10ad DNW- 10 9 -- In-star
 #> + attr: name (g/c), mode (g/c), center (g/n), name (v/c), weight (e/n)
-#> + edges from 4db323d (vertex names):
+#> + edges from b7e10ad (vertex names):
 #> [1] b->a c->a d->a e->a f->a g->a h->a i->a j->a
 ```
