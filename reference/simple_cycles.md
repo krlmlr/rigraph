@@ -103,95 +103,95 @@ g <- graph_from_literal(A -+ B -+ C -+ A -+ D -+ E +- F -+ A, E -+ E, A -+ F, si
 simple_cycles(g)
 #> $vertices
 #> $vertices[[1]]
-#> + 3/6 vertices, named, from efaa90f:
+#> + 3/6 vertices, named, from 325f3a1:
 #> [1] A B C
 #> 
 #> $vertices[[2]]
-#> + 2/6 vertices, named, from efaa90f:
+#> + 2/6 vertices, named, from 325f3a1:
 #> [1] A F
 #> 
 #> $vertices[[3]]
-#> + 1/6 vertex, named, from efaa90f:
+#> + 1/6 vertex, named, from 325f3a1:
 #> [1] E
 #> 
 #> 
 #> $edges
 #> $edges[[1]]
-#> + 3/9 edges from efaa90f (vertex names):
+#> + 3/9 edges from 325f3a1 (vertex names):
 #> [1] A->B B->C C->A
 #> 
 #> $edges[[2]]
-#> + 2/9 edges from efaa90f (vertex names):
+#> + 2/9 edges from 325f3a1 (vertex names):
 #> [1] A->F F->A
 #> 
 #> $edges[[3]]
-#> + 1/9 edge from efaa90f (vertex names):
+#> + 1/9 edge from 325f3a1 (vertex names):
 #> [1] E->E
 #> 
 #> 
 simple_cycles(g, mode = "all") # ignore edge directions
 #> $vertices
 #> $vertices[[1]]
-#> + 3/6 vertices, named, from efaa90f:
+#> + 3/6 vertices, named, from 325f3a1:
 #> [1] A B C
 #> 
 #> $vertices[[2]]
-#> + 4/6 vertices, named, from efaa90f:
+#> + 4/6 vertices, named, from 325f3a1:
 #> [1] A D E F
 #> 
 #> $vertices[[3]]
-#> + 4/6 vertices, named, from efaa90f:
+#> + 4/6 vertices, named, from 325f3a1:
 #> [1] A D E F
 #> 
 #> $vertices[[4]]
-#> + 2/6 vertices, named, from efaa90f:
+#> + 2/6 vertices, named, from 325f3a1:
 #> [1] A F
 #> 
 #> $vertices[[5]]
-#> + 1/6 vertex, named, from efaa90f:
+#> + 1/6 vertex, named, from 325f3a1:
 #> [1] E
 #> 
 #> 
 #> $edges
 #> $edges[[1]]
-#> + 3/9 edges from efaa90f (vertex names):
+#> + 3/9 edges from 325f3a1 (vertex names):
 #> [1] A->B B->C C->A
 #> 
 #> $edges[[2]]
-#> + 4/9 edges from efaa90f (vertex names):
+#> + 4/9 edges from 325f3a1 (vertex names):
 #> [1] A->D D->E F->E F->A
 #> 
 #> $edges[[3]]
-#> + 4/9 edges from efaa90f (vertex names):
+#> + 4/9 edges from 325f3a1 (vertex names):
 #> [1] A->D D->E F->E A->F
 #> 
 #> $edges[[4]]
-#> + 2/9 edges from efaa90f (vertex names):
+#> + 2/9 edges from 325f3a1 (vertex names):
 #> [1] F->A A->F
 #> 
 #> $edges[[5]]
-#> + 1/9 edge from efaa90f (vertex names):
+#> + 1/9 edge from 325f3a1 (vertex names):
 #> [1] E->E
 #> 
 #> 
 simple_cycles(g, mode = "all", min = 2, max = 3) # limit cycle lengths
 #> $vertices
 #> $vertices[[1]]
-#> + 3/6 vertices, named, from efaa90f:
+#> + 3/6 vertices, named, from 325f3a1:
 #> [1] A B C
 #> 
 #> $vertices[[2]]
-#> + 2/6 vertices, named, from efaa90f:
+#> + 2/6 vertices, named, from 325f3a1:
 #> [1] A F
 #> 
 #> 
 #> $edges
 #> $edges[[1]]
-#> + 3/9 edges from efaa90f (vertex names):
+#> + 3/9 edges from 325f3a1 (vertex names):
 #> [1] A->B B->C C->A
 #> 
 #> $edges[[2]]
-#> + 2/9 edges from efaa90f (vertex names):
+#> + 2/9 edges from 325f3a1 (vertex names):
 #> [1] F->A A->F
 #> 
 #> 
