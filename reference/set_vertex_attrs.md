@@ -59,24 +59,24 @@ Vertex, edge and graph attributes
 ``` r
 g <- make_ring(10)
 set_vertex_attrs(g, color = "blue", size = 10, name = LETTERS[1:10])
-#> IGRAPH 3bf2830 UN-- 10 10 -- Ring graph
+#> IGRAPH f81dd3a UN-- 10 10 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), color (v/c), size
 #> | (v/n), name (v/c)
-#> + edges from 3bf2830 (vertex names):
+#> + edges from f81dd3a (vertex names):
 #>  [1] A--B B--C C--D D--E E--F F--G G--H H--I I--J A--J
 # use splicing if suplying a list
 x <- list(color = "red", name = LETTERS[1:10])
 set_vertex_attrs(g, !!!x)
-#> IGRAPH 3bf2830 UN-- 10 10 -- Ring graph
+#> IGRAPH f81dd3a UN-- 10 10 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), color (v/c), name
 #> | (v/c)
-#> + edges from 3bf2830 (vertex names):
+#> + edges from f81dd3a (vertex names):
 #>  [1] A--B B--C C--D D--E E--F F--G G--H H--I I--J A--J
 # to set an attribute named "index" use `:=`
 set_vertex_attrs(g, color = "blue", index := 10, name = LETTERS[1:10])
-#> IGRAPH 3bf2830 UN-- 10 10 -- Ring graph
+#> IGRAPH f81dd3a UN-- 10 10 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l), color (v/c), index
 #> | (v/n), name (v/c)
-#> + edges from 3bf2830 (vertex names):
+#> + edges from f81dd3a (vertex names):
 #>  [1] A--B B--C C--D D--E E--F F--G G--H H--I I--J A--J
 ```
