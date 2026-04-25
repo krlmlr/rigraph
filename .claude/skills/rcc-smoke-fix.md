@@ -8,6 +8,68 @@ and push. Never modify vendored C sources (`src/vendor/cigraph/`).
 
 ---
 
+<!--
+## Operation essence (read this first)
+
+Why this skill exists.
+  The igraph C core is vendored hourly into `src/vendor/cigraph/` from
+  `krlmlr/igraph@main`. A vendor commit can break R-side glue, R code, or
+  test snapshots. We do not rewrite the vendor commit; instead we author a
+  parallel `broken-<sha>-dev` branch that starts at the failing commit,
+  layers on the necessary R-side fix, and re-applies all later vendor
+  commits on top. CI then promotes the green tip back into `*-dev`.
+
+End-to-end workflow.
+  1. Refresh `krlmlr/*` remote-tracking refs from scratch — the upstream
+     dev branches are force-pushed and any cached state is suspect.
+  2. Enumerate `*-dev` branches and existing `broken-*-dev` branches in one
+     pass.
+  3. For each `*-dev` branch, walk first-parent history oldest-first since
+     SINCE and look up each commit's `rcc` commit-status until the earliest
+     `failure` is found. Skip the branch if no failure exists or if the
+     corresponding `broken-<sha>-dev` is already published.
+  4. For every (branch, sha) pair that needs work:
+     a. Check out `<sha>` on a new local branch `broken-<sha>-dev`.
+     b. Reproduce the breakage locally — install the package, run
+        `testthat::test_local()`, then `R CMD check .`. Read the error
+        output carefully to classify the failure (compile, link, runtime,
+        snapshot, NOTE/WARNING).
+     c. Apply the smallest fix in priority order: `patch/` → glue /
+        Stimulus → R code → snapshots → tests. Stop at the first level
+        that resolves the failure. Never touch `src/vendor/cigraph/`.
+     d. `R CMD check .` until clean (`Status: OK` or only pre-existing
+        NOTE).
+     e. Cherry-pick every remaining commit from the upstream `*-dev`
+        branch on top of the fix. Vendor commits apply cleanly by
+        construction; non-vendor fix commits already on `*-dev` must be
+        carried forward and may legitimately conflict with our own fix —
+        resolve, do not skip.
+     f. Push `broken-<sha>-dev` to `krlmlr` with `--force-with-lease` and
+        move on to the next pair.
+
+Environment assumptions (current).
+  * R 4.x and standard development tooling (gcc/g++, make, git) are
+    pre-installed.
+  * The `gh` CLI is NOT installed and GitHub Actions build logs are NOT
+    accessible from this environment. Failures must be reproduced locally —
+    there is no shortcut by reading a CI log.
+  * GitHub commit-status lookups should use a GitHub MCP tool when the
+    skill is invoked by an agent that has one. As a portable fallback, hit
+    `GET /repos/{owner}/{repo}/commits/{sha}/statuses` with `curl` and a
+    `GITHUB_TOKEN` (see Step 3); filter for `context == "rcc"`.
+
+When CI build logs become available (forward-looking).
+  Once the harness can fetch GitHub Actions logs, augment Step 4b: before
+  the local rebuild, fetch the failed `rcc / Smoke test: stock R` run for
+  `<sha>` and read the tail. Most diagnostics point straight at the file
+  and line, allowing the agent to draft a targeted fix and skip the slow
+  initial `R CMD INSTALL`. The local install + `testthat::test_local()` +
+  `R CMD check .` cycle remains the authoritative final gate — logs only
+  short-circuit triage, they do not replace verification.
+-->
+
+---
+
 ## Step 1 — Refresh local mirror of krlmlr/rigraph (always, force-reset)
 
 ```bash
@@ -47,15 +109,26 @@ REPO="krlmlr/rigraph"
 # Commits on this branch since SINCE, oldest-first (first-parent only)
 COMMITS_OLDEST_FIRST=$(git log "krlmlr/$BRANCH" \
   --first-parent --since="$SINCE" --format="%H" --reverse)
+```
 
+For each `$SHA` in that list, look up the `rcc` commit-status — use whichever
+tool is available in the current environment:
+
+- **GitHub MCP** (preferred when invoked by an agent that exposes one): query
+  the commit-statuses endpoint for `$REPO` at `$SHA` and pick the entry whose
+  `context == "rcc"`.
+- **`gh` CLI** (when available locally):
+  `gh api "repos/$REPO/commits/$SHA/statuses" | jq -r '[.[] | select(.context == "rcc")] | first | .state // "none"'`
+- **Plain HTTPS** (portable, no `gh` needed):
+  `curl -fsSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/commits/$SHA/statuses" | jq -r '[.[] | select(.context == "rcc")] | first | .state // "none"'`
+
+Walk the commits oldest-first, stop at the first `failure`:
+
+```bash
 FIRST_FAIL=""
 while IFS= read -r SHA; do
-  # Check the rcc commit-status for this SHA (context = "rcc")
-  STATUS=$(gh api "repos/$REPO/commits/$SHA/statuses" \
-    | jq -r '[.[] | select(.context == "rcc")] | first | .state // "none"')
-
+  STATUS=$(... look up rcc state for $SHA ...)
   echo "$BRANCH  ${SHA}  $STATUS"
-
   if [[ "$STATUS" == "failure" ]]; then
     FIRST_FAIL="$SHA"
     break
@@ -226,3 +299,9 @@ No failure found: yet-another-dev
 - **Branch target**: all pushes go to the `krlmlr` remote (`krlmlr/rigraph`) to a branch named `broken-<sha>-dev` (full 40-char SHA).
 - Branches being force-pushed to: always use the freshly-fetched `krlmlr/*`
   ref; never rely on any previously-checked-out state.
+- **Reproduce locally, do not guess.** GitHub Actions logs are not reachable
+  from this environment yet, so every fix must be validated by a local
+  `R CMD INSTALL` + `testthat::test_local()` + `R CMD check .` cycle.
+- **Tooling fallback**: if `gh` is not installed, query the
+  `/repos/<owner>/<repo>/commits/<sha>/statuses` endpoint via `curl` with
+  `GITHUB_TOKEN`, or via a GitHub MCP tool when the agent provides one.
