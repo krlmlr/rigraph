@@ -107,7 +107,7 @@ max_cardinality(g1)
 #> [1] 9 4 6 8 3 5 7 2 1
 #> 
 #> $alpham1
-#> + 9/9 vertices, named, from 2e91981:
+#> + 9/9 vertices, named, from 6f72904:
 #> [1] G F D B E C H I A
 #> 
 is_chordal(g1, fillin = TRUE)
@@ -131,7 +131,7 @@ max_cardinality(g2)
 #>  [1] 10  8  9  6  7  5  4  2  3  1
 #> 
 #> $alpham1
-#> + 10/10 vertices, named, from 7d7635d:
+#> + 10/10 vertices, named, from 24c9952:
 #>  [1] J H I G C F D B E A
 #> 
 is_chordal(g2, fillin = TRUE)
