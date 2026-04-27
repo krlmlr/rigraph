@@ -2,9 +2,9 @@ Scheduled job: scan all `*-dev` branches (including `broken-*-dev`) in
 `krlmlr/rigraph` for the earliest commit whose `rcc` commit-status (set by the
 "Smoke test: stock R" job in the `rcc` workflow) is `failure` since 2026-04-11.
 For each such branch, if no `broken-<sha>-dev` branch exists yet (full 40-char
-SHA), create it, fix `testthat::test_local()` and `rcmdcheck::rcmdcheck()`
-(do not run `R CMD check .` directly on the source tree), update snapshots,
-then cherry-pick all later vendor commits from the `*-dev` branch and push.
+SHA), create it, fix `testthat::test_local()` and `rcmdcheck::rcmdcheck()`,
+update snapshots, then cherry-pick all later vendor commits from the
+`*-dev` branch and push.
 Never modify vendored C sources (`src/vendor/cigraph/`).
 
 ---
@@ -35,8 +35,7 @@ End-to-end workflow.
      a. Check out `<sha>` on a new local branch `broken-<sha>-dev`.
      b. Reproduce the breakage locally — install the package, run
         `testthat::test_local()`, then `rcmdcheck::rcmdcheck()` (which
-        wraps `R CMD build` + `R CMD check`; do not run `R CMD check .`
-        on the source tree directly). Read the error output carefully to
+        builds the package tarball and checks it). Read the error output carefully to
         classify the failure (compile, link, runtime, snapshot,
         NOTE/WARNING).
      c. Apply the smallest fix in priority order: `patch/` → glue /
@@ -231,7 +230,7 @@ Other common fixes:
 | Symptom | Fix |
 |---------|-----|
 | Missing export / namespace error | `Rscript -e 'roxygen2::roxygenize()'` |
-| NOTE / WARNING in R CMD check | Fix in `R/`, `man/`, or `patch/` |
+| NOTE / WARNING in `rcmdcheck` output | Fix in `R/`, `man/`, or `patch/` |
 
 After any change, re-run:
 
@@ -243,9 +242,7 @@ Iterate until all tests pass.
 
 ### 4d. Final check
 
-Use `rcmdcheck::rcmdcheck()` so the package is built (`R CMD build`) and
-checked from the resulting tarball — running `R CMD check .` directly on
-the source tree is incorrect and will give misleading results.
+Use `rcmdcheck::rcmdcheck()` to build the package tarball and check it:
 
 ```bash
 set -o pipefail
@@ -332,8 +329,7 @@ No failure found: yet-another-dev
   ref; never rely on any previously-checked-out state.
 - **Reproduce locally, do not guess.** GitHub Actions logs are not reachable
   from this environment yet, so every fix must be validated by a local
-  `R CMD INSTALL` + `testthat::test_local()` + `rcmdcheck::rcmdcheck()`
-  cycle. Never run `R CMD check .` directly on the source tree.
+  `R CMD INSTALL` + `testthat::test_local()` + `rcmdcheck::rcmdcheck()` cycle.
 - **Tooling fallback**: if `gh` is not installed, query the
   `/repos/<owner>/<repo>/commits/<sha>/statuses` endpoint via `curl` with
   `GITHUB_TOKEN`, or via a GitHub MCP tool when the agent provides one.
