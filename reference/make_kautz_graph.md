@@ -54,16 +54,16 @@ written by Vincent Matossian.
 
 ``` r
 make_line_graph(make_kautz_graph(2, 1))
-#> IGRAPH 0c9ad12 D--- 12 24 -- Line graph
+#> IGRAPH d84f331 D--- 12 24 -- Line graph
 #> + attr: name (g/c)
-#> + edges from 0c9ad12:
+#> + edges from d84f331:
 #>  [1]  5-> 1  9-> 1  5-> 2  9-> 2  6-> 3 10-> 3  6-> 4 10-> 4  1-> 5 11-> 5
 #> [11]  1-> 6 11-> 6  2-> 7 12-> 7  2-> 8 12-> 8  3-> 9  7-> 9  3->10  7->10
 #> [21]  4->11  8->11  4->12  8->12
 make_kautz_graph(2, 2)
-#> IGRAPH be2c227 D--- 12 24 -- Kautz graph 2-2
+#> IGRAPH 0655467 D--- 12 24 -- Kautz graph 2-2
 #> + attr: name (g/c), m (g/n), n (g/n)
-#> + edges from be2c227:
+#> + edges from 0655467:
 #>  [1]  1-> 5  1-> 6  2-> 7  2-> 8  3-> 9  3->10  4->11  4->12  5-> 1  5-> 2
 #> [11]  6-> 3  6-> 4  7-> 9  7->10  8->11  8->12  9-> 1  9-> 2 10-> 3 10-> 4
 #> [21] 11-> 5 11-> 6 12-> 7 12-> 8
