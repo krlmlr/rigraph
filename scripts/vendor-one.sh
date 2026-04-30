@@ -8,6 +8,24 @@ set -e
 set -x
 set -o pipefail
 
+# Build the package and return the SHA-256 hash of the resulting shared
+# library, or an empty string when the build fails or produces no library.
+_dll_hash() {
+  local tmpdir
+  tmpdir=$(mktemp -d)
+  UserNM=true R CMD INSTALL --library="$tmpdir" . >/dev/null 2>&1 || true
+  local dll
+  dll=$(find "$tmpdir" \( -name "*.so" -o -name "*.dll" \) 2>/dev/null | sort | head -1)
+  local hash=""
+  if [ -n "$dll" ]; then
+    hash=$(python3 -c \
+      "import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest()[:16])" \
+      "$dll" 2>/dev/null || true)
+  fi
+  rm -rf "$tmpdir"
+  echo "$hash"
+}
+
 # Change to root of repository
 cd "$(dirname "$0")"/..
 
@@ -83,6 +101,9 @@ while [ $commits_vendored -lt $num_commits ]; do
   message=
   is_tag=
 
+  # Compute DLL hash of the current (pre-vendoring) build for comparison.
+  before_dll_hash=$(_dll_hash)
+
   for commit in $original; do
     echo "Importing commit $commit"
 
@@ -123,12 +144,17 @@ while [ $commits_vendored -lt $num_commits ]; do
       break
     fi
 
-    # Expecting one change under ${vendor_base_dir} (and other changes) even if nothing else changed.
-    # Need at least three changed files to consider it a real update.
-    if [ "$(git status --porcelain -- ${vendor_base_dir} | wc -l)" -gt 1 ]; then
-      message="vendor: Update vendored sources to ${repo_org}/${repo_name}@$commit"
-      break
+    # Build the package with the new sources and compare the DLL hash.
+    # If the compiled output is identical, this commit has no semantic impact
+    # (e.g. only comments or whitespace changed) and we skip it.
+    after_dll_hash=$(_dll_hash)
+    if [ -n "$before_dll_hash" ] && [ -n "$after_dll_hash" ] && [ "$before_dll_hash" = "$after_dll_hash" ]; then
+      echo "DLL hash unchanged for commit $commit, skipping"
+      continue
     fi
+
+    message="vendor: Update vendored sources to ${repo_org}/${repo_name}@$commit"
+    break
   done
 
   if [ "$message" = "" ]; then
