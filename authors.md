@@ -86,6 +86,7 @@ in R\_. doi:10.5281/zenodo.7682609
 
 ## Additional details
 
+
     igraph authors, in alphabetical order:
     --------------------------------------
 

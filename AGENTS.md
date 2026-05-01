@@ -24,6 +24,7 @@ regular graphs, graph visualization, centrality methods, and much more.
 ### Installation and Dependencies
 
 ``` r
+
 # Install all dependencies
 pak::pak()
 # Install build dependencies

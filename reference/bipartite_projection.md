@@ -103,6 +103,7 @@ Gabor Csardi <csardi.gabor@gmail.com>
 ## Examples
 
 ``` r
+
 ## Projection of a full bipartite graph is a full graph
 g <- make_full_bipartite_graph(10, 5)
 proj <- bipartite_projection(g)
@@ -127,14 +128,14 @@ g2 <- graph_from_biadjacency_matrix(M)
 g2$name <- "Event network"
 proj2 <- bipartite_projection(g2)
 print(proj2[[1]], g = TRUE, e = TRUE)
-#> IGRAPH 538f8ac UNW- 5 6 -- Event network
+#> IGRAPH e040355 UNW- 5 6 -- Event network
 #> + attr: name (g/c), name (v/c), weight (e/n)
-#> + edges from 538f8ac (vertex names):
+#> + edges from e040355 (vertex names):
 #> [1] Alice--Bob   Alice--Cecil Alice--Dan   Bob  --Cecil Bob  --Dan  
 #> [6] Cecil--Dan  
 print(proj2[[2]], g = TRUE, e = TRUE)
-#> IGRAPH 50c64c5 UNW- 3 2 -- Event network
+#> IGRAPH ceaa789 UNW- 3 2 -- Event network
 #> + attr: name (g/c), name (v/c), weight (e/n)
-#> + edges from 50c64c5 (vertex names):
+#> + edges from ceaa789 (vertex names):
 #> [1] Party --Skiing    Skiing--Badminton
 ```

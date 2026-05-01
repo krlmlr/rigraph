@@ -67,6 +67,7 @@ Other trees:
 ## Examples
 
 ``` r
+
 g <- make_tree(7, 2)
 is_tree(g)
 #> [1] TRUE
@@ -75,7 +76,7 @@ is_tree(g, details = TRUE)
 #> [1] TRUE
 #> 
 #> $root
-#> + 1/7 vertex, from acbae8b:
+#> + 1/7 vertex, from 133af0b:
 #> [1] 1
 #> 
 ```

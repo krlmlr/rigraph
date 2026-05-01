@@ -145,6 +145,7 @@ Gabor Csardi <csardi.gabor@gmail.com>
 ## Examples
 
 ``` r
+
 ## A simple example with a couple of actors
 ## The typical case is that these tables are read in from files....
 actors <- data.frame(
@@ -166,10 +167,10 @@ relations <- data.frame(
 )
 g <- graph_from_data_frame(relations, directed = TRUE, vertices = actors)
 print(g, e = TRUE, v = TRUE)
-#> IGRAPH 49f3017 DN-- 5 6 -- 
+#> IGRAPH 1ae2099 DN-- 5 6 -- 
 #> + attr: name (v/c), age (v/n), gender (v/c), same.dept (e/l),
 #> | friendship (e/n), advice (e/n)
-#> + edges from 49f3017 (vertex names):
+#> + edges from 1ae2099 (vertex names):
 #> [1] Bob      ->Alice Cecil    ->Bob   Cecil    ->Alice David    ->Alice
 #> [5] David    ->Bob   Esmeralda->Alice
 

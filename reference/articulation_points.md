@@ -64,15 +64,16 @@ Gabor Csardi <csardi.gabor@gmail.com>
 ## Examples
 
 ``` r
+
 g <- disjoint_union(make_full_graph(5), make_full_graph(5))
 clu <- components(g)$membership
 g <- add_edges(g, c(match(1, clu), match(2, clu)))
 articulation_points(g)
-#> + 2/10 vertices, from ec50944:
+#> + 2/10 vertices, from 4b040de:
 #> [1] 6 1
 
 g <- make_graph("krackhardt_kite")
 bridges(g)
-#> + 2/18 edges from 9e6b2ce:
+#> + 2/18 edges from 8a03f85:
 #> [1] 9--10 8-- 9
 ```

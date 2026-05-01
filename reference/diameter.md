@@ -85,6 +85,7 @@ Gabor Csardi <csardi.gabor@gmail.com>
 ## Examples
 
 ``` r
+
 g <- make_ring(10)
 g2 <- delete_edges(g, c(1, 2, 1, 10))
 diameter(g2, unconnected = TRUE)
@@ -99,11 +100,11 @@ E(g)$weight <- sample(seq_len(ecount(g)))
 diameter(g)
 #> [1] 27
 get_diameter(g)
-#> + 5/10 vertices, from f1dc171:
+#> + 5/10 vertices, from 9814cb1:
 #> [1]  1 10  9  8  7
 diameter(g, weights = NA)
 #> [1] 5
 get_diameter(g, weights = NA)
-#> + 6/10 vertices, from f1dc171:
+#> + 6/10 vertices, from 9814cb1:
 #> [1] 1 2 3 4 5 6
 ```

@@ -28,6 +28,7 @@ To install all dependencies of igraph, including dependencies needed for
 development, call, from the root of the rigraph Git repository:
 
 ``` r
+
 # All Imports and Suggests dependencies
 pak::pak()
 # Then install packages like roxygen2 add-ons
