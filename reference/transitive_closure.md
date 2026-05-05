@@ -78,8 +78,8 @@ g <- make_graph(c(1, 2, 2, 3, 3, 4))
 tc <- transitive_closure(g)
 # The closure has edges 1->2, 1->3, 1->4, 2->3, 2->4, 3->4
 print_all(tc)
-#> IGRAPH c1863a3 D--- 4 6 -- 
-#> + edges from c1863a3:
+#> IGRAPH ffc7346 D--- 4 6 -- 
+#> + edges from ffc7346:
 #> [1] 1->2 1->3 1->4 2->3 2->4 3->4
 
 # Undirected graph - connects all vertices in same component
@@ -87,7 +87,7 @@ g2 <- make_graph(c(1, 2, 3, 4), directed = FALSE)
 tc2 <- transitive_closure(g2)
 # Full graph on vertices 1, 2 and full graph on vertices 3, 4
 print_all(tc2)
-#> IGRAPH b6852ca U--- 4 2 -- 
-#> + edges from b6852ca:
+#> IGRAPH c7c783d U--- 4 2 -- 
+#> + edges from c7c783d:
 #> [1] 1--2 3--4
 ```
