@@ -55,9 +55,9 @@ Vertex, edge and graph attributes
 g <- make_graph(~ A - B:C:D)
 graph_attr(g, "name") <- "4-star"
 g
-#> IGRAPH a7883ce UN-- 4 3 -- 4-star
+#> IGRAPH fb1e63d UN-- 4 3 -- 4-star
 #> + attr: name (g/c), name (v/c)
-#> + edges from a7883ce (vertex names):
+#> + edges from fb1e63d (vertex names):
 #> [1] A--B A--C A--D
 
 graph_attr(g) <- list(
