@@ -54,9 +54,9 @@ Other structural queries:
 ``` r
 ug <- make_ring(10)
 ug
-#> IGRAPH 855a9f2 U--- 10 10 -- Ring graph
+#> IGRAPH 3aa3107 U--- 10 10 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l)
-#> + edges from 855a9f2:
+#> + edges from 3aa3107:
 #>  [1] 1-- 2 2-- 3 3-- 4 4-- 5 5-- 6 6-- 7 7-- 8 8-- 9 9--10 1--10
 are_adjacent(ug, 1, 2)
 #> [1] TRUE
@@ -65,9 +65,9 @@ are_adjacent(ug, 2, 1)
 
 dg <- make_ring(10, directed = TRUE)
 dg
-#> IGRAPH 96fb640 D--- 10 10 -- Ring graph
+#> IGRAPH 974781f D--- 10 10 -- Ring graph
 #> + attr: name (g/c), mutual (g/l), circular (g/l)
-#> + edges from 96fb640:
+#> + edges from 974781f:
 #>  [1]  1-> 2  2-> 3  3-> 4  4-> 5  5-> 6  6-> 7  7-> 8  8-> 9  9->10 10-> 1
 are_adjacent(ug, 1, 2)
 #> [1] TRUE
