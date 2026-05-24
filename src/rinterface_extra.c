@@ -2383,25 +2383,21 @@ void checkInterruptFn(void *dummy) {
   R_CheckUserInterrupt();
 }
 
-igraph_error_t Rx_igraph_interrupt_handler(void *data) {
+igraph_bool_t Rx_igraph_interrupt_handler(void) {
   /* We need to call R_CheckUserInterrupt() regularly to enable interruptions.
    * However, if an interruption is pending, R_CheckUserInterrupt() will
    * longjmp back to the top level so we cannot clean up ourselves by calling
    * IGRAPH_FINALLY_FREE(). Therefore, we call R_CheckUserInterrupt()
    * encapsulated in checkInterruptFn(), called through R_ToplevelExec(). If
    * an interruption is pending, the function will properly return here instead
-   * of doing a longjmp all the way to the top. If an interruption was indeed
-   * pending, we then call IGRAPH_FINALLY_FREE(), knowing that the upcoming
-   * invocation of R_CheckUserInterrupt() will longjmp. However, we need to
-   * make sure that R_interrupts_pending = 1, in order to make sure that the
-   * interrupt will longjmp. This means that the conditions used here must be
-   * kept in sync with the source code of R_CheckUserInterrupt()
+   * of doing a longjmp all the way to the top. We return true to signal
+   * igraph to clean up and return IGRAPH_INTERRUPTED; R_interrupts_pending
+   * will remain set so R processes the interrupt when igraph returns.
    */
   if (R_ToplevelExec(checkInterruptFn, NULL) == FALSE) {
-    IGRAPH_FINALLY_FREE();
-    return IGRAPH_INTERRUPTED;
+    return true;
   }
-  return IGRAPH_SUCCESS;
+  return false;
 }
 
 igraph_error_t Rx_igraph_progress_handler(const char *message, double percent,
