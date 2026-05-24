@@ -136,18 +136,18 @@ g <- graph_from_literal(
   Cecil - Gordon
 )
 g
-#> IGRAPH 7c368ef UN-- 6 6 -- 
+#> IGRAPH 239f6ed UN-- 6 6 -- 
 #> + attr: name (v/c)
-#> + edges from 7c368ef (vertex names):
+#> + edges from 239f6ed (vertex names):
 #> [1] Alice--Bob    Alice--Cecil  Bob  --Cecil  Cecil--Daniel Cecil--Eugene
 #> [6] Cecil--Gordon
 
 # Another undirected graph, ":" notation
 g2 <- graph_from_literal(Alice - Bob:Cecil:Daniel, Cecil:Daniel - Eugene:Gordon)
 g2
-#> IGRAPH 11391d3 UN-- 6 7 -- 
+#> IGRAPH 5307ecc UN-- 6 7 -- 
 #> + attr: name (v/c)
-#> + edges from 11391d3 (vertex names):
+#> + edges from 5307ecc (vertex names):
 #> [1] Alice --Bob    Alice --Cecil  Alice --Daniel Cecil --Eugene Cecil --Gordon
 #> [6] Daniel--Eugene Daniel--Gordon
 
@@ -157,18 +157,18 @@ g3 <- graph_from_literal(
   Eugene --+ Gordon:Helen
 )
 g3
-#> IGRAPH 96950b2 DN-- 7 6 -- 
+#> IGRAPH ead29dc DN-- 7 6 -- 
 #> + attr: name (v/c)
-#> + edges from 96950b2 (vertex names):
+#> + edges from ead29dc (vertex names):
 #> [1] Alice ->Bob    Bob   ->Alice  Bob   ->Cecil  Daniel->Cecil  Eugene->Gordon
 #> [6] Eugene->Helen 
 
 # A graph with isolate vertices
 g4 <- graph_from_literal(Alice -- Bob -- Daniel, Cecil:Gordon, Helen)
 g4
-#> IGRAPH e79f97c UN-- 6 2 -- 
+#> IGRAPH cbcfc58 UN-- 6 2 -- 
 #> + attr: name (v/c)
-#> + edges from e79f97c (vertex names):
+#> + edges from cbcfc58 (vertex names):
 #> [1] Alice--Bob    Bob  --Daniel
 V(g4)$name
 #> [1] "Alice"  "Bob"    "Daniel" "Cecil"  "Gordon" "Helen" 
@@ -176,16 +176,16 @@ V(g4)$name
 # "Arrows" can be arbitrarily long
 g5 <- graph_from_literal(Alice +---------+ Bob)
 g5
-#> IGRAPH d76feab DN-- 2 2 -- 
+#> IGRAPH 984a87e DN-- 2 2 -- 
 #> + attr: name (v/c)
-#> + edges from d76feab (vertex names):
+#> + edges from 984a87e (vertex names):
 #> [1] Alice->Bob   Bob  ->Alice
 
 # Special vertex names
 g6 <- graph_from_literal("+" -- "-", "*" -- "/", "%%" -- "%/%")
 g6
-#> IGRAPH 713efd9 UN-- 6 3 -- 
+#> IGRAPH 5178d0f UN-- 6 3 -- 
 #> + attr: name (v/c)
-#> + edges from 713efd9 (vertex names):
+#> + edges from 5178d0f (vertex names):
 #> [1] + ---   * --/   %%--%/%
 ```
