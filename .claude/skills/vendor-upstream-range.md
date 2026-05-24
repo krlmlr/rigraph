@@ -422,3 +422,54 @@ Final R CMD check: <status>
   (never one without the other).
 - Push only to the `next` branch (or to the working branch named in the
   session instructions); never force-push.
+
+## Keeping this skill current
+
+The point of the skill is to make the **next** run faster than this one.
+After finishing a vendoring pass — or at the end of a long debugging
+detour — spend a minute deciding whether anything you just learned should
+be folded back into this file. Update **sparingly**: each line here is
+read on every future run, so noise costs more than absence.
+
+A finding earns a place in the skill when **all three** are true:
+
+1. It is durable — it would apply to a future vendoring of an unrelated
+   upstream commit, not just to the specific change you just imported.
+2. It would have saved you measurable time on this pass (a wrong turn
+   you took, a step you forgot, an env var or flag you didn't know about,
+   a fix priority you got backwards).
+3. It is not already covered by the existing text.
+
+Good edits, in roughly increasing order of intrusiveness:
+
+- Add a row to the **Quick decision table** for a symptom/fix pair you
+  just resolved and might hit again.
+- Add an entry to the **Constraints recap** for a hard rule that
+  surfaced (e.g. a build env var, a file that must never be hand-edited).
+- Add a bullet under an existing phase step when a small refinement
+  makes the recipe more reliable.
+- Add a new sub-step only when an entire stage of the workflow was
+  missing — be conservative here; prefer the bullet form first.
+
+Do **not** add:
+
+- Anything specific to a single upstream commit or PR (that belongs in
+  the commit message's `Adaptations:` trailer, not here).
+- Anecdotes, debugging narratives, or "we tried X and it didn't work".
+- Speculation about future upstream changes that have not happened yet.
+- Re-statements of rules already covered by an earlier section.
+
+How to land the change:
+
+```bash
+# Skill edits go on the same working branch as the vendoring work
+# itself, in a separate commit so they're easy to cherry-pick across
+# branches if needed.
+git add .claude/skills/vendor-upstream-range.md
+git commit -m "docs: <short summary of what the next run will save>"
+git push -u origin <working-branch>
+```
+
+If the change is non-trivial (a new step, a reversed priority, a removed
+rule), surface it in the wrap-up summary to the user so they can confirm
+the new guidance before it bakes in.
