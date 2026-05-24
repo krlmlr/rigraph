@@ -54,6 +54,11 @@ clean and the vendored sources actually match `main` (or a descendant) of
 upstream.
 
 ```bash
+# Restore any SVG snapshots that may have been deleted by a previous test run
+# (devtools::test() deletes "unused" tracked SVGs, which then breaks the
+# vendor script's "working directory not clean" check).
+git checkout -- tests/testthat/_snaps/ 2>/dev/null || true
+
 # Working tree must be clean.
 git status
 
@@ -131,8 +136,9 @@ The vendor script will:
 - Re-apply every `patch/*.patch` that still applies; **delete** any patch
   that no longer applies forward (that is intentional — see the rationale in
   `scripts/vendor.sh`).
-- Run `make -f Makefile-cigraph` to regenerate `src/rinterface.c` and
-  `R/aaa-auto.R` from Stimulus.
+- Run `make -f Makefile-cigraph DOCKER=""` to regenerate `src/rinterface.c`
+  and `R/aaa-*.R` from Stimulus (DOCKER="" uses local flex/bison rather than
+  a Docker image; Docker daemon may not be running in remote environments).
 - Run `cpp11::cpp_register()` to refresh `src/cpp11.cpp`.
 - Bump the fifth `Version:` component in `DESCRIPTION`.
 - Create a `vendor: Update vendored sources to igraph/igraph@<sha>` commit
@@ -217,8 +223,16 @@ first level that resolves the issue:
 2. **Stimulus definitions** (`tools/stimulus/functions-R*.yaml`,
    `tools/stimulus/types-R*.yaml`). Adapt the R↔C bridge to the new C API
    before changing any R-level code. Regenerate with
-   `make -f Makefile-cigraph src/rinterface.c R/aaa-auto.R` and refresh
+   `make -f Makefile-cigraph DOCKER="" src/rinterface.c` (and separately
+   `make -f Makefile-cigraph DOCKER="" r_wrappers` for R/aaa-*.R) and refresh
    `cpp11.cpp` with `R -q -e 'cpp11::cpp_register()'`.
+
+   **When modifying Stimulus Python generators** (`tools/py-stimulus/src/...`):
+   the generator is installed into `.venv/` and that installed copy is what
+   `make` actually runs. Edit both the source file AND the installed copy at
+   `.venv/lib/python3.11/site-packages/stimulus/...`, or reinstall with
+   `.venv/bin/pip install -e tools/py-stimulus/` after editing the source.
+   The installed copy is volatile (not tracked); commit only the source.
 
    When a new `_impl()` function is needed because R code currently uses a
    bespoke `.Call()`, **add it via Stimulus and delete the bespoke wrapper**
@@ -324,7 +338,7 @@ air format .
 
 git add -- patch/ src/vendor/cigraph/ tools/stimulus/ src/rinterface.c \
            src/rinterface.h R/ NAMESPACE man/ tests/ DESCRIPTION \
-           src/cpp11.cpp R/aaa-auto.R
+           src/cpp11.cpp
 git status   # sanity-check nothing unexpected is staged
 
 # Open the editor on the existing message and append an "Adaptations:"
@@ -404,6 +418,8 @@ Final R CMD check: <status>
 | R wrapper needs a new optional argument | Add behind `...` + `check_dots_empty()` |
 | Upstream replaces a function | Call new; replicate old via existing igraph calls if possible; otherwise fallback + `lifecycle::signal_stage("superseded")` |
 | Snapshot diff after behaviour confirmed correct | `testthat::snapshot_accept(...)` |
+| `GetRNGstate`/`PutRNGstate` not called around igraph function; RNG-dependent results change when R RNG calls intervene | Stimulus `chunk_call()` in `tools/py-stimulus/src/stimulus/generators/r.py` — add `GetRNGstate()` before and `PutRNGstate()` after the igraph call; update installed venv copy too |
+| Vendor script fails "working directory not clean" with deleted SVG paths | Run `git checkout -- tests/testthat/_snaps/` first — `devtools::test()` deletes tracked SVG snapshots |
 | Test asserts on removed C-level detail | Adapt test, add `# upstream igraph@<sha>: …` comment |
 | Missing export / namespace error | `devtools::document()` |
 
