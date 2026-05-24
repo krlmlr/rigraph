@@ -117,8 +117,8 @@ inc <- matrix(sample(0:1, 15, repl = TRUE), 3, 5)
 colnames(inc) <- letters[1:5]
 rownames(inc) <- LETTERS[1:3]
 graph_from_biadjacency_matrix(inc)
-#> IGRAPH ff78370 UN-B 8 7 -- 
+#> IGRAPH 24266a4 UN-B 8 7 -- 
 #> + attr: type (v/l), name (v/c)
-#> + edges from ff78370 (vertex names):
+#> + edges from 24266a4 (vertex names):
 #> [1] A--a A--b A--c B--a B--d C--b C--e
 ```

@@ -116,15 +116,15 @@ Random graph models (games):
 
 ## empty graph
 sample_bipartite_gnp(10, 5, p = 0)
-#> IGRAPH bb05a9b U--B 15 0 -- Bipartite Gnp random graph
+#> IGRAPH 0a41e5d U--B 15 0 -- Bipartite Gnp random graph
 #> + attr: name (g/c), p (g/n), type (v/l)
-#> + edges from bb05a9b:
+#> + edges from 0a41e5d:
 
 ## full graph
 sample_bipartite_gnp(10, 5, p = 1)
-#> IGRAPH a50331e U--B 15 50 -- Bipartite Gnp random graph
+#> IGRAPH 6cfe017 U--B 15 50 -- Bipartite Gnp random graph
 #> + attr: name (g/c), p (g/n), type (v/l)
-#> + edges from a50331e:
+#> + edges from 6cfe017:
 #>  [1]  1--11  1--12  1--13  1--14  1--15  2--11  2--12  2--13  2--14  2--15
 #> [11]  3--11  3--12  3--13  3--14  3--15  4--11  4--12  4--13  4--14  4--15
 #> [21]  5--11  5--12  5--13  5--14  5--15  6--11  6--12  6--13  6--14  6--15
@@ -133,16 +133,16 @@ sample_bipartite_gnp(10, 5, p = 1)
 
 ## random bipartite graph
 sample_bipartite_gnp(10, 5, p = .1)
-#> IGRAPH eaab3f3 U--B 15 3 -- Bipartite Gnp random graph
+#> IGRAPH b3258a9 U--B 15 3 -- Bipartite Gnp random graph
 #> + attr: name (g/c), p (g/n), type (v/l)
-#> + edges from eaab3f3:
+#> + edges from b3258a9:
 #> [1] 7--12 6--14 1--15
 
 ## directed bipartite graph, G(n,m)
 sample_bipartite_gnm(10, 5, m = 20, directed = TRUE, mode = "all")
-#> IGRAPH 484aa91 D--B 15 20 -- Bipartite Gnm random graph
+#> IGRAPH 22e58e1 D--B 15 20 -- Bipartite Gnm random graph
 #> + attr: name (g/c), m (g/n), type (v/l)
-#> + edges from 484aa91:
+#> + edges from 22e58e1:
 #>  [1]  1->11  8->11  5->12  1->14  4->14  6->14 10->14  1->15  3->15 13-> 2
 #> [11] 13-> 6 14-> 6 14-> 7 11-> 8 12-> 8 12-> 9 13-> 9 15-> 9 11->10 15->10
 ```

@@ -191,8 +191,8 @@ groups(clu)
 #> [1] 20
 #> 
 largest_component(g)
-#> IGRAPH e04a7d6 U--- 3 2 -- Erdos-Renyi (gnp) graph
+#> IGRAPH 4c46f85 U--- 3 2 -- Erdos-Renyi (gnp) graph
 #> + attr: name (g/c), type (g/c), loops (g/l), p (g/n)
-#> + edges from e04a7d6:
+#> + edges from 4c46f85:
 #> [1] 1--2 2--3
 ```

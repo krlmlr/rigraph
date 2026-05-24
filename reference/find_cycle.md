@@ -58,20 +58,20 @@ Graph cycles:
 g <- make_lattice(c(3, 3))
 find_cycle(g)
 #> $vertices
-#> + 4/9 vertices, from 95284a1:
+#> + 4/9 vertices, from 37639e4:
 #> [1] 9 6 5 8
 #> 
 #> $edges
-#> + 4/12 edges from 95284a1:
+#> + 4/12 edges from 37639e4:
 #> [1] 8--9 6--9 5--6 5--8
 #> 
 
 # Empty results are returned for acyclic graphs
 find_cycle(sample_tree(5))
 #> $vertices
-#> + 0/5 vertices, from 1a0cf5c:
+#> + 0/5 vertices, from 1e39a8f:
 #> 
 #> $edges
-#> + 0/4 edges from 1a0cf5c:
+#> + 0/4 edges from 1e39a8f:
 #> 
 ```

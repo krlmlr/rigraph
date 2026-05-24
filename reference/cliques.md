@@ -194,148 +194,148 @@ clique_num(g)
 #> [1] 6
 cliques(g, min = 6)
 #> [[1]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  7  9 24 31 34 77
 #> 
 #> [[2]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  6 19 22 30 64 87
 #> 
 #> [[3]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  6 15 22 27 34 88
 #> 
 #> [[4]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  3 20 37 54 57 69
 #> 
 #> [[5]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  6 19 30 40 41 49
 #> 
 #> [[6]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  8 24 31 41 49 77
 #> 
 #> [[7]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 11 17 39 41 65 96
 #> 
 #> [[8]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 11 39 41 65 77 81
 #> 
 #> [[9]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 11 31 39 41 65 77
 #> 
 #> [[10]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 11 33 39 81 87 96
 #> 
 #> [[11]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 11 39 65 81 87 96
 #> 
 #> [[12]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 11 39 41 65 81 96
 #> 
 #> [[13]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  39  41  65  77  81 100
 #> 
 #> [[14]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 13 24 35 63 82 95
 #> 
 #> [[15]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  7 13 24 35 63 95
 #> 
 #> [[16]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 13 24 41 63 85 95
 #> 
 #> [[17]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  7 13 24 63 85 95
 #> 
 #> [[18]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  1  3 37 57 69 75
 #> 
 largest_cliques(g)
 #> [[1]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 17 41 11 96 39 65
 #> 
 #> [[2]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 13 95 24 63 82 35
 #> 
 #> [[3]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 13 95 24 63 35  7
 #> 
 #> [[4]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 13 95 24 63 85  7
 #> 
 #> [[5]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 13 95 24 63 85 41
 #> 
 #> [[6]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 15 34 88 22 27  6
 #> 
 #> [[7]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 19 87 22 64 30  6
 #> 
 #> [[8]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 19 41  6 49 40 30
 #> 
 #> [[9]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 20 54 69  3 57 37
 #> 
 #> [[10]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 24 49 31 77 41  8
 #> 
 #> [[11]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 24  7  9 77 34 31
 #> 
 #> [[12]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 31 77 11 65 41 39
 #> 
 #> [[13]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 33 39 11 81 96 87
 #> 
 #> [[14]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 37  3 69 75  1 57
 #> 
 #> [[15]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 39 87 81 96 65 11
 #> 
 #> [[16]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 39 81 41 65 96 11
 #> 
 #> [[17]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1] 39 81 41 65 77 11
 #> 
 #> [[18]]
-#> + 6/100 vertices, from b0030d5:
+#> + 6/100 vertices, from 45b7458:
 #> [1]  39  81  41  65  77 100
 #> 
 
@@ -343,503 +343,503 @@ largest_cliques(g)
 g <- sample_gnp(100, 0.03)
 max_cliques(g)
 #> [[1]]
-#> + 1/100 vertex, from fcce888:
+#> + 1/100 vertex, from d8cb718:
 #> [1] 37
 #> 
 #> [[2]]
-#> + 1/100 vertex, from fcce888:
+#> + 1/100 vertex, from d8cb718:
 #> [1] 25
 #> 
 #> [[3]]
-#> + 1/100 vertex, from fcce888:
+#> + 1/100 vertex, from d8cb718:
 #> [1] 13
 #> 
 #> [[4]]
-#> + 1/100 vertex, from fcce888:
+#> + 1/100 vertex, from d8cb718:
 #> [1] 41
 #> 
 #> [[5]]
-#> + 1/100 vertex, from fcce888:
+#> + 1/100 vertex, from d8cb718:
 #> [1] 40
 #> 
 #> [[6]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 76 61
 #> 
 #> [[7]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 76 60
 #> 
 #> [[8]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  2 16
 #> 
 #> [[9]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  2 10
 #> 
 #> [[10]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  4 23
 #> 
 #> [[11]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 15 12
 #> 
 #> [[12]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 21 44
 #> 
 #> [[13]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 22 70
 #> 
 #> [[14]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 22 54
 #> 
 #> [[15]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 23 80
 #> 
 #> [[16]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 24 26
 #> 
 #> [[17]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 35 12
 #> 
 #> [[18]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 38 65
 #> 
 #> [[19]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 42 86
 #> 
 #> [[20]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 47 92
 #> 
 #> [[21]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 49 91
 #> 
 #> [[22]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 53 63
 #> 
 #> [[23]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 53 58
 #> 
 #> [[24]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 54 82
 #> 
 #> [[25]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 55 18
 #> 
 #> [[26]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 57 92
 #> 
 #> [[27]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 60 97
 #> 
 #> [[28]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 64 91
 #> 
 #> [[29]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 65 69
 #> 
 #> [[30]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 68 89
 #> 
 #> [[31]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 71  8
 #> 
 #> [[32]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 74 72
 #> 
 #> [[33]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 85  8
 #> 
 #> [[34]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 88 95
 #> 
 #> [[35]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 89 36
 #> 
 #> [[36]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 92 93
 #> 
 #> [[37]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 93 56
 #> 
 #> [[38]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 94 70
 #> 
 #> [[39]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 99 72
 #> 
 #> [[40]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 39 95
 #> 
 #> [[41]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 39 63
 #> 
 #> [[42]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  3 62
 #> 
 #> [[43]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  3 45
 #> 
 #> [[44]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 3 7
 #> 
 #> [[45]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 78 84
 #> 
 #> [[46]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 78 63
 #> 
 #> [[47]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 78 30
 #> 
 #> [[48]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 43 75
 #> 
 #> [[49]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 43 62
 #> 
 #> [[50]]
-#> + 3/100 vertices, from fcce888:
+#> + 3/100 vertices, from d8cb718:
 #> [1] 43 46 95
 #> 
 #> [[51]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 43 18
 #> 
 #> [[52]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 44 63
 #> 
 #> [[53]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 44 51
 #> 
 #> [[54]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 45 69
 #> 
 #> [[55]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 46 34
 #> 
 #> [[56]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 79 98
 #> 
 #> [[57]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 79 26
 #> 
 #> [[58]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 48 34
 #> 
 #> [[59]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 48  6
 #> 
 #> [[60]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 80 56
 #> 
 #> [[61]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 80 28
 #> 
 #> [[62]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 80  5
 #> 
 #> [[63]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 50 69
 #> 
 #> [[64]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 50  5
 #> 
 #> [[65]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 51 66
 #> 
 #> [[66]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 51 59
 #> 
 #> [[67]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 52 98
 #> 
 #> [[68]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 52 86
 #> 
 #> [[69]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 52 72
 #> 
 #> [[70]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 52 31
 #> 
 #> [[71]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 52 28
 #> 
 #> [[72]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 52 20
 #> 
 #> [[73]]
-#> + 3/100 vertices, from fcce888:
+#> + 3/100 vertices, from d8cb718:
 #> [1] 81 11 84
 #> 
 #> [[74]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 96 56
 #> 
 #> [[75]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 96  9
 #> 
 #> [[76]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 96  7
 #> 
 #> [[77]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  83 100
 #> 
 #> [[78]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 83 70
 #> 
 #> [[79]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 83 34
 #> 
 #> [[80]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 83 18
 #> 
 #> [[81]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 56 73
 #> 
 #> [[82]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 56 33
 #> 
 #> [[83]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 84 18
 #> 
 #> [[84]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 100  90
 #> 
 #> [[85]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 59 70
 #> 
 #> [[86]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 86  9
 #> 
 #> [[87]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 61 72
 #> 
 #> [[88]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 61 26
 #> 
 #> [[89]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 61  9
 #> 
 #> [[90]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 62 67
 #> 
 #> [[91]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 62 66
 #> 
 #> [[92]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 62  9
 #> 
 #> [[93]]
-#> + 3/100 vertices, from fcce888:
+#> + 3/100 vertices, from d8cb718:
 #> [1] 63 14 18
 #> 
 #> [[94]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 87 12
 #> 
 #> [[95]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 87  1
 #> 
 #> [[96]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 98 66
 #> 
 #> [[97]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 98 29
 #> 
 #> [[98]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 98  6
 #> 
 #> [[99]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 67 32
 #> 
 #> [[100]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 67  5
 #> 
 #> [[101]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 95 77
 #> 
 #> [[102]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 69 36
 #> 
 #> [[103]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 69 10
 #> 
 #> [[104]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  9 12
 #> 
 #> [[105]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 10 29
 #> 
 #> [[106]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 12 27
 #> 
 #> [[107]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  8 91
 #> 
 #> [[108]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  8 20
 #> 
 #> [[109]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 14 91
 #> 
 #> [[110]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 14  1
 #> 
 #> [[111]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 90 91
 #> 
 #> [[112]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 90 31
 #> 
 #> [[113]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 17 34
 #> 
 #> [[114]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 17 26
 #> 
 #> [[115]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 17 19
 #> 
 #> [[116]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 18 73
 #> 
 #> [[117]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 19 77
 #> 
 #> [[118]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 19 33
 #> 
 #> [[119]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 73 32
 #> 
 #> [[120]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 75 27
 #> 
 #> [[121]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1]  7 29
 #> 
 #> [[122]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 26 29
 #> 
 #> [[123]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 27 29
 #> 
 #> [[124]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 28 33
 #> 
 #> [[125]]
-#> + 2/100 vertices, from fcce888:
+#> + 2/100 vertices, from d8cb718:
 #> [1] 30 36
 #> 
 

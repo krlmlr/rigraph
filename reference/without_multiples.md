@@ -24,18 +24,18 @@ Constructor modifiers (and related functions):
 
 ``` r
 sample_(pa(10, m = 3, algorithm = "bag"))
-#> IGRAPH eef9033 D--- 10 27 -- Barabasi graph
+#> IGRAPH 8f7ff91 D--- 10 27 -- Barabasi graph
 #> + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 #> | (g/c)
-#> + edges from eef9033:
+#> + edges from 8f7ff91:
 #>  [1]  2->1  2->1  2->1  3->1  3->1  3->1  4->1  4->1  4->3  5->1  5->1  5->1
 #> [13]  6->1  6->1  6->1  7->1  7->1  7->5  8->1  8->5  8->1  9->1  9->1  9->1
 #> [25] 10->1 10->5 10->1
 sample_(pa(10, m = 3, algorithm = "bag"), without_multiples())
-#> IGRAPH 13a1015 D--- 10 19 -- Barabasi graph
+#> IGRAPH 28807eb D--- 10 19 -- Barabasi graph
 #> + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 #> | (g/c)
-#> + edges from 13a1015:
+#> + edges from 28807eb:
 #>  [1]  2->1  3->1  3->2  4->1  4->3  5->1  6->1  6->2  6->3  7->3  7->4  7->5
 #> [13]  8->1  8->4  9->1  9->2 10->1 10->2 10->3
 ```
