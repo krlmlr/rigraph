@@ -617,17 +617,21 @@ class RCCodeGenerator(SingleBlockCodeGenerator):
 
         calls = ", ".join(calls)
         res = ""
+        # Sync R's RNG state before/after the igraph call, since igraph uses
+        # unif_rand() etc. directly without RNG_BEGIN/RNG_END (removed upstream).
+        rng_begin = "  GetRNGstate();\n"
+        rng_end = "  PutRNGstate();\n"
         # No return type means - return type is igraph_error_t
         if not desc.return_type:
-            res = f"  IGRAPH_R_CHECK({desc.name}({calls}));\n"
+            res = f"{rng_begin}  IGRAPH_R_CHECK({desc.name}({calls}));\n{rng_end}"
         else:
             return_type = self.get_type_descriptor(desc.return_type)
             if return_type.name == "ERROR":
-                res = f"  IGRAPH_R_CHECK({desc.name}({calls}));\n"
+                res = f"{rng_begin}  IGRAPH_R_CHECK({desc.name}({calls}));\n{rng_end}"
             elif return_type.name == "VOID":
-                res = f"  {desc.name}({calls});\n"
+                res = f"{rng_begin}  {desc.name}({calls});\n{rng_end}"
             else:
-                res = f"  c_result={desc.name}({calls});\n"
+                res = f"{rng_begin}  c_result={desc.name}({calls});\n{rng_end}"
 
         return res
 

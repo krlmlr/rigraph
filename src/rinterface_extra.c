@@ -1672,7 +1672,7 @@ SEXP Rx_igraph_ac_random_numeric(SEXP attr,
   PROTECT(attr2=AS_NUMERIC(attr));
   PROTECT(res=NEW_NUMERIC(len));
 
-  RNG_BEGIN();
+  GetRNGstate();
 
   for (igraph_integer_t i=0; i<len; i++) {
     igraph_vector_int_t *v=igraph_vector_int_list_get_ptr(merges, i);
@@ -1687,7 +1687,7 @@ SEXP Rx_igraph_ac_random_numeric(SEXP attr,
     }
   }
 
-  RNG_END();
+  PutRNGstate();
 
   UNPROTECT(2);
   return res;
