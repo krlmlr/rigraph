@@ -30,8 +30,8 @@ Constructor modifiers (and related functions):
 
 ``` r
 make_(ring(10), with_graph_(name = "10-ring"))
-#> IGRAPH 7a94395 U--- 10 10 -- 10-ring
+#> IGRAPH de0863b U--- 10 10 -- 10-ring
 #> + attr: name (g/c), mutual (g/l), circular (g/l)
-#> + edges from 7a94395:
+#> + edges from de0863b:
 #>  [1] 1-- 2 2-- 3 3-- 4 4-- 5 5-- 6 6-- 7 7-- 8 8-- 9 9--10 1--10
 ```
