@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Neighborhood of graph vertices — connect"><meta name="description" content="These functions find the vertices not farther than a given limit from
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Neighborhood of graph vertices — connect"><meta name="description" content="These functions find the vertices not farther than a given limit from
 another fixed vertex, these are called the neighborhood of the vertex.
 Note that ego() and neighborhood(),
 ego_size() and neighborhood_size(),
@@ -23,7 +23,7 @@ are synonyms (aliases)."><meta property="og:image" content="https://r.igraph.org
 
     <a class="navbar-brand me-2" href="../index.html">igraph</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.1.9002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.3.1.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@ are synonyms (aliases)."><meta property="og:image" content="https://r.igraph.org
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Neighborhood of graph vertices</h1>
-      <small class="dont-index">Source: <a href="https://github.com/igraph/rigraph/blob/main/R/games.R" class="external-link"><code>R/games.R</code></a>, <a href="https://github.com/igraph/rigraph/blob/main/R/structural-properties.R" class="external-link"><code>R/structural-properties.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/igraph/rigraph/blob/next/R/games.R" class="external-link"><code>R/games.R</code></a>, <a href="https://github.com/igraph/rigraph/blob/next/R/structural-properties.R" class="external-link"><code>R/structural-properties.R</code></a></small>
       <div class="d-none name"><code>ego.Rd</code></div>
     </div>
 
@@ -263,82 +263,82 @@ done by Vincent Matossian</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">ego</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">0</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">ego</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 1 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">ego</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2 10  3  9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  1  3 10  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2 4 1 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># neighborhood() is an alias of ego()</span></span></span>
 <span class="r-in"><span><span class="fu">neighborhood</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">0</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 1/10 vertex, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">neighborhood</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">1</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 1 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 3/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">neighborhood</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  1  2 10  3  9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2  1  3 10  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from dec5709:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + 5/10 vertices, from 0948e46:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2 4 1 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
@@ -346,41 +346,41 @@ done by Vincent Matossian</p>
 <span class="r-in"><span><span class="fu"><a href="V.html">V</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"d"</span>, <span class="st">"e"</span>, <span class="st">"f"</span>, <span class="st">"g"</span>, <span class="st">"h"</span>, <span class="st">"i"</span>, <span class="st">"j"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">make_ego_graph</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH f5c6825 UN-- 5 4 -- Ring graph</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 776697c UN-- 5 4 -- Ring graph</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from f5c6825 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 776697c (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] a--b b--c a--j i--j</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH f00b96c UN-- 5 4 -- Ring graph</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH fda780f UN-- 5 4 -- Ring graph</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from f00b96c (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from fda780f (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] a--b b--c c--d a--j</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH b2e31a5 UN-- 5 4 -- Ring graph</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH a923134 UN-- 5 4 -- Ring graph</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from b2e31a5 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from a923134 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] a--b b--c c--d d--e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># make_neighborhood_graph() is an alias of make_ego_graph()</span></span></span>
 <span class="r-in"><span><span class="fu">make_neighborhood_graph</span><span class="op">(</span><span class="va">g</span>, order <span class="op">=</span> <span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 73bb560 UN-- 5 4 -- Ring graph</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 1d8f69e UN-- 5 4 -- Ring graph</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 73bb560 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 1d8f69e (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] a--b b--c a--j i--j</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 646af65 UN-- 5 4 -- Ring graph</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 9526999 UN-- 5 4 -- Ring graph</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 646af65 (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 9526999 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] a--b b--c c--d a--j</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH bbd702d UN-- 5 4 -- Ring graph</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 1f19541 UN-- 5 4 -- Ring graph</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> + attr: name (g/c), mutual (g/l), circular (g/l), name (v/c)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from bbd702d (vertex names):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 1f19541 (vertex names):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] a--b b--c c--d d--e</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
