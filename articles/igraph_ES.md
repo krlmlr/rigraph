@@ -100,9 +100,9 @@ aristas:
 g
 ```
 
-    ## IGRAPH b1a9da1 UN-- 10 2 -- 
+    ## IGRAPH b5b2795 UN-- 10 2 -- 
     ## + attr: name (v/c)
-    ## + edges from b1a9da1 (vertex names):
+    ## + edges from b5b2795 (vertex names):
     ## [1] 1--2 1--5
 
 Esto significa: grafo no dirigido (**U**ndirected) con **10** vértices y
@@ -122,7 +122,7 @@ aristas:
 summary(g)
 ```
 
-    ## IGRAPH b1a9da1 UN-- 10 2 -- 
+    ## IGRAPH b5b2795 UN-- 10 2 -- 
     ## + attr: name (v/c)
 
 También [`make_graph()`](https://r.igraph.org/reference/make_graph.md)
@@ -250,9 +250,9 @@ g <- g %>%
 g
 ```
 
-    ## IGRAPH e05719e U--- 40 86 -- Zachary
+    ## IGRAPH 150d717 U--- 40 86 -- Zachary
     ## + attr: name (g/c)
-    ## + edges from e05719e:
+    ## + edges from 150d717:
     ##  [1]  1-- 2  1-- 3  1-- 4  1-- 5  1-- 6  1-- 7  1-- 8  1-- 9  1--11  1--12
     ## [11]  1--13  1--14  1--18  1--20  1--22  1--32  2-- 3  2-- 4  2-- 8  2--14
     ## [21]  2--18  2--20  2--22  2--31  3-- 4  3-- 8  3--28  3--29  3--33  3--10
@@ -386,7 +386,7 @@ graph1 <- make_tree(127, 2, mode = "undirected")
 summary(g)
 ```
 
-    ## IGRAPH 948f9ea U--- 5 3 -- Ring graph
+    ## IGRAPH ff04c49 U--- 5 3 -- Ring graph
     ## + attr: name (g/c), mutual (g/l), circular (g/l)
 
 Esto genera un grafo regular en forma de árbol con 127 vértices, cada
@@ -416,7 +416,7 @@ graph1 <- sample_grg(100, 0.2)
 summary(graph1)
 ```
 
-    ## IGRAPH b60b781 U--- 100 499 -- Geometric random graph
+    ## IGRAPH 7f10270 U--- 100 553 -- Geometric random graph
     ## + attr: name (g/c), radius (g/n), torus (g/l)
 
 Esto genera un grafo geométrico aleatorio: Se eligen *n* puntos de forma
@@ -431,7 +431,7 @@ graph2 <- sample_grg(100, 0.2)
 identical_graphs(graph1, graph2)
 ```
 
-    ## [1] FALSE
+    ## [1] TRUE
 
 Una forma un poco más relajada de comprobar si los grafos son
 equivalentes es mediante
@@ -445,7 +445,7 @@ vértices y aristas, es decir, están conectados de la misma manera:
 isomorphic(graph1, graph2)
 ```
 
-    ## [1] FALSE
+    ## [1] TRUE
 
 Comprobar el isomorfismo puede llevar un tiempo en el caso de grafos
 grandes (en este caso, la respuesta puede darse rápidamente comprobando
@@ -493,7 +493,7 @@ E(g)$is_formal <- c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE)
 summary(g)
 ```
 
-    ## IGRAPH 554cda2 UN-- 7 9 -- 
+    ## IGRAPH 45940d3 UN-- 7 9 -- 
     ## + attr: name (v/c), age (v/n), gender (v/c), is_formal (e/l)
 
 `V` y `E` son la forma estándar de obtener una secuencia de todos los
@@ -572,7 +572,7 @@ V(g)$name[1:3] <- c("Alejandra", "Bruno", "Carmina")
 V(g)
 ```
 
-    ## + 7/7 vertices, named, from 554cda2:
+    ## + 7/7 vertices, named, from 45940d3:
     ## [1] Alejandra Bruno     Carmina   Moshe     Nang      Samira    Ibrahim
 
 Para eliminar atributos:
@@ -754,7 +754,7 @@ seq <- V(graph)[2, 3, 7]
 seq
 ```
 
-    ## + 3/10 vertices, from 7c71328:
+    ## + 3/10 vertices, from fa2101a:
     ## [1] 2 3 7
 
 ``` r
@@ -763,7 +763,7 @@ seq <- seq[1, 3]    # filtrar un conjunto de vértices existente
 seq
 ```
 
-    ## + 2/10 vertices, from 7c71328:
+    ## + 2/10 vertices, from fa2101a:
     ## [1] 2 7
 
 Al seleccionar un vértice que no existe se produce un error:
@@ -853,7 +853,7 @@ Carmina (cuyo ID de vértice es el 3):
 E(g)[.from(3)]
 ```
 
-    ## + 4/9 edges from 554cda2 (vertex names):
+    ## + 4/9 edges from 45940d3 (vertex names):
     ## [1] Alejandra--Carmina Carmina  --Moshe   Carmina  --Nang    Carmina  --Samira
 
 Por supuesto, también funciona con nombres de vértices:
@@ -863,7 +863,7 @@ Por supuesto, también funciona con nombres de vértices:
 E(g)[.from("Carmina")]
 ```
 
-    ## + 4/9 edges from 554cda2 (vertex names):
+    ## + 4/9 edges from 45940d3 (vertex names):
     ## [1] Alejandra--Carmina Carmina  --Moshe   Carmina  --Nang    Carmina  --Samira
 
 Al usar
@@ -889,7 +889,7 @@ vértice es el 6):
 E(g) [ 3:5 %--% 5:6 ]
 ```
 
-    ## + 3/9 edges from 554cda2 (vertex names):
+    ## + 3/9 edges from 45940d3 (vertex names):
     ## [1] Carmina--Nang   Carmina--Samira Nang   --Samira
 
 Para que el operador `%--%` funcione con nombres, puedes construir
@@ -925,7 +925,7 @@ women
 E(g)[men %--% women]
 ```
 
-    ## + 5/9 edges from 554cda2 (vertex names):
+    ## + 5/9 edges from 45940d3 (vertex names):
     ## [1] Alejandra--Bruno  Alejandra--Moshe  Carmina  --Moshe  Carmina  --Nang  
     ## [5] Nang     --Samira
 
@@ -1233,7 +1233,7 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] igraph_2.3.1.9006.5
+    ## [1] igraph_2.3.1.9006.6
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] vctrs_0.7.3        cli_3.6.6          knitr_1.51         rlang_1.2.0       

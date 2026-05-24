@@ -66,11 +66,11 @@ Other centralization related:
 # A BA graph is quite centralized
 g <- sample_pa(1000, m = 4)
 centr_degree(g)$centralization
-#> [1] 0.1518135
+#> [1] 0.1513125
 centr_clo(g, mode = "all")$centralization
-#> [1] 0.413991
+#> [1] 0.4066988
 centr_betw(g, directed = FALSE)$centralization
-#> [1] 0.2305906
+#> [1] 0.2269226
 centr_eigen(g, directed = FALSE)$centralization
-#> [1] 0.943837
+#> [1] 0.9384068
 ```

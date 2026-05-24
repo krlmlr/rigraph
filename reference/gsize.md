@@ -46,9 +46,9 @@ Other structural queries:
 ``` r
 g <- sample_gnp(100, 2 / 100)
 gsize(g)
-#> [1] 103
+#> [1] 93
 ecount(g)
-#> [1] 103
+#> [1] 93
 
 # Number of edges in a G(n,p) graph
 replicate(100, sample_gnp(10, 1 / 2), simplify = FALSE) %>%

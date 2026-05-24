@@ -213,9 +213,9 @@ g1 <- sample_pa_age(10000, pa.exp = 1, aging.exp = 0, aging.bin = 1000)
 g2 <- sample_pa_age(10000, pa.exp = 1, aging.exp = -1, aging.bin = 1000)
 g3 <- sample_pa_age(10000, pa.exp = 1, aging.exp = -3, aging.bin = 1000)
 max(degree(g1))
-#> [1] 155
+#> [1] 272
 max(degree(g2))
-#> [1] 27
+#> [1] 36
 max(degree(g3))
 #> [1] 11
 ```

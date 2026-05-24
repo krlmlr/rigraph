@@ -119,23 +119,23 @@ colnames(M) <- c("Party", "Skiing", "Badminton")
 M[] <- sample(0:1, length(M), replace = TRUE)
 M
 #>       Party Skiing Badminton
-#> Alice     1      1         0
-#> Bob       0      1         0
-#> Cecil     0      1         0
-#> Dan       0      1         1
-#> Ethel     0      0         0
+#> Alice     1      1         1
+#> Bob       1      0         1
+#> Cecil     0      0         1
+#> Dan       1      0         1
+#> Ethel     1      0         0
 g2 <- graph_from_biadjacency_matrix(M)
 g2$name <- "Event network"
 proj2 <- bipartite_projection(g2)
 print(proj2[[1]], g = TRUE, e = TRUE)
-#> IGRAPH fb6020a UNW- 5 6 -- Event network
+#> IGRAPH 9711c75 UNW- 5 9 -- Event network
 #> + attr: name (g/c), name (v/c), weight (e/n)
-#> + edges from fb6020a (vertex names):
-#> [1] Alice--Bob   Alice--Cecil Alice--Dan   Bob  --Cecil Bob  --Dan  
-#> [6] Cecil--Dan  
+#> + edges from 9711c75 (vertex names):
+#> [1] Alice--Bob   Alice--Dan   Alice--Ethel Alice--Cecil Bob  --Dan  
+#> [6] Bob  --Ethel Bob  --Cecil Cecil--Dan   Dan  --Ethel
 print(proj2[[2]], g = TRUE, e = TRUE)
-#> IGRAPH 2f35599 UNW- 3 2 -- Event network
+#> IGRAPH 0626445 UNW- 3 3 -- Event network
 #> + attr: name (g/c), name (v/c), weight (e/n)
-#> + edges from 2f35599 (vertex names):
-#> [1] Party --Skiing    Skiing--Badminton
+#> + edges from 0626445 (vertex names):
+#> [1] Party --Skiing    Party --Badminton Skiing--Badminton
 ```

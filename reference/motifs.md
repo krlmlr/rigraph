@@ -79,11 +79,11 @@ Other graph motifs:
 ``` r
 g <- sample_pa(100)
 motifs(g, 3)
-#>  [1]  NA  NA 240  NA  84   0   0   0   0   0   0   0   0   0   0   0
+#>  [1]  NA  NA 718  NA  63   0   0   0   0   0   0   0   0   0   0   0
 count_motifs(g, 3)
-#> [1] 324
+#> [1] 781
 sample_motifs(g, 3)
-#> [1] 1910
+#> [1] 480
 
 # Using callback to stop search after finding 5 motifs
 count <- 0

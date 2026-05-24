@@ -82,5 +82,5 @@ Ernesto Estrada
 g <- sample_pa(100, m = 4, dir = FALSE)
 sc <- subgraph_centrality(g)
 cor(degree(g), sc)
-#> [1] 0.929038
+#> [1] 0.9185103
 ```

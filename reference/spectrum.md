@@ -143,7 +143,7 @@ eigen(as_adjacency_matrix(kite, sparse = FALSE))$vectors[, 1]
 ## Should be the same as 'eigen_centrality' (but rescaled)
 cor(eigen_centrality(kite)$vector, spectrum(kite)$vectors)
 #>      [,1]
-#> [1,]   -1
+#> [1,]    1
 
 ## Smallest eigenvalues
 spectrum(kite, which = list(pos = "SM", howmany = 2))$values

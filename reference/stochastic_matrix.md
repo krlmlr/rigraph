@@ -77,5 +77,5 @@ class(W)
 
 ## may not be exactly 1, due to numerical errors
 max(abs(rowSums(W)) - 1)
-#> [1] 5.651035e-13
+#> [1] 1.182832e-12
 ```

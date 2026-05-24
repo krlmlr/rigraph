@@ -86,5 +86,5 @@ Tamas Nepusz <ntamas@gmail.com> and Gabor Csardi
 
 g <- sample_gnp(20, 5 / 20, directed = TRUE)
 reciprocity(g)
-#> [1] 0.25
+#> [1] 0.2857143
 ```

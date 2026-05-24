@@ -87,5 +87,5 @@ Gabor Csardi <csardi.gabor@gmail.com>
 
 g <- sample_gnm(1000, 1000)
 degree_distribution(g)
-#> [1] 0.133 0.255 0.291 0.183 0.093 0.033 0.007 0.005
+#> [1] 0.138 0.265 0.272 0.180 0.089 0.045 0.007 0.004
 ```

@@ -123,5 +123,5 @@ Gabor Csardi <csardi.gabor@gmail.com>
 
 g <- sample_gnm(15, 45, directed = TRUE)
 triad_census(g)
-#>  [1]  90 198  21  20  21  57  11  15  12   5   0   2   1   2   0   0
+#>  [1] 113 160  28  29  26  51   8  12  12   4   4   2   4   1   1   0
 ```

@@ -134,5 +134,5 @@ g <- sample_gnp(50, 5 / 50)
 g <- as_directed(g)
 g <- induced_subgraph(g, subcomponent(g, 1))
 adhesion(g)
-#> [1] 1
+#> [1] 2
 ```

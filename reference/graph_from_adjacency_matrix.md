@@ -203,7 +203,7 @@ g2 <- sample(
   matrix(ncol = 10) %>%
   graph_from_adjacency_matrix(weighted = TRUE)
 E(g2)$weight
-#>  [1] 3 1 4 4 5 5 3 4 4 3 5 2
+#>  [1] 4 5 4 2 4 5 1 3 1 4 2 5 2
 
 ## various modes for weighted graphs, with some tests
 non_zero_sort <- function(x) sort(x[x != 0])
@@ -298,6 +298,6 @@ g10 <- graph_from_adjacency_matrix(
   add.rownames = "code"
 )
 summary(g10)
-#> IGRAPH 07e5530 DNW- 10 57 -- 
+#> IGRAPH b3f6e90 DNW- 10 55 -- 
 #> + attr: name (v/c), code (v/c), weight (e/n)
 ```

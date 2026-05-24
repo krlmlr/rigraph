@@ -84,7 +84,7 @@ dim_select(embed_adjacency_matrix(RDP.graph, 10)$D)
 lpvs.dir <- sample_dirichlet(n = 20, rep(1, 10))
 RDP.graph.2 <- sample_dot_product(lpvs.dir)
 dim_select(embed_adjacency_matrix(RDP.graph.2, 10)$D)
-#> [1] 1
+#> [1] 2
 
 # Sample random vectors from hypersphere with radius 1.
 lpvs.sph <- sample_sphere_surface(dim = 10, n = 20, radius = 1)

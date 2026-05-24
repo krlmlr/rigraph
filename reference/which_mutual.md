@@ -88,23 +88,23 @@ Gabor Csardi <csardi.gabor@gmail.com>
 
 g <- sample_gnm(10, 50, directed = TRUE)
 reciprocity(g)
-#> [1] 0.52
+#> [1] 0.48
 dyad_census(g)
 #> $mut
-#> [1] 13
+#> [1] 12
 #> 
 #> $asym
-#> [1] 24
+#> [1] 26
 #> 
 #> $null
-#> [1] 8
+#> [1] 7
 #> 
 which_mutual(g)
-#>  [1] FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
-#> [13]  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE
-#> [25] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE
-#> [37] FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE  TRUE  TRUE
-#> [49]  TRUE  TRUE
+#>  [1] FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE
+#> [13] FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE  TRUE
+#> [25]  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE
+#> [37]  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE
+#> [49] FALSE  TRUE
 sum(which_mutual(g)) / 2 == dyad_census(g)$mut
 #> [1] TRUE
 ```

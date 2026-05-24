@@ -127,9 +127,9 @@ g2 <- delete_edges(g2, E(g2)[100 %--% 1])
 vertex_connectivity(g, 100, 1)
 #> [1] 1
 vertex_connectivity(g2, 100, 1)
-#> [1] 5
+#> [1] 4
 vertex_disjoint_paths(g2, 100, 1)
-#> [1] 5
+#> [1] 4
 
 g <- sample_gnp(50, 5 / 50)
 g <- as_directed(g)

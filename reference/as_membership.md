@@ -52,7 +52,7 @@ g <- (make_full_graph(10) + make_full_graph(10)) %>%
 correct <- rep(1:2, each = 10) %>% as_membership()
 fc <- cluster_fast_greedy(g)
 compare(correct, fc)
-#> [1] 0
+#> [1] 0.6390319
 compare(correct, membership(fc))
-#> [1] 0
+#> [1] 0.6390319
 ```

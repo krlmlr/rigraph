@@ -213,11 +213,11 @@ rowMeans(replicate(
   100,
   degree(sample_chung_lu(c(1, 3, 2, 1), c(2, 1, 2, 2)), mode = "out")
 ))
-#> [1] 0.93 2.98 2.04 1.12
+#> [1] 1.08 2.88 1.97 1.00
 
 rowMeans(replicate(
   100,
   degree(sample_chung_lu(c(1, 3, 2, 1), c(2, 1, 2, 2), variant = "maxent"), mode = "out")
 ))
-#> [1] 0.76 1.71 1.31 0.80
+#> [1] 0.80 1.70 1.23 0.72
 ```
