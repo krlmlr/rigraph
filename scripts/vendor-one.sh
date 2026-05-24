@@ -126,7 +126,7 @@ while [ $commits_vendored -lt $num_commits ]; do
       fi
     done
 
-    make -f Makefile-cigraph
+    make -f Makefile-cigraph DOCKER=""
 
     R -q -e 'cpp11::cpp_register()'
 
