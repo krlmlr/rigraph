@@ -297,13 +297,16 @@ re-run rebuild + tests + examples.
 
 ### 2e. Final `rcmdcheck`
 
-After tests and examples are green, do **one** full check pass:
+After tests and examples are green, do **one** full check pass and require
+a clean result — `Status: OK` with no ERROR, no WARNING, **and no NOTE**:
 
 ```bash
-Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning")' 2>&1 | tail -40
+Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note")' 2>&1 | tail -40
 ```
 
-Resolve any new ERROR or WARNING. Pre-existing NOTEs are fine.
+The current rigraph baseline checks clean, so any NOTE that appears during
+vendoring is something this commit introduced — investigate and fix it
+before moving on. Do not push a commit that downgrades the check status.
 
 ### 2f. Fold all adaptations into the vendor commit
 
@@ -375,8 +378,9 @@ When the full range has been vendored:
 # Sanity check: the last vendor message should reference HEAD_REF's tip.
 git log -n 1 --format="%s" -- src/vendor/cigraph
 
-# Final full check on the assembled branch.
-Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning")' 2>&1 | tail -40
+# Final full check on the assembled branch. Must be Status: OK,
+# no ERROR / no WARNING / no NOTE.
+Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "note")' 2>&1 | tail -40
 ```
 
 Report a summary to the user:
