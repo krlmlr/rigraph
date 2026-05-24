@@ -15,3 +15,4 @@
 /interfaces/.venv/
 /interfaces/*.o
 /interfaces/test.cpp
+/include/igraph_version.h
