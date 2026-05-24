@@ -97,6 +97,17 @@ while [ $commits_vendored -lt $num_commits ]; do
 
     git clone "$upstream_dir" ${vendor_dir}
 
+    # Create IGRAPH_VERSION file if the upstream has no tags (e.g. krlmlr/igraph
+    # replays that lack the original release tags).  cmake's version.cmake
+    # reads this file first; without it, git-describe fails and cmake aborts.
+    if ! git -C "${vendor_dir}" describe --tags 2>/dev/null | grep -qE '^v?[0-9]'; then
+      MAJOR=$(sed -n 's/.*IGRAPH_VERSION_MAJOR[[:space:]]\+//p' src/vendor/igraph_version.h | tr -d ' \r')
+      MINOR=$(sed -n 's/.*IGRAPH_VERSION_MINOR[[:space:]]\+//p' src/vendor/igraph_version.h | tr -d ' \r')
+      PATCH=$(sed -n 's/.*IGRAPH_VERSION_PATCH[[:space:]]\+//p' src/vendor/igraph_version.h | tr -d ' \r')
+      echo "${MAJOR}.${MINOR}.${PATCH}-dev" > "${vendor_dir}/IGRAPH_VERSION"
+      echo "Created synthetic IGRAPH_VERSION: ${MAJOR}.${MINOR}.${PATCH}-dev"
+    fi
+
     cmake -S${vendor_dir} -B${vendor_dir}/build
 
     mv ${vendor_dir}/build/include/igraph_version.h src/vendor/
