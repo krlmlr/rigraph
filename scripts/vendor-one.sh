@@ -112,7 +112,9 @@ while [ $commits_vendored -lt $num_commits ]; do
 
     mv ${vendor_dir}/build/include/igraph_version.h src/vendor/
 
-    rm -rf ${vendor_dir}/.git ${vendor_dir}/.github ${vendor_dir}/doc ${vendor_dir}/examples ${vendor_dir}/fuzzing ${vendor_dir}/tests ${vendor_dir}/tools ${vendor_dir}/build
+    rm -rf ${vendor_dir}/.git ${vendor_dir}/.github ${vendor_dir}/.claude \
+            ${vendor_dir}/doc ${vendor_dir}/examples ${vendor_dir}/fuzzing \
+            ${vendor_dir}/tests ${vendor_dir}/tools ${vendor_dir}/build
 
     # Apply patches in patch/*.patch.  See scripts/vendor.sh for the
     # rationale on why patches that no longer apply forward are removed
