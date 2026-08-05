@@ -2,9 +2,80 @@ Scheduled job: scan all `*-dev` branches (including `broken-*-dev`) in
 `krlmlr/rigraph` for the earliest commit whose `rcc` commit-status (set by the
 "Smoke test: stock R" job in the `rcc` workflow) is `failure` since 2026-04-11.
 For each such branch, if no `broken-<sha>-dev` branch exists yet (full 40-char
-SHA), create it, fix `testthat::test_local()` and `R CMD check .`, update
-snapshots, then cherry-pick all later vendor commits from the `*-dev` branch
-and push. Never modify vendored C sources (`src/vendor/cigraph/`).
+SHA), create it, fix `testthat::test_local()` and `rcmdcheck::rcmdcheck()`,
+update snapshots, then cherry-pick all later vendor commits from the
+`*-dev` branch and push.
+Never edit vendored C sources (`src/vendor/cigraph/`) by hand; editing
+`patch/` will produce expected, committable changes there.
+
+---
+
+<!--
+## Operation essence (read this first)
+
+Why this skill exists.
+  The igraph C core is vendored hourly into `src/vendor/cigraph/` from
+  `krlmlr/igraph@main`. A vendor commit can break R-side glue, R code, or
+  test snapshots. We do not rewrite the vendor commit; instead we author a
+  parallel `broken-<sha>-dev` branch that starts at the failing commit,
+  layers on the necessary R-side fix, and re-applies all later vendor
+  commits on top. Promoting the green tip back into the parent `*-dev`
+  branch is a manual step performed outside this skill (today there is no
+  CI/CD that does it automatically; this may be automated in the future).
+
+End-to-end workflow.
+  1. Refresh `krlmlr/*` remote-tracking refs from scratch — the upstream
+     dev branches are force-pushed and any cached state is suspect.
+  2. Enumerate `*-dev` branches and existing `broken-*-dev` branches in one
+     pass.
+  3. For each `*-dev` branch, walk first-parent history oldest-first since
+     SINCE and look up each commit's `rcc` commit-status until the earliest
+     `failure` is found. Skip the branch if no failure exists or if the
+     corresponding `broken-<sha>-dev` is already published.
+  4. For every (branch, sha) pair that needs work:
+     a. Check out `<sha>` on a new local branch `broken-<sha>-dev`.
+     b. Reproduce the breakage locally — install the package, run
+        `testthat::test_local()`, then `rcmdcheck::rcmdcheck()` (which
+        builds the package tarball and checks it). Read the error output carefully to
+        classify the failure (compile, link, runtime, snapshot,
+        NOTE/WARNING).
+     c. Apply the smallest fix in priority order: `patch/` → glue /
+        Stimulus → R code → snapshots → tests. Stop at the first level
+        that resolves the failure. Never edit `src/vendor/cigraph/` by
+        hand — but expect it to change as a downstream effect when a
+        `patch/` file is added or modified (the patch is applied to the
+        vendored tree); commit those derived changes alongside the
+        patch.
+     d. `rcmdcheck::rcmdcheck()` until clean (`Status: OK` or only
+        pre-existing NOTE).
+     e. Cherry-pick every remaining commit from the upstream `*-dev`
+        branch on top of the fix. Vendor commits apply cleanly by
+        construction; non-vendor fix commits already on `*-dev` must be
+        carried forward and may legitimately conflict with our own fix —
+        resolve, do not skip.
+     f. Push `broken-<sha>-dev` to `krlmlr` with `--force-with-lease` and
+        move on to the next pair.
+
+Environment assumptions (current).
+  * R 4.x and standard development tooling (gcc/g++, make, git, `curl`,
+    `jq`) are pre-installed.
+  * The `gh` CLI is NOT installed and GitHub Actions build logs are NOT
+    accessible from this environment. Failures must be reproduced locally —
+    there is no shortcut by reading a CI log.
+  * GitHub commit-status lookups should use a GitHub MCP tool when the
+    skill is invoked by an agent that has one. As a portable fallback, hit
+    `GET /repos/{owner}/{repo}/commits/{sha}/statuses` with `curl` and a
+    `GITHUB_TOKEN` (see Step 3); filter for `context == "rcc"`.
+
+When CI build logs become available (forward-looking).
+  Once the harness can fetch GitHub Actions logs, augment Step 4b: before
+  the local rebuild, fetch the failed `rcc / Smoke test: stock R` run for
+  `<sha>` and read the tail. Most diagnostics point straight at the file
+  and line, allowing the agent to draft a targeted fix and skip the slow
+  initial `R CMD INSTALL`. The local install + `testthat::test_local()` +
+  `rcmdcheck::rcmdcheck()` cycle remains the authoritative final gate —
+  logs only short-circuit triage, they do not replace verification.
+-->
 
 ---
 
@@ -47,15 +118,42 @@ REPO="krlmlr/rigraph"
 # Commits on this branch since SINCE, oldest-first (first-parent only)
 COMMITS_OLDEST_FIRST=$(git log "krlmlr/$BRANCH" \
   --first-parent --since="$SINCE" --format="%H" --reverse)
+```
+
+Define a concrete `lookup_rcc_status` helper. The default below uses `curl`
++ `jq` so it works without `gh` (CC Web does not ship `gh`); pick whichever
+of the alternatives matches the host environment:
+
+```bash
+# Default: portable HTTPS, no `gh` needed. Requires `curl` and `jq`.
+lookup_rcc_status() {
+  local sha="$1"
+  curl -fsSL \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
+    "https://api.github.com/repos/$REPO/commits/$sha/statuses" \
+    | jq -r '[.[] | select(.context == "rcc")] | first | .state // "none"'
+}
+
+# Alternative when `gh` is installed (also requires `jq`):
+#   gh api "repos/$REPO/commits/$sha/statuses" \
+#     | jq -r '[.[] | select(.context == "rcc")] | first | .state // "none"'
+#
+# Alternative when invoked by an agent that exposes a GitHub MCP:
+#   call the commit-statuses endpoint for $REPO at $sha, then pick the
+#   entry whose `context == "rcc"`. No `jq` needed in this path.
+```
+
+Walk the commits oldest-first, stop at the first `failure`. Use `pipefail`
+so a failed status lookup is not silently swallowed:
+
+```bash
+set -o pipefail
 
 FIRST_FAIL=""
 while IFS= read -r SHA; do
-  # Check the rcc commit-status for this SHA (context = "rcc")
-  STATUS=$(gh api "repos/$REPO/commits/$SHA/statuses" \
-    | jq -r '[.[] | select(.context == "rcc")] | first | .state // "none"')
-
+  STATUS=$(lookup_rcc_status "$SHA")
   echo "$BRANCH  ${SHA}  $STATUS"
-
   if [[ "$STATUS" == "failure" ]]; then
     FIRST_FAIL="$SHA"
     break
@@ -92,16 +190,23 @@ IMPORTANT: Keep the `-dev` suffix in the fix branch name. It ensures that each i
 ### 4b. Install and run tests; collect failures
 
 ```bash
-_R_SHLIB_STRIP_=true R CMD INSTALL . --no-byte-compile 2>&1 | tail -5
+set -o pipefail
+_R_SHLIB_STRIP_=true R CMD INSTALL . --no-byte-compile 2>&1 | tail -20
 Rscript -e 'testthat::test_local(stop_on_failure = FALSE)' 2>&1
 ```
 
-Read the output carefully.
+`pipefail` is required so that a failing `R CMD INSTALL` propagates its
+non-zero exit status through the `tail` pipe. The last 20 lines are
+typically enough to diagnose a build failure; if they aren't, drop the pipe
+and re-run for the full log.
 
 ### 4c. Fix issues — allowed modifications and priority order
 
-**Never modify `src/vendor/cigraph/` or `src/vendor/igraph_version.h`.**
-Everything else — including `patch/` — may be changed.
+**Never edit `src/vendor/cigraph/` or `src/vendor/igraph_version.h` by hand.**
+Everything else — including `patch/` — may be changed. Note that `patch/`
+edits cascade into `src/vendor/cigraph/` once the patch is applied; those
+derived changes are expected and must be committed with the patch (see
+priority 1 below).
 
 Apply fixes in this priority order (stop at the first level that resolves the failure):
 
@@ -109,9 +214,16 @@ Apply fixes in this priority order (stop at the first level that resolves the fa
    patch here when the C API changed in a way that breaks compilation or linking.
    Assign the next available number; do not renumber existing patches.
 
-2. **Glue / Stimulus definitions** (`src/*.cpp`, auto-generated stubs, `.decor`
-   files, or Stimulus-style interface definitions) — adapt the R↔C bridge to a
-   changed C API before touching any R-level code.
+   Apply a new or edited patch with `patch -p1 -i patch/<file>.patch` so
+   that `src/vendor/cigraph/` reflects the patched state the build expects.
+   The resulting modifications under `src/vendor/cigraph/` are the expected
+   downstream effect of the patch and must be committed together with the
+   patch file.
+
+2. **Glue / Stimulus definitions** (`src/*.cpp`, `src/*.c`, `src/*.h`,
+   `src/*.dd` Stimulus interface definitions, and `tools/stimulus/`
+   inputs) — adapt the R↔C bridge to a changed C API before touching any
+   R-level code.
 
 3. **R code** (`R/`) — update high-level R functions, fix argument handling, etc.
 
@@ -133,7 +245,7 @@ Other common fixes:
 | Symptom | Fix |
 |---------|-----|
 | Missing export / namespace error | `Rscript -e 'roxygen2::roxygenize()'` |
-| NOTE / WARNING in R CMD check | Fix in `R/`, `man/`, or `patch/` |
+| NOTE / WARNING in `rcmdcheck` output | Fix in `R/`, `man/`, or `patch/` |
 
 After any change, re-run:
 
@@ -145,21 +257,34 @@ Iterate until all tests pass.
 
 ### 4d. Final check
 
+Use `rcmdcheck::rcmdcheck()` to build the package tarball and check it:
+
 ```bash
-R CMD check . --no-manual --as-cran 2>&1 | tail -20
+set -o pipefail
+Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning")' 2>&1 | tail -20
 ```
 
-Must show `Status: OK` or at most `1 NOTE` (pre-existing CRAN notes are fine).
-Fix any new ERRORs or new WARNINGs.
+Must show `Status: OK` or at most `1 NOTE` (pre-existing CRAN notes are
+fine). Fix any new ERRORs or new WARNINGs.
 
 ### 4e. Commit the fix
 
 ```bash
-git add -- R/ tests/ man/ NAMESPACE DESCRIPTION
+SHORT=$(git rev-parse --short=12 "$SHA")
+git add -- R/ tests/ man/ NAMESPACE DESCRIPTION \
+           src/*.cpp src/*.c src/*.h src/*.dd \
+           tools/stimulus/ patch/
+# Also stage `src/vendor/cigraph/` if (and only if) you modified `patch/` and
+# applied it to the vendored tree:
+git diff --cached --name-only -- patch/ | grep -q . && \
+  git add -- src/vendor/cigraph/
 # Only if there are staged changes:
 git diff --cached --quiet || \
   git commit -m "fix: R code and snapshots for failing rcc at ${SHORT}"
 ```
+
+Never `git add` `src/vendor/igraph_version.h` (regenerated by cmake) or
+`scripts/vendor*.sh`.
 
 ### 4f. Cherry-pick all remaining commits from `*-dev`
 
@@ -181,18 +306,22 @@ and must be carried forward.
 
 Conflict handling:
 
-- Conflict on `src/vendor/cigraph/` or `src/vendor/igraph_version.h`: should
-  never happen; stop and report.
+- Conflict on `src/vendor/cigraph/` or `src/vendor/igraph_version.h`: rare;
+  usually means our `patch/` change overlaps with a later vendor commit.
+  Take the cherry-picked version (`git checkout --theirs <path>`),
+  re-apply our patch (`patch -p1 -i patch/<file>.patch`), then `git add`
+  the affected paths and `git cherry-pick --continue`.
 - Conflict on any other file (glue code, `patch/`, `R/`, tests): the
   cherry-picked commit is a fix commit whose change overlaps with our own fix.
   Resolve by accepting the cherry-picked version (`git checkout --theirs`) or
   by merging manually, then `git cherry-pick --continue`. Do **not** use
   `--skip` unless the commit is genuinely a no-op after our fix.
 
-After all cherry-picks, re-run the final check:
+After all cherry-picks, re-run the final check (same form as Step 4d):
 
 ```bash
-R CMD check . --no-manual --as-cran 2>&1 | tail -20
+set -o pipefail
+Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning")' 2>&1 | tail -20
 ```
 
 to confirm the fully-assembled branch is clean.
@@ -219,10 +348,19 @@ No failure found: yet-another-dev
 
 ## Constraints (hard rules)
 
-- **Never** modify `src/vendor/cigraph/`, `src/vendor/igraph_version.h`,
-  or any `scripts/vendor*.sh` file. `patch/` **may** be modified.
+- **Never edit by hand** `src/vendor/igraph_version.h` or any
+  `scripts/vendor*.sh` file. `src/vendor/cigraph/` may not be edited
+  directly either, but it WILL change as a downstream effect of editing
+  `patch/` (the patch is applied to the vendored tree); those derived
+  changes are expected and must be committed alongside the patch.
 - **Never** amend commits that have already been pushed.
 - **Commit status to check**: context `rcc` (not the full check-run name).
 - **Branch target**: all pushes go to the `krlmlr` remote (`krlmlr/rigraph`) to a branch named `broken-<sha>-dev` (full 40-char SHA).
 - Branches being force-pushed to: always use the freshly-fetched `krlmlr/*`
   ref; never rely on any previously-checked-out state.
+- **Reproduce locally, do not guess.** GitHub Actions logs are not reachable
+  from this environment yet, so every fix must be validated by a local
+  `R CMD INSTALL` + `testthat::test_local()` + `rcmdcheck::rcmdcheck()` cycle.
+- **Tooling fallback**: if `gh` is not installed, query the
+  `/repos/<owner>/<repo>/commits/<sha>/statuses` endpoint via `curl` with
+  `GITHUB_TOKEN`, or via a GitHub MCP tool when the agent provides one.
