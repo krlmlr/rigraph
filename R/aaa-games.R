@@ -286,16 +286,22 @@ watts_strogatz_game_impl <- function(
   size,
   nei,
   p,
-  loops = FALSE,
-  multiple = FALSE
+  allowed_edge_types = c("simple", "loops", "multi", "all")
 ) {
   # Argument checks
   dim <- as.numeric(dim)
   size <- as.numeric(size)
   nei <- as.numeric(nei)
   p <- as.numeric(p)
-  loops <- as.logical(loops)
-  multiple <- as.logical(multiple)
+  allowed_edge_types <- switch_igraph_arg(
+    allowed_edge_types,
+    "simple" = 0L,
+    "loop" = 1L,
+    "loops" = 1L,
+    "multi" = 6L,
+    "multiple" = 6L,
+    "all" = 7L
+  )
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -305,8 +311,7 @@ watts_strogatz_game_impl <- function(
     size,
     nei,
     p,
-    loops,
-    multiple
+    allowed_edge_types
   )
 
   res
