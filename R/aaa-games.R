@@ -425,13 +425,23 @@ erdos_renyi_game_gnp_impl <- function(
   n,
   p,
   directed = FALSE,
-  loops = FALSE
+  allowed_edge_types = c("simple", "loops", "multi", "all"),
+  edge_labeled = FALSE
 ) {
   # Argument checks
   n <- as.numeric(n)
   p <- as.numeric(p)
   directed <- as.logical(directed)
-  loops <- as.logical(loops)
+  allowed_edge_types <- switch_igraph_arg(
+    allowed_edge_types,
+    "simple" = 0L,
+    "loop" = 1L,
+    "loops" = 1L,
+    "multi" = 6L,
+    "multiple" = 6L,
+    "all" = 7L
+  )
+  edge_labeled <- as.logical(edge_labeled)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -440,7 +450,8 @@ erdos_renyi_game_gnp_impl <- function(
     n,
     p,
     directed,
-    loops
+    allowed_edge_types,
+    edge_labeled
   )
 
   res
