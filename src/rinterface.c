@@ -11291,11 +11291,12 @@ SEXP R_igraph_bibcoupling(SEXP graph, SEXP vids) {
 /*-------------------------------------------/
 / igraph_similarity_dice                     /
 /-------------------------------------------*/
-SEXP R_igraph_similarity_dice(SEXP graph, SEXP vids, SEXP mode, SEXP loops) {
+SEXP R_igraph_similarity_dice(SEXP graph, SEXP from, SEXP to, SEXP mode, SEXP loops) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_matrix_t c_res;
-  igraph_vs_t c_vids;
+  igraph_vs_t c_from;
+  igraph_vs_t c_to;
   igraph_neimode_t c_mode;
   igraph_bool_t c_loops;
   SEXP res;
@@ -11305,20 +11306,24 @@ SEXP R_igraph_similarity_dice(SEXP graph, SEXP vids, SEXP mode, SEXP loops) {
   Rz_SEXP_to_igraph(graph, &c_graph);
   IGRAPH_R_CHECK(igraph_matrix_init(&c_res, 0, 0));
   IGRAPH_FINALLY(igraph_matrix_destroy, &c_res);
-  igraph_vector_int_t c_vids_data;
-  Rz_SEXP_to_igraph_vs(vids, &c_graph, &c_vids, &c_vids_data);
+  igraph_vector_int_t c_from_data;
+  Rz_SEXP_to_igraph_vs(from, &c_graph, &c_from, &c_from_data);
+  igraph_vector_int_t c_to_data;
+  Rz_SEXP_to_igraph_vs(to, &c_graph, &c_to, &c_to_data);
   c_mode = (igraph_neimode_t) Rf_asInteger(mode);
   IGRAPH_R_CHECK_BOOL(loops);
   c_loops = LOGICAL(loops)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_similarity_dice(&c_graph, &c_res, c_vids, c_mode, c_loops));
+  IGRAPH_R_CHECK(igraph_similarity_dice(&c_graph, &c_res, c_from, c_to, c_mode, c_loops));
 
                                         /* Convert output */
   PROTECT(res=Ry_igraph_matrix_to_SEXP(&c_res));
   igraph_matrix_destroy(&c_res);
   IGRAPH_FINALLY_CLEAN(1);
-  igraph_vector_int_destroy(&c_vids_data);
-  igraph_vs_destroy(&c_vids);
+  igraph_vector_int_destroy(&c_from_data);
+  igraph_vs_destroy(&c_from);
+  igraph_vector_int_destroy(&c_to_data);
+  igraph_vs_destroy(&c_to);
   r_result = res;
 
   UNPROTECT(1);
@@ -11436,11 +11441,12 @@ SEXP R_igraph_similarity_inverse_log_weighted(SEXP graph, SEXP vids, SEXP mode) 
 /*-------------------------------------------/
 / igraph_similarity_jaccard                  /
 /-------------------------------------------*/
-SEXP R_igraph_similarity_jaccard(SEXP graph, SEXP vids, SEXP mode, SEXP loops) {
+SEXP R_igraph_similarity_jaccard(SEXP graph, SEXP from, SEXP to, SEXP mode, SEXP loops) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_matrix_t c_res;
-  igraph_vs_t c_vids;
+  igraph_vs_t c_from;
+  igraph_vs_t c_to;
   igraph_neimode_t c_mode;
   igraph_bool_t c_loops;
   SEXP res;
@@ -11450,20 +11456,24 @@ SEXP R_igraph_similarity_jaccard(SEXP graph, SEXP vids, SEXP mode, SEXP loops) {
   Rz_SEXP_to_igraph(graph, &c_graph);
   IGRAPH_R_CHECK(igraph_matrix_init(&c_res, 0, 0));
   IGRAPH_FINALLY(igraph_matrix_destroy, &c_res);
-  igraph_vector_int_t c_vids_data;
-  Rz_SEXP_to_igraph_vs(vids, &c_graph, &c_vids, &c_vids_data);
+  igraph_vector_int_t c_from_data;
+  Rz_SEXP_to_igraph_vs(from, &c_graph, &c_from, &c_from_data);
+  igraph_vector_int_t c_to_data;
+  Rz_SEXP_to_igraph_vs(to, &c_graph, &c_to, &c_to_data);
   c_mode = (igraph_neimode_t) Rf_asInteger(mode);
   IGRAPH_R_CHECK_BOOL(loops);
   c_loops = LOGICAL(loops)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_similarity_jaccard(&c_graph, &c_res, c_vids, c_mode, c_loops));
+  IGRAPH_R_CHECK(igraph_similarity_jaccard(&c_graph, &c_res, c_from, c_to, c_mode, c_loops));
 
                                         /* Convert output */
   PROTECT(res=Ry_igraph_matrix_to_SEXP(&c_res));
   igraph_matrix_destroy(&c_res);
   IGRAPH_FINALLY_CLEAN(1);
-  igraph_vector_int_destroy(&c_vids_data);
-  igraph_vs_destroy(&c_vids);
+  igraph_vector_int_destroy(&c_from_data);
+  igraph_vs_destroy(&c_from);
+  igraph_vector_int_destroy(&c_to_data);
+  igraph_vs_destroy(&c_to);
   r_result = res;
 
   UNPROTECT(1);
