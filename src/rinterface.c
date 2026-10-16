@@ -2705,15 +2705,14 @@ SEXP R_igraph_rewire_directed_edges(SEXP graph, SEXP prob, SEXP loops, SEXP mode
 /*-------------------------------------------/
 / igraph_watts_strogatz_game                 /
 /-------------------------------------------*/
-SEXP R_igraph_watts_strogatz_game(SEXP dim, SEXP size, SEXP nei, SEXP p, SEXP loops, SEXP multiple) {
+SEXP R_igraph_watts_strogatz_game(SEXP dim, SEXP size, SEXP nei, SEXP p, SEXP allowed_edge_types) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_integer_t c_dim;
   igraph_integer_t c_size;
   igraph_integer_t c_nei;
   igraph_real_t c_p;
-  igraph_bool_t c_loops;
-  igraph_bool_t c_multiple;
+  igraph_edge_type_sw_t c_allowed_edge_types;
   SEXP graph;
 
   SEXP r_result;
@@ -2726,12 +2725,9 @@ SEXP R_igraph_watts_strogatz_game(SEXP dim, SEXP size, SEXP nei, SEXP p, SEXP lo
   c_nei = (igraph_integer_t) REAL(nei)[0];
   IGRAPH_R_CHECK_REAL(p);
   c_p = REAL(p)[0];
-  IGRAPH_R_CHECK_BOOL(loops);
-  c_loops = LOGICAL(loops)[0];
-  IGRAPH_R_CHECK_BOOL(multiple);
-  c_multiple = LOGICAL(multiple)[0];
+  c_allowed_edge_types = (igraph_edge_type_sw_t) Rf_asInteger(allowed_edge_types);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_watts_strogatz_game(&c_graph, c_dim, c_size, c_nei, c_p, c_loops, c_multiple));
+  IGRAPH_R_CHECK(igraph_watts_strogatz_game(&c_graph, c_dim, c_size, c_nei, c_p, c_allowed_edge_types));
 
                                         /* Convert output */
   IGRAPH_FINALLY(igraph_destroy, &c_graph);
