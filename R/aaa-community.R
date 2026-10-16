@@ -567,27 +567,27 @@ community_fluid_communities_impl <- function(
 
 community_infomap_impl <- function(
   graph,
-  e_weights = NULL,
-  v_weights = NULL,
+  edge_weights = NULL,
+  vertex_weights = NULL,
   nb_trials = 10
 ) {
   # Argument checks
   ensure_igraph(graph)
-  if (is.null(e_weights) && "weight" %in% edge_attr_names(graph)) {
-    e_weights <- E(graph)$weight
+  if (is.null(edge_weights) && "weight" %in% edge_attr_names(graph)) {
+    edge_weights <- E(graph)$weight
   }
-  if (!is.null(e_weights) && !all(is.na(e_weights))) {
-    e_weights <- as.numeric(e_weights)
+  if (!is.null(edge_weights) && !all(is.na(edge_weights))) {
+    edge_weights <- as.numeric(edge_weights)
   } else {
-    e_weights <- NULL
+    edge_weights <- NULL
   }
-  if (is.null(v_weights) && "weight" %in% vertex_attr_names(graph)) {
-    v_weights <- V(graph)$weight
+  if (is.null(vertex_weights) && "weight" %in% vertex_attr_names(graph)) {
+    vertex_weights <- V(graph)$weight
   }
-  if (!is.null(v_weights) && !all(is.na(v_weights))) {
-    v_weights <- as.numeric(v_weights)
+  if (!is.null(vertex_weights) && !all(is.na(vertex_weights))) {
+    vertex_weights <- as.numeric(vertex_weights)
   } else {
-    v_weights <- NULL
+    vertex_weights <- NULL
   }
   nb_trials <- as.numeric(nb_trials)
 
@@ -596,8 +596,8 @@ community_infomap_impl <- function(
   res <- .Call(
     R_igraph_community_infomap,
     graph,
-    e_weights,
-    v_weights,
+    edge_weights,
+    vertex_weights,
     nb_trials
   )
 
