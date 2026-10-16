@@ -384,19 +384,15 @@ maxdegree_impl <- function(
 
 pagerank_impl <- function(
   graph,
-  algo = c("prpack", "arpack"),
-  vids = V(graph),
-  directed = TRUE,
-  damping = 0.85,
   weights = NULL,
+  damping = 0.85,
+  directed = TRUE,
+  vids = V(graph),
+  algo = c("prpack", "arpack"),
   options = NULL
 ) {
   # Argument checks
   ensure_igraph(graph)
-  algo <- switch_igraph_arg(algo, "arpack" = 1L, "prpack" = 2L)
-  vids <- as_igraph_vs(graph, vids)
-  directed <- as.logical(directed)
-  damping <- as.numeric(damping)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -405,6 +401,10 @@ pagerank_impl <- function(
   } else {
     weights <- NULL
   }
+  damping <- as.numeric(damping)
+  directed <- as.logical(directed)
+  vids <- as_igraph_vs(graph, vids)
+  algo <- switch_igraph_arg(algo, "arpack" = 1L, "prpack" = 2L)
   if (is.null(options)) {
     if (algo == 0L) {
       options <- list(niter = 1000, eps = 0.001)
@@ -420,11 +420,11 @@ pagerank_impl <- function(
   res <- .Call(
     R_igraph_pagerank,
     graph,
-    algo,
-    vids - 1,
-    directed,
-    damping,
     weights,
+    damping,
+    directed,
+    vids - 1,
+    algo,
     options
   )
   if (igraph_opt("add.vertex.names") && is_named(graph)) {
@@ -435,23 +435,16 @@ pagerank_impl <- function(
 
 personalized_pagerank_impl <- function(
   graph,
-  algo = c("prpack", "arpack"),
-  vids = V(graph),
-  directed = TRUE,
-  damping = 0.85,
-  personalized = NULL,
   weights = NULL,
+  reset = NULL,
+  damping = 0.85,
+  directed = TRUE,
+  vids = V(graph),
+  algo = c("prpack", "arpack"),
   options = NULL
 ) {
   # Argument checks
   ensure_igraph(graph)
-  algo <- switch_igraph_arg(algo, "arpack" = 1L, "prpack" = 2L)
-  vids <- as_igraph_vs(graph, vids)
-  directed <- as.logical(directed)
-  damping <- as.numeric(damping)
-  if (!is.null(personalized)) {
-    personalized <- as.numeric(personalized)
-  }
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -460,6 +453,13 @@ personalized_pagerank_impl <- function(
   } else {
     weights <- NULL
   }
+  if (!is.null(reset)) {
+    reset <- as.numeric(reset)
+  }
+  damping <- as.numeric(damping)
+  directed <- as.logical(directed)
+  vids <- as_igraph_vs(graph, vids)
+  algo <- switch_igraph_arg(algo, "arpack" = 1L, "prpack" = 2L)
   if (is.null(options)) {
     if (algo == 0L) {
       options <- list(niter = 1000, eps = 0.001)
@@ -475,12 +475,12 @@ personalized_pagerank_impl <- function(
   res <- .Call(
     R_igraph_personalized_pagerank,
     graph,
-    algo,
-    vids - 1,
-    directed,
-    damping,
-    personalized,
     weights,
+    reset,
+    damping,
+    directed,
+    vids - 1,
+    algo,
     options
   )
   if (igraph_opt("add.vertex.names") && is_named(graph)) {
@@ -491,22 +491,17 @@ personalized_pagerank_impl <- function(
 
 personalized_pagerank_vs_impl <- function(
   graph,
-  algo = c("prpack", "arpack"),
-  vids = V(graph),
-  directed = TRUE,
-  damping = 0.85,
-  reset_vids,
   weights = NULL,
+  reset_vids,
+  damping = 0.85,
+  directed = TRUE,
+  vids = V(graph),
+  algo = c("prpack", "arpack"),
   options = NULL,
   details = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  algo <- switch_igraph_arg(algo, "arpack" = 1L, "prpack" = 2L)
-  vids <- as_igraph_vs(graph, vids)
-  directed <- as.logical(directed)
-  damping <- as.numeric(damping)
-  reset_vids <- as_igraph_vs(graph, reset_vids)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -515,6 +510,11 @@ personalized_pagerank_vs_impl <- function(
   } else {
     weights <- NULL
   }
+  reset_vids <- as_igraph_vs(graph, reset_vids)
+  damping <- as.numeric(damping)
+  directed <- as.logical(directed)
+  vids <- as_igraph_vs(graph, vids)
+  algo <- switch_igraph_arg(algo, "arpack" = 1L, "prpack" = 2L)
   if (is.null(options)) {
     if (algo == 0L) {
       options <- list(niter = 1000, eps = 0.001)
@@ -530,12 +530,12 @@ personalized_pagerank_vs_impl <- function(
   res <- .Call(
     R_igraph_personalized_pagerank_vs,
     graph,
-    algo,
-    vids - 1,
-    directed,
-    damping,
-    reset_vids - 1,
     weights,
+    reset_vids - 1,
+    damping,
+    directed,
+    vids - 1,
+    algo,
     options
   )
   if (igraph_opt("add.vertex.names") && is_named(graph)) {
