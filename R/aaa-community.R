@@ -400,10 +400,11 @@ community_fastgreedy_impl <- function(
 community_leiden_impl <- function(
   graph,
   weights = NULL,
-  vertex_weights = NULL,
+  vertex_out_weights = NULL,
+  vertex_in_weights = NULL,
   resolution,
   beta = 0.01,
-  start,
+  start = FALSE,
   n_iterations = 2,
   membership = NULL
 ) {
@@ -417,13 +418,21 @@ community_leiden_impl <- function(
   } else {
     weights <- NULL
   }
-  if (is.null(vertex_weights) && "weight" %in% vertex_attr_names(graph)) {
-    vertex_weights <- V(graph)$weight
+  if (is.null(vertex_out_weights) && "weight" %in% vertex_attr_names(graph)) {
+    vertex_out_weights <- V(graph)$weight
   }
-  if (!is.null(vertex_weights) && !all(is.na(vertex_weights))) {
-    vertex_weights <- as.numeric(vertex_weights)
+  if (!is.null(vertex_out_weights) && !all(is.na(vertex_out_weights))) {
+    vertex_out_weights <- as.numeric(vertex_out_weights)
   } else {
-    vertex_weights <- NULL
+    vertex_out_weights <- NULL
+  }
+  if (is.null(vertex_in_weights) && "weight" %in% vertex_attr_names(graph)) {
+    vertex_in_weights <- V(graph)$weight
+  }
+  if (!is.null(vertex_in_weights) && !all(is.na(vertex_in_weights))) {
+    vertex_in_weights <- as.numeric(vertex_in_weights)
+  } else {
+    vertex_in_weights <- NULL
   }
   resolution <- as.numeric(resolution)
   beta <- as.numeric(beta)
@@ -439,7 +448,8 @@ community_leiden_impl <- function(
     R_igraph_community_leiden,
     graph,
     weights,
-    vertex_weights,
+    vertex_out_weights,
+    vertex_in_weights,
     resolution,
     beta,
     start,
