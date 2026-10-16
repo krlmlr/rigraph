@@ -475,6 +475,22 @@ VERTEXSET_LIST:
               %I% <- create_vs_list(%I1%, %I%)
             }
 
+VERTEX_INDICES_LIST:
+    CALL: if (!is.null(%I%)) lapply(%I%, function(.x) .x - 1)
+    INCONV:
+        IN: |-
+            if (!is.null(%I%) && !is.list(%I%)) {
+              cli::cli_abort(
+                "{.arg %I%} must be a list or NULL",
+                call = rlang::caller_env()
+              )
+            }
+    OUTCONV:
+        OUT: |-
+            if (igraph_opt("return.vs.es")) {
+              %I% <- create_vs_list(%I1%, %I%)
+            }
+
 EDGESET_LIST:
     CALL: lapply(%I%, function(.x) .x - 1)
     OUTCONV:
