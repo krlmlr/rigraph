@@ -2011,10 +2011,19 @@ get_laplacian_sparse_impl <- function(
 
 density_impl <- function(
   graph,
+  weights = NULL,
   loops = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
+  if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
+    weights <- E(graph)$weight
+  }
+  if (!is.null(weights) && !all(is.na(weights))) {
+    weights <- as.numeric(weights)
+  } else {
+    weights <- NULL
+  }
   loops <- as.logical(loops)
 
   on.exit(.Call(R_igraph_finalizer))
@@ -2022,6 +2031,7 @@ density_impl <- function(
   res <- .Call(
     R_igraph_density,
     graph,
+    weights,
     loops
   )
 
