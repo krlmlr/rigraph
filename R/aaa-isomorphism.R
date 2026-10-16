@@ -170,8 +170,7 @@ automorphism_group_impl <- function(
 
 canonical_permutation_impl <- function(
   graph,
-  colors = NULL,
-  sh = c("fm", "f", "fs", "fl", "flm", "fsm")
+  colors = NULL
 ) {
   # Argument checks
   ensure_igraph(graph)
@@ -185,23 +184,13 @@ canonical_permutation_impl <- function(
   if (!is.null(colors)) {
     colors <- as.numeric(colors) - 1
   }
-  sh <- switch_igraph_arg(
-    sh,
-    "f" = 0L,
-    "fl" = 1L,
-    "fs" = 2L,
-    "fm" = 3L,
-    "flm" = 4L,
-    "fsm" = 5L
-  )
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
   res <- .Call(
     R_igraph_canonical_permutation,
     graph,
-    colors,
-    sh
+    colors
   )
 
   res
