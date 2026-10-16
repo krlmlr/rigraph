@@ -131,7 +131,11 @@ int qh_new_qhull(qhT *qh, int dim, int numpoints, coordT *points, boolT ismalloc
   coordT *new_points;
 
   if(!errfile){
+#ifdef USING_R
+    errfile= qh_FILEstderr; /* R packages must not write to stderr */
+#else
     errfile= stderr;
+#endif
   }
   if (!qh->qhmem.ferr) {
     qh_meminit(qh, errfile);

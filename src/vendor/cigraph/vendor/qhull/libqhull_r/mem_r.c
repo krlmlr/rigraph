@@ -307,7 +307,11 @@ void qh_meminit(qhT *qh, FILE *ferr) {
   if (ferr)
     qh->qhmem.ferr= ferr;
   else
+#ifdef USING_R
+    qh->qhmem.ferr= qh_FILEstderr; /* R packages must not write to stderr */
+#else
     qh->qhmem.ferr= stderr;
+#endif
   if (sizeof(void *) < sizeof(int)) {
     qh_fprintf(qh, qh->qhmem.ferr, 6083, "qhull internal error (qh_meminit): sizeof(void *) %d < sizeof(int) %d.  qset_r.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
     qh_exit(qhmem_ERRqhull);  /* can not use qh_errexit() */
@@ -511,7 +515,11 @@ void qh_meminit(qhT *qh, FILE *ferr) {
   if (ferr)
       qh->qhmem.ferr= ferr;
   else
+#ifdef USING_R
+      qh->qhmem.ferr= qh_FILEstderr; /* R packages must not write to stderr */
+#else
       qh->qhmem.ferr= stderr;
+#endif
   if (sizeof(void *) < sizeof(int)) {
     qh_fprintf(qh, qh->qhmem.ferr, 6091, "qhull internal error (qh_meminit): sizeof(void *) %d < sizeof(int) %d.  qset_r.c will not work\n", (int)sizeof(void*), (int)sizeof(int));
     qh_errexit(qh, qhmem_ERRqhull, NULL, NULL);

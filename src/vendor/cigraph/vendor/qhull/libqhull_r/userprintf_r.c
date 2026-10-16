@@ -44,6 +44,13 @@
 
 void qh_fprintf(qhT *qh, FILE *fp, int msgcode, const char *fmt, ... ) {
     va_list args;
+#ifdef USING_R
+    /* R builds use qh_FILEstderr in place of stderr, which R packages must
+     * not write to. Drop what goes there, as for a NULL stream. */
+    if (fp == qh_FILEstderr) {
+        fp = NULL;
+    }
+#endif
     if (qh) {
         if (msgcode >= MSG_ERROR && msgcode < MSG_WARNING) {
             qh->last_errcode = msgcode;

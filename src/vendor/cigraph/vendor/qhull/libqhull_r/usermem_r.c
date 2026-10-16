@@ -63,6 +63,7 @@ void qh_exit(int exitcode) {
     Use qh_fprintf [userprintf_r.c] for normal printing
 */
 void qh_fprintf_stderr(int msgcode, const char *fmt, ... ) {
+#ifndef USING_R
     va_list args;
 
     va_start(args, fmt);
@@ -70,6 +71,11 @@ void qh_fprintf_stderr(int msgcode, const char *fmt, ... ) {
       fprintf(stderr, "QH%.4d ", msgcode);
     vfprintf(stderr, fmt, args);
     va_end(args);
+#else
+    /* R packages must not write to stderr. */
+    IGRAPH_UNUSED(msgcode);
+    IGRAPH_UNUSED(fmt);
+#endif
 } /* fprintf_stderr */
 
 /*-<a                             href="qh-user_r.htm#TOC"
