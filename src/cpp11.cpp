@@ -433,11 +433,11 @@ extern SEXP R_igraph_sample_dirichlet(SEXP, SEXP);
 extern SEXP R_igraph_sample_sphere_surface(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_sample_sphere_volume(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_sbm_game(SEXP, SEXP, SEXP, SEXP);
-extern SEXP R_igraph_similarity_dice(SEXP, SEXP, SEXP, SEXP);
+extern SEXP R_igraph_similarity_dice(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_similarity_dice_es(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_similarity_dice_pairs(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_similarity_inverse_log_weighted(SEXP, SEXP, SEXP);
-extern SEXP R_igraph_similarity_jaccard(SEXP, SEXP, SEXP, SEXP);
+extern SEXP R_igraph_similarity_jaccard(SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_similarity_jaccard_es(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_similarity_jaccard_pairs(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_simple_cycles(SEXP, SEXP, SEXP, SEXP);
@@ -1014,11 +1014,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"R_igraph_sample_sphere_surface",                          (DL_FUNC) &R_igraph_sample_sphere_surface,                           4},
     {"R_igraph_sample_sphere_volume",                           (DL_FUNC) &R_igraph_sample_sphere_volume,                            4},
     {"R_igraph_sbm_game",                                       (DL_FUNC) &R_igraph_sbm_game,                                        4},
-    {"R_igraph_similarity_dice",                                (DL_FUNC) &R_igraph_similarity_dice,                                 4},
+    {"R_igraph_similarity_dice",                                (DL_FUNC) &R_igraph_similarity_dice,                                 5},
     {"R_igraph_similarity_dice_es",                             (DL_FUNC) &R_igraph_similarity_dice_es,                              4},
     {"R_igraph_similarity_dice_pairs",                          (DL_FUNC) &R_igraph_similarity_dice_pairs,                           4},
     {"R_igraph_similarity_inverse_log_weighted",                (DL_FUNC) &R_igraph_similarity_inverse_log_weighted,                 3},
-    {"R_igraph_similarity_jaccard",                             (DL_FUNC) &R_igraph_similarity_jaccard,                              4},
+    {"R_igraph_similarity_jaccard",                             (DL_FUNC) &R_igraph_similarity_jaccard,                              5},
     {"R_igraph_similarity_jaccard_es",                          (DL_FUNC) &R_igraph_similarity_jaccard_es,                           4},
     {"R_igraph_similarity_jaccard_pairs",                       (DL_FUNC) &R_igraph_similarity_jaccard_pairs,                        4},
     {"R_igraph_simple_cycles",                                  (DL_FUNC) &R_igraph_simple_cycles,                                   4},

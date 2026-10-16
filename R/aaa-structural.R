@@ -1656,13 +1656,15 @@ similarity_dice_es_impl <- function(
 
 similarity_dice_impl <- function(
   graph,
-  vids = V(graph),
+  from = V(graph),
+  to = V(graph),
   mode = c("all", "out", "in", "total"),
   loops = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  vids <- as_igraph_vs(graph, vids)
+  from <- as_igraph_vs(graph, from)
+  to <- as_igraph_vs(graph, to)
   mode <- switch_igraph_arg(
     mode,
     "out" = 1L,
@@ -1677,7 +1679,8 @@ similarity_dice_impl <- function(
   res <- .Call(
     R_igraph_similarity_dice,
     graph,
-    vids - 1,
+    from - 1,
+    to - 1,
     mode,
     loops
   )
@@ -1777,13 +1780,15 @@ similarity_jaccard_es_impl <- function(
 
 similarity_jaccard_impl <- function(
   graph,
-  vids = V(graph),
+  from = V(graph),
+  to = V(graph),
   mode = c("all", "out", "in", "total"),
   loops = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  vids <- as_igraph_vs(graph, vids)
+  from <- as_igraph_vs(graph, from)
+  to <- as_igraph_vs(graph, to)
   mode <- switch_igraph_arg(
     mode,
     "out" = 1L,
@@ -1798,7 +1803,8 @@ similarity_jaccard_impl <- function(
   res <- .Call(
     R_igraph_similarity_jaccard,
     graph,
-    vids - 1,
+    from - 1,
+    to - 1,
     mode,
     loops
   )
