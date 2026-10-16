@@ -280,13 +280,11 @@ harmonic_centrality_impl <- function(
 
 hub_and_authority_scores_impl <- function(
   graph,
-  scale = TRUE,
   weights = NULL,
   options = arpack_defaults()
 ) {
   # Argument checks
   ensure_igraph(graph)
-  scale <- as.logical(scale)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -302,7 +300,6 @@ hub_and_authority_scores_impl <- function(
   res <- .Call(
     R_igraph_hub_and_authority_scores,
     graph,
-    scale,
     weights,
     options
   )
