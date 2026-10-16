@@ -2975,14 +2975,13 @@ SEXP R_igraph_chung_lu_game(SEXP out_weights, SEXP in_weights, SEXP loops, SEXP 
 /*-------------------------------------------/
 / igraph_static_fitness_game                 /
 /-------------------------------------------*/
-SEXP R_igraph_static_fitness_game(SEXP no_of_edges, SEXP fitness_out, SEXP fitness_in, SEXP loops, SEXP multiple) {
+SEXP R_igraph_static_fitness_game(SEXP no_of_edges, SEXP fitness_out, SEXP fitness_in, SEXP allowed_edge_types) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_integer_t c_no_of_edges;
   igraph_vector_t c_fitness_out;
   igraph_vector_t c_fitness_in;
-  igraph_bool_t c_loops;
-  igraph_bool_t c_multiple;
+  igraph_edge_type_sw_t c_allowed_edge_types;
   SEXP graph;
 
   SEXP r_result;
@@ -2993,12 +2992,9 @@ SEXP R_igraph_static_fitness_game(SEXP no_of_edges, SEXP fitness_out, SEXP fitne
   if (!Rf_isNull(fitness_in)) {
     Rz_SEXP_to_vector(fitness_in, &c_fitness_in);
   }
-  IGRAPH_R_CHECK_BOOL(loops);
-  c_loops = LOGICAL(loops)[0];
-  IGRAPH_R_CHECK_BOOL(multiple);
-  c_multiple = LOGICAL(multiple)[0];
+  c_allowed_edge_types = (igraph_edge_type_sw_t) Rf_asInteger(allowed_edge_types);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_static_fitness_game(&c_graph, c_no_of_edges, &c_fitness_out, (Rf_isNull(fitness_in) ? 0 : &c_fitness_in), c_loops, c_multiple));
+  IGRAPH_R_CHECK(igraph_static_fitness_game(&c_graph, c_no_of_edges, &c_fitness_out, (Rf_isNull(fitness_in) ? 0 : &c_fitness_in), c_allowed_edge_types));
 
                                         /* Convert output */
   IGRAPH_FINALLY(igraph_destroy, &c_graph);
@@ -3014,15 +3010,14 @@ SEXP R_igraph_static_fitness_game(SEXP no_of_edges, SEXP fitness_out, SEXP fitne
 /*-------------------------------------------/
 / igraph_static_power_law_game               /
 /-------------------------------------------*/
-SEXP R_igraph_static_power_law_game(SEXP no_of_nodes, SEXP no_of_edges, SEXP exponent_out, SEXP exponent_in, SEXP loops, SEXP multiple, SEXP finite_size_correction) {
+SEXP R_igraph_static_power_law_game(SEXP no_of_nodes, SEXP no_of_edges, SEXP exponent_out, SEXP exponent_in, SEXP allowed_edge_types, SEXP finite_size_correction) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_integer_t c_no_of_nodes;
   igraph_integer_t c_no_of_edges;
   igraph_real_t c_exponent_out;
   igraph_real_t c_exponent_in;
-  igraph_bool_t c_loops;
-  igraph_bool_t c_multiple;
+  igraph_edge_type_sw_t c_allowed_edge_types;
   igraph_bool_t c_finite_size_correction;
   SEXP graph;
 
@@ -3036,14 +3031,11 @@ SEXP R_igraph_static_power_law_game(SEXP no_of_nodes, SEXP no_of_edges, SEXP exp
   c_exponent_out = REAL(exponent_out)[0];
   IGRAPH_R_CHECK_REAL(exponent_in);
   c_exponent_in = REAL(exponent_in)[0];
-  IGRAPH_R_CHECK_BOOL(loops);
-  c_loops = LOGICAL(loops)[0];
-  IGRAPH_R_CHECK_BOOL(multiple);
-  c_multiple = LOGICAL(multiple)[0];
+  c_allowed_edge_types = (igraph_edge_type_sw_t) Rf_asInteger(allowed_edge_types);
   IGRAPH_R_CHECK_BOOL(finite_size_correction);
   c_finite_size_correction = LOGICAL(finite_size_correction)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_static_power_law_game(&c_graph, c_no_of_nodes, c_no_of_edges, c_exponent_out, c_exponent_in, c_loops, c_multiple, c_finite_size_correction));
+  IGRAPH_R_CHECK(igraph_static_power_law_game(&c_graph, c_no_of_nodes, c_no_of_edges, c_exponent_out, c_exponent_in, c_allowed_edge_types, c_finite_size_correction));
 
                                         /* Convert output */
   IGRAPH_FINALLY(igraph_destroy, &c_graph);
