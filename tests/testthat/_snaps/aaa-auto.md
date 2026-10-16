@@ -817,22 +817,13 @@
       + edges:
       [1] 1--2 1--3 2--3 1--4 2--4 1--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnp_impl(n = 5, p = 0.5, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 12 -- 
-      + edges:
-       [1] 2->1 3->1 4->1 2->2 1->3 2->3 4->3 1->4 2->4 5->4 3->5 4->5
-
 # erdos_renyi_game_gnp_impl errors
 
     Code
       erdos_renyi_game_gnp_impl(n = -1, p = 0.5)
     Condition
       Error in `erdos_renyi_game_gnp_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # erdos_renyi_game_gnm_impl basic
@@ -844,22 +835,13 @@
       + edges:
       [1] 3--4 2--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnm_impl(n = 5, m = 3, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 3 -- 
-      + edges:
-      [1] 4->3 5->3 3->5
-
 # erdos_renyi_game_gnm_impl errors
 
     Code
       erdos_renyi_game_gnm_impl(n = -1, m = 3)
     Condition
       Error in `erdos_renyi_game_gnm_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # growing_random_game_impl basic
@@ -1072,27 +1054,6 @@
       ! Vertex weights must not be negative in Chung-Lu model, got -1. Invalid value
       Source: <file>:<line>
 
-# static_fitness_game_impl basic
-
-    Code
-      static_fitness_game_impl(no_of_edges = 3, fitness_out = c(1, 2, 3))
-    Output
-      IGRAPH U--- 3 3 -- Static fitness model
-      + attr: name (g/c), loops (g/l), multiple (g/l)
-      + edges:
-      [1] 1--2 1--3 2--3
-
----
-
-    Code
-      static_fitness_game_impl(no_of_edges = 3, fitness_out = c(1, 2, 3), fitness_in = c(
-        1, 2, 3), loops = TRUE, multiple = TRUE)
-    Output
-      IGRAPH D--- 3 3 -- Static fitness model
-      + attr: name (g/c), loops (g/l), multiple (g/l)
-      + edges:
-      [1] 1->2 2->3 1->3
-
 # static_fitness_game_impl errors
 
     Code
@@ -1101,29 +1062,6 @@
       Error in `static_fitness_game_impl()`:
       ! Number of edges cannot be negative, got -1. Invalid value
       Source: <file>:<line>
-
-# static_power_law_game_impl basic
-
-    Code
-      static_power_law_game_impl(no_of_nodes = 5, no_of_edges = 4, exponent_out = 2.5)
-    Output
-      IGRAPH U--- 5 4 -- Static power law model
-      + attr: name (g/c), exponent_out (g/n), exponent_in (g/n), loops (g/l),
-      | multiple (g/l), finite_size_correction (g/l)
-      + edges:
-      [1] 1--5 2--4 3--5 4--5
-
----
-
-    Code
-      static_power_law_game_impl(no_of_nodes = 5, no_of_edges = 4, exponent_out = 2.5,
-        exponent_in = 2, loops = TRUE, multiple = TRUE, finite_size_correction = FALSE)
-    Output
-      IGRAPH D--- 5 4 -- Static power law model
-      + attr: name (g/c), exponent_out (g/n), exponent_in (g/n), loops (g/l),
-      | multiple (g/l), finite_size_correction (g/l)
-      + edges:
-      [1] 1->1 3->5 1->4 5->1
 
 # static_power_law_game_impl errors
 
@@ -1163,35 +1101,13 @@
       ! Number of nodes must be non-negative. Invalid value
       Source: <file>:<line>
 
-# sbm_game_impl basic
-
-    Code
-      sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3))
-    Output
-      IGRAPH U--- 5 6 -- Stochastic block model
-      + attr: name (g/c), loops (g/l)
-      + edges:
-      [1] 1--2 1--3 2--3 1--4 1--5 3--5
-
----
-
-    Code
-      sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3),
-      directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 14 -- Stochastic block model
-      + attr: name (g/c), loops (g/l)
-      + edges:
-       [1] 1->1 2->1 2->4 1->5 4->1 5->1 5->2 3->3 5->3 3->4 4->4 5->4 3->5 5->5
-
 # sbm_game_impl errors
 
     Code
       sbm_game_impl(n = -1, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3))
     Condition
       Error in `sbm_game_impl()`:
-      ! Sum of the block sizes (5) must equal the number of vertices (-1). Invalid value
-      Source: <file>:<line>
+      ! unused argument (n = -1)
 
 # hsbm_game_impl basic
 
@@ -1297,7 +1213,7 @@
       correlated_pair_game_impl(n = -1, corr = 0.5, p = 0.5)
     Condition
       Error in `correlated_pair_game_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # dot_product_game_impl basic
@@ -1684,14 +1600,6 @@
     Condition
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
-
-# get_all_simple_paths_impl basic
-
-    Code
-      get_all_simple_paths_impl(graph = g, from = 1, to = 3)
-    Output
-      + 3/3 vertices:
-      [1] 1 2 3
 
 # get_all_simple_paths_impl errors
 
@@ -2665,80 +2573,6 @@
       
       
 
----
-
-    Code
-      eigenvector_centrality_impl(graph = g, directed = TRUE, scale = FALSE)
-    Output
-      $vector
-      [1] 0.5000000 0.7071068 0.5000000
-      
-      $value
-      [1] 1.414214
-      
-      $options
-      $options$bmat
-      [1] "I"
-      
-      $options$n
-      [1] 3
-      
-      $options$which
-      [1] "LA"
-      
-      $options$nev
-      [1] 1
-      
-      $options$tol
-      [1] 0
-      
-      $options$ncv
-      [1] 0
-      
-      $options$ldv
-      [1] 0
-      
-      $options$ishift
-      [1] 1
-      
-      $options$maxiter
-      [1] 3000
-      
-      $options$nb
-      [1] 1
-      
-      $options$mode
-      [1] 1
-      
-      $options$start
-      [1] 1
-      
-      $options$sigma
-      [1] 0
-      
-      $options$sigmai
-      [1] 0
-      
-      $options$info
-      [1] 0
-      
-      $options$iter
-      [1] 1
-      
-      $options$nconv
-      [1] 1
-      
-      $options$numop
-      [1] 3
-      
-      $options$numopb
-      [1] 0
-      
-      $options$numreo
-      [1] 3
-      
-      
-
 # eigenvector_centrality_impl errors
 
     Code
@@ -2757,83 +2591,6 @@
       
       $authority
       [1] 1 1 1 1 1
-      
-      $value
-      [1] 16
-      
-      $options
-      $options$bmat
-      [1] "I"
-      
-      $options$n
-      [1] 5
-      
-      $options$which
-      [1] "LA"
-      
-      $options$nev
-      [1] 1
-      
-      $options$tol
-      [1] 0
-      
-      $options$ncv
-      [1] 0
-      
-      $options$ldv
-      [1] 0
-      
-      $options$ishift
-      [1] 1
-      
-      $options$maxiter
-      [1] 3000
-      
-      $options$nb
-      [1] 1
-      
-      $options$mode
-      [1] 1
-      
-      $options$start
-      [1] 1
-      
-      $options$sigma
-      [1] 0
-      
-      $options$sigmai
-      [1] 0
-      
-      $options$info
-      [1] 0
-      
-      $options$iter
-      [1] 1
-      
-      $options$nconv
-      [1] 1
-      
-      $options$numop
-      [1] 4
-      
-      $options$numopb
-      [1] 0
-      
-      $options$numreo
-      [1] 4
-      
-      
-
----
-
-    Code
-      hub_and_authority_scores_impl(graph = g, scale = FALSE)
-    Output
-      $hub
-      [1] 0.4472136 0.4472136 0.4472136 0.4472136 0.4472136
-      
-      $authority
-      [1] 0.4472136 0.4472136 0.4472136 0.4472136 0.4472136
       
       $value
       [1] 16
@@ -3395,87 +3152,6 @@
       [1] 1
       
 
----
-
-    Code
-      centralization_eigenvector_centrality_impl(graph = g, directed = TRUE,
-        normalized = FALSE)
-    Output
-      $vector
-      [1] 0.7071068 1.0000000 0.7071068
-      
-      $value
-      [1] 1.414214
-      
-      $options
-      $options$bmat
-      [1] "I"
-      
-      $options$n
-      [1] 3
-      
-      $options$which
-      [1] "LA"
-      
-      $options$nev
-      [1] 1
-      
-      $options$tol
-      [1] 0
-      
-      $options$ncv
-      [1] 0
-      
-      $options$ldv
-      [1] 0
-      
-      $options$ishift
-      [1] 1
-      
-      $options$maxiter
-      [1] 3000
-      
-      $options$nb
-      [1] 1
-      
-      $options$mode
-      [1] 1
-      
-      $options$start
-      [1] 1
-      
-      $options$sigma
-      [1] 0
-      
-      $options$sigmai
-      [1] 0
-      
-      $options$info
-      [1] 0
-      
-      $options$iter
-      [1] 1
-      
-      $options$nconv
-      [1] 1
-      
-      $options$numop
-      [1] 3
-      
-      $options$numopb
-      [1] 0
-      
-      $options$numreo
-      [1] 3
-      
-      
-      $centralization
-      [1] 0.5857864
-      
-      $theoretical_max
-      [1] 1
-      
-
 # centralization_eigenvector_centrality_impl errors
 
     Code
@@ -3488,13 +3164,6 @@
 
     Code
       centralization_eigenvector_centrality_tmax_impl(nodes = 3)
-    Output
-      [1] 1
-
----
-
-    Code
-      centralization_eigenvector_centrality_tmax_impl(nodes = 3, directed = TRUE)
     Output
       [1] 2
 
@@ -3675,73 +3344,29 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# eccentricity_dijkstra_impl basic
-
-    Code
-      eccentricity_dijkstra_impl(graph = g)
-    Output
-      [1] 2 1 2
-
----
-
-    Code
-      eccentricity_dijkstra_impl(graph = g, mode = "in")
-    Output
-      [1] 2 1 2
-
 # eccentricity_dijkstra_impl errors
 
     Code
       eccentricity_dijkstra_impl(graph = NULL)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
-
-# graph_center_dijkstra_impl basic
-
-    Code
-      graph_center_dijkstra_impl(graph = g)
-    Output
-      + 1/3 vertex:
-      [1] 2
-
----
-
-    Code
-      graph_center_dijkstra_impl(graph = g, mode = "in")
-    Output
-      + 1/3 vertex:
-      [1] 2
+      Error in `eccentricity_dijkstra_impl()`:
+      ! could not find function "eccentricity_dijkstra_impl"
 
 # graph_center_dijkstra_impl errors
 
     Code
       graph_center_dijkstra_impl(graph = NULL)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
-
-# radius_dijkstra_impl basic
-
-    Code
-      radius_dijkstra_impl(graph = g)
-    Output
-      [1] 1
-
----
-
-    Code
-      radius_dijkstra_impl(graph = g, mode = "in")
-    Output
-      [1] 1
+      Error in `graph_center_dijkstra_impl()`:
+      ! could not find function "graph_center_dijkstra_impl"
 
 # radius_dijkstra_impl errors
 
     Code
       radius_dijkstra_impl(graph = NULL)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
+      Error in `radius_dijkstra_impl()`:
+      ! could not find function "radius_dijkstra_impl"
 
 # pseudo_diameter_impl basic
 
@@ -3781,44 +3406,13 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# pseudo_diameter_dijkstra_impl basic
-
-    Code
-      pseudo_diameter_dijkstra_impl(graph = g, start_vid = 1)
-    Output
-      $diameter
-      [1] 2
-      
-      $from
-      [1] 0
-      
-      $to
-      [1] 2
-      
-
----
-
-    Code
-      pseudo_diameter_dijkstra_impl(graph = g, start_vid = 1, directed = FALSE,
-        unconnected = FALSE)
-    Output
-      $diameter
-      [1] 2
-      
-      $from
-      [1] 0
-      
-      $to
-      [1] 2
-      
-
 # pseudo_diameter_dijkstra_impl errors
 
     Code
       pseudo_diameter_dijkstra_impl(graph = NULL, start_vid = 1)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
+      Error in `pseudo_diameter_dijkstra_impl()`:
+      ! could not find function "pseudo_diameter_dijkstra_impl"
 
 # diversity_impl basic
 
@@ -4194,7 +3788,7 @@
       bipartite_game_gnp_impl(n1 = -1, n2 = 2, p = 0.5)
     Condition
       Error in `bipartite_game_gnp_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # bipartite_game_gnm_impl basic
@@ -4231,7 +3825,7 @@
       bipartite_game_gnm_impl(n1 = -1, n2 = 2, m = 1)
     Condition
       Error in `bipartite_game_gnm_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # get_laplacian_impl basic
@@ -5020,13 +4614,13 @@
       [2,]  0.5    0
       [3,]  1.0    1
       
-      $extd_graph
-      IGRAPH U--- 3 2 -- 
-      + edges:
-      [1] 1--2 2--3
+      $routing
+      $routing[[1]]
+           [,1] [,2]
       
-      $extd_to_orig_eids
-      [1] 1 2
+      $routing[[2]]
+           [,1] [,2]
+      
       
 
 ---
@@ -5041,13 +4635,13 @@
       [2,]    0    2
       [3,]    0    4
       
-      $extd_graph
-      IGRAPH U--- 3 2 -- 
-      + edges:
-      [1] 1--2 2--3
+      $routing
+      $routing[[1]]
+           [,1] [,2]
       
-      $extd_to_orig_eids
-      [1] 1 2
+      $routing[[2]]
+           [,1] [,2]
+      
       
 
 # layout_sugiyama_impl errors
@@ -5276,15 +4870,6 @@
       [2,]    0    1    0
       [3,]    1    0    1
 
----
-
-    Code
-      similarity_dice_impl(graph = g, vids = 1:2, mode = "in", loops = TRUE)
-    Output
-           [,1] [,2]
-      [1,]  1.0  0.8
-      [2,]  0.8  1.0
-
 # similarity_dice_impl errors
 
     Code
@@ -5374,15 +4959,6 @@
       [1,]    1    0    1
       [2,]    0    1    0
       [3,]    1    0    1
-
----
-
-    Code
-      similarity_jaccard_impl(graph = g, vids = 1:2, mode = "in", loops = TRUE)
-    Output
-                [,1]      [,2]
-      [1,] 1.0000000 0.6666667
-      [2,] 0.6666667 1.0000000
 
 # similarity_jaccard_impl errors
 
@@ -5631,22 +5207,6 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# community_leiden_impl basic
-
-    Code
-      community_leiden_impl(graph = g, weights = c(1, 2), vertex_weights = c(1, 2, 3),
-      resolution = 0.5, beta = 0.1, start = TRUE, n_iterations = 1, membership = 1:3)
-    Output
-      $membership
-      [1] 0 1 2
-      
-      $nb_clusters
-      [1] 3
-      
-      $quality
-      [1] -1.166667
-      
-
 # community_leiden_impl errors
 
     Code
@@ -5688,19 +5248,6 @@
       
       $codelength
       [1] 1.512987
-      
-
----
-
-    Code
-      community_infomap_impl(graph = g, e_weights = c(1, 2), v_weights = c(1, 2, 3),
-      nb_trials = 2)
-    Output
-      $membership
-      [1] 0 0 0
-      
-      $codelength
-      [1] 1.462254
       
 
 # community_infomap_impl errors
@@ -6250,7 +5797,7 @@
     Condition
       Warning in `triad_census_impl()`:
       Triad census called on an undirected graph. All connections will be treated as mutual.
-      Source: misc/motifs.c:1151
+      Source: misc/motifs.c:1157
     Output
        [1] 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0
 
@@ -7339,58 +6886,7 @@
     Code
       canonical_permutation_impl(graph = g)
     Output
-      $labeling
       [1] 3 1 2
-      
-      $info
-      $info$nof_nodes
-      [1] 3
-      
-      $info$nof_leaf_nodes
-      [1] 3
-      
-      $info$nof_bad_nodes
-      [1] 0
-      
-      $info$nof_canupdates
-      [1] 1
-      
-      $info$max_level
-      [1] 1
-      
-      $info$group_size
-      [1] "2"
-      
-      
-
----
-
-    Code
-      canonical_permutation_impl(graph = g, colors = c(1, 2, 3), sh = "fl")
-    Output
-      $labeling
-      [1] 1 2 3
-      
-      $info
-      $info$nof_nodes
-      [1] 1
-      
-      $info$nof_leaf_nodes
-      [1] 1
-      
-      $info$nof_bad_nodes
-      [1] 0
-      
-      $info$nof_canupdates
-      [1] 0
-      
-      $info$max_level
-      [1] 0
-      
-      $info$group_size
-      [1] "1"
-      
-      
 
 # canonical_permutation_impl errors
 
@@ -7541,48 +7037,7 @@
     Code
       count_automorphisms_impl(graph = g)
     Output
-      $nof_nodes
-      [1] 3
-      
-      $nof_leaf_nodes
-      [1] 3
-      
-      $nof_bad_nodes
-      [1] 0
-      
-      $nof_canupdates
-      [1] 1
-      
-      $max_level
-      [1] 1
-      
-      $group_size
-      [1] "2"
-      
-
----
-
-    Code
-      count_automorphisms_impl(graph = g, colors = c(1, 2, 3), sh = "fl")
-    Output
-      $nof_nodes
-      [1] 1
-      
-      $nof_leaf_nodes
-      [1] 1
-      
-      $nof_bad_nodes
-      [1] 0
-      
-      $nof_canupdates
-      [1] 0
-      
-      $max_level
-      [1] 0
-      
-      $group_size
-      [1] "1"
-      
+      [1] 2
 
 # count_automorphisms_impl errors
 
@@ -7600,35 +7055,6 @@
       [[1]]
       + 3/3 vertices:
       [1] 3 2 1
-      
-
----
-
-    Code
-      automorphism_group_impl(graph = g, colors = c(1, 2, 3), sh = "fl", details = TRUE)
-    Output
-      $generators
-      list()
-      
-      $info
-      $info$nof_nodes
-      [1] 1
-      
-      $info$nof_leaf_nodes
-      [1] 1
-      
-      $info$nof_bad_nodes
-      [1] 0
-      
-      $info$nof_canupdates
-      [1] 0
-      
-      $info$max_level
-      [1] 0
-      
-      $info$group_size
-      [1] "1"
-      
       
 
 # automorphism_group_impl errors
@@ -9840,20 +9266,6 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# fundamental_cycles_impl basic
-
-    Code
-      fundamental_cycles_impl(graph = g, start = 1)
-    Output
-      list()
-
----
-
-    Code
-      fundamental_cycles_impl(graph = g, start = 1, bfs_cutoff = 2, weights = c(1, 2))
-    Output
-      list()
-
 # fundamental_cycles_impl errors
 
     Code
@@ -9861,21 +9273,6 @@
     Condition
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
-
-# minimum_cycle_basis_impl basic
-
-    Code
-      minimum_cycle_basis_impl(graph = g)
-    Output
-      list()
-
----
-
-    Code
-      minimum_cycle_basis_impl(graph = g, bfs_cutoff = 2, complete = FALSE,
-        use_cycle_order = FALSE, weights = c(1, 2))
-    Output
-      list()
 
 # minimum_cycle_basis_impl errors
 
@@ -11533,30 +10930,6 @@
       Error in `cliques_callback_closure_impl()`:
       ! `callback` must be a function
 
-# maximal_cliques_callback_closure_impl basic
-
-    Code
-      cat("Result:\n")
-    Output
-      Result:
-    Code
-      print(result)
-    Output
-      NULL
-    Code
-      cat("\nNumber of maximal cliques found:", length(clique_data), "\n")
-    Output
-      
-      Number of maximal cliques found: 3 
-    Code
-      if (length(clique_data) > 0) {
-        cat("First maximal clique:\n")
-        print(clique_data[[1]])
-      }
-    Output
-      First maximal clique:
-      [1] 2 1 4
-
 # maximal_cliques_callback_closure_impl errors
 
     Code
@@ -11865,8 +11238,8 @@
       subisomorphic_lad_impl(pattern = NULL, target = g, domains = list(), induced = FALSE,
       time_limit = 0)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
+      Error in `subisomorphic_lad_impl()`:
+      ! unused argument (time_limit = 0)
 
 ---
 
@@ -11874,6 +11247,6 @@
       subisomorphic_lad_impl(pattern = g, target = g, domains = "not a list",
         induced = FALSE, time_limit = 0)
     Condition
-      Error:
-      ! `domains` must be a list or NULL
+      Error in `subisomorphic_lad_impl()`:
+      ! unused argument (time_limit = 0)
 
