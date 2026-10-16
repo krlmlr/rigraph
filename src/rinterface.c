@@ -6653,12 +6653,12 @@ SEXP R_igraph_add_edge(SEXP graph, SEXP from, SEXP to) {
 /*-------------------------------------------/
 / igraph_eigenvector_centrality              /
 /-------------------------------------------*/
-SEXP R_igraph_eigenvector_centrality(SEXP graph, SEXP directed, SEXP scale, SEXP weights, SEXP options) {
+SEXP R_igraph_eigenvector_centrality(SEXP graph, SEXP mode, SEXP scale, SEXP weights, SEXP options) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_vector_t c_vector;
   igraph_real_t c_value;
-  igraph_bool_t c_directed;
+  igraph_neimode_t c_mode;
   igraph_bool_t c_scale;
   igraph_vector_t c_weights;
   igraph_arpack_options_t c_options;
@@ -6670,8 +6670,7 @@ SEXP R_igraph_eigenvector_centrality(SEXP graph, SEXP directed, SEXP scale, SEXP
   Rz_SEXP_to_igraph(graph, &c_graph);
   IGRAPH_R_CHECK(igraph_vector_init(&c_vector, 0));
   IGRAPH_FINALLY(igraph_vector_destroy, &c_vector);
-  IGRAPH_R_CHECK_BOOL(directed);
-  c_directed = LOGICAL(directed)[0];
+  c_mode = (igraph_neimode_t) Rf_asInteger(mode);
   IGRAPH_R_CHECK_BOOL(scale);
   c_scale = LOGICAL(scale)[0];
   if (!Rf_isNull(weights)) {
@@ -6679,7 +6678,7 @@ SEXP R_igraph_eigenvector_centrality(SEXP graph, SEXP directed, SEXP scale, SEXP
   }
   Rz_SEXP_to_igraph_arpack_options(options, &c_options);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_eigenvector_centrality(&c_graph, &c_vector, &c_value, c_directed, c_scale, (Rf_isNull(weights) ? 0 : &c_weights), &c_options));
+  IGRAPH_R_CHECK(igraph_eigenvector_centrality(&c_graph, &c_vector, &c_value, c_mode, c_scale, (Rf_isNull(weights) ? 0 : &c_weights), &c_options));
 
                                         /* Convert output */
   PROTECT(r_result=NEW_LIST(3));
@@ -7529,12 +7528,12 @@ SEXP R_igraph_centralization_closeness_tmax(SEXP graph, SEXP nodes, SEXP mode) {
 /*-------------------------------------------/
 / igraph_centralization_eigenvector_centrality /
 /-------------------------------------------*/
-SEXP R_igraph_centralization_eigenvector_centrality(SEXP graph, SEXP directed, SEXP scale, SEXP options, SEXP normalized) {
+SEXP R_igraph_centralization_eigenvector_centrality(SEXP graph, SEXP mode, SEXP scale, SEXP options, SEXP normalized) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_vector_t c_vector;
   igraph_real_t c_value;
-  igraph_bool_t c_directed;
+  igraph_neimode_t c_mode;
   igraph_bool_t c_scale;
   igraph_arpack_options_t c_options;
   igraph_real_t c_centralization;
@@ -7550,15 +7549,14 @@ SEXP R_igraph_centralization_eigenvector_centrality(SEXP graph, SEXP directed, S
   Rz_SEXP_to_igraph(graph, &c_graph);
   IGRAPH_R_CHECK(igraph_vector_init(&c_vector, 0));
   IGRAPH_FINALLY(igraph_vector_destroy, &c_vector);
-  IGRAPH_R_CHECK_BOOL(directed);
-  c_directed = LOGICAL(directed)[0];
+  c_mode = (igraph_neimode_t) Rf_asInteger(mode);
   IGRAPH_R_CHECK_BOOL(scale);
   c_scale = LOGICAL(scale)[0];
   Rz_SEXP_to_igraph_arpack_options(options, &c_options);
   IGRAPH_R_CHECK_BOOL(normalized);
   c_normalized = LOGICAL(normalized)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_centralization_eigenvector_centrality(&c_graph, &c_vector, &c_value, c_directed, c_scale, &c_options, &c_centralization, &c_theoretical_max, c_normalized));
+  IGRAPH_R_CHECK(igraph_centralization_eigenvector_centrality(&c_graph, &c_vector, &c_value, c_mode, c_scale, &c_options, &c_centralization, &c_theoretical_max, c_normalized));
 
                                         /* Convert output */
   PROTECT(r_result=NEW_LIST(5));
@@ -7593,11 +7591,11 @@ SEXP R_igraph_centralization_eigenvector_centrality(SEXP graph, SEXP directed, S
 /*-------------------------------------------/
 / igraph_centralization_eigenvector_centrality_tmax /
 /-------------------------------------------*/
-SEXP R_igraph_centralization_eigenvector_centrality_tmax(SEXP graph, SEXP nodes, SEXP directed, SEXP scale) {
+SEXP R_igraph_centralization_eigenvector_centrality_tmax(SEXP graph, SEXP nodes, SEXP mode, SEXP scale) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_integer_t c_nodes;
-  igraph_bool_t c_directed;
+  igraph_neimode_t c_mode;
   igraph_bool_t c_scale;
   igraph_real_t c_res;
   SEXP res;
@@ -7609,12 +7607,11 @@ SEXP R_igraph_centralization_eigenvector_centrality_tmax(SEXP graph, SEXP nodes,
   }
   IGRAPH_R_CHECK_INT(nodes);
   c_nodes = (igraph_integer_t) REAL(nodes)[0];
-  IGRAPH_R_CHECK_BOOL(directed);
-  c_directed = LOGICAL(directed)[0];
+  c_mode = (igraph_neimode_t) Rf_asInteger(mode);
   IGRAPH_R_CHECK_BOOL(scale);
   c_scale = LOGICAL(scale)[0];
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_centralization_eigenvector_centrality_tmax((Rf_isNull(graph) ? 0 : &c_graph), c_nodes, c_directed, c_scale, &c_res));
+  IGRAPH_R_CHECK(igraph_centralization_eigenvector_centrality_tmax((Rf_isNull(graph) ? 0 : &c_graph), c_nodes, c_mode, c_scale, &c_res));
 
                                         /* Convert output */
   PROTECT(res=NEW_NUMERIC(1));

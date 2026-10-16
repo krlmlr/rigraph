@@ -200,14 +200,20 @@ edge_betweenness_impl <- function(
 
 eigenvector_centrality_impl <- function(
   graph,
-  directed = FALSE,
+  mode = c("out", "in", "all", "total"),
   scale = TRUE,
   weights = NULL,
   options = arpack_defaults()
 ) {
   # Argument checks
   ensure_igraph(graph)
-  directed <- as.logical(directed)
+  mode <- switch_igraph_arg(
+    mode,
+    "out" = 1L,
+    "in" = 2L,
+    "all" = 3L,
+    "total" = 3L
+  )
   scale <- as.logical(scale)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
@@ -224,7 +230,7 @@ eigenvector_centrality_impl <- function(
   res <- .Call(
     R_igraph_eigenvector_centrality,
     graph,
-    directed,
+    mode,
     scale,
     weights,
     options
@@ -759,14 +765,20 @@ centralization_degree_tmax_impl <- function(
 
 centralization_eigenvector_centrality_impl <- function(
   graph,
-  directed = FALSE,
+  mode = c("out", "in", "all", "total"),
   scale = TRUE,
   options = arpack_defaults(),
   normalized = TRUE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  directed <- as.logical(directed)
+  mode <- switch_igraph_arg(
+    mode,
+    "out" = 1L,
+    "in" = 2L,
+    "all" = 3L,
+    "total" = 3L
+  )
   scale <- as.logical(scale)
   options <- modify_list(arpack_defaults(), options)
   normalized <- as.logical(normalized)
@@ -776,7 +788,7 @@ centralization_eigenvector_centrality_impl <- function(
   res <- .Call(
     R_igraph_centralization_eigenvector_centrality,
     graph,
-    directed,
+    mode,
     scale,
     options,
     normalized
@@ -788,7 +800,7 @@ centralization_eigenvector_centrality_impl <- function(
 centralization_eigenvector_centrality_tmax_impl <- function(
   graph = NULL,
   nodes = 0,
-  directed = FALSE,
+  mode = c("out", "in", "all", "total"),
   scale = TRUE
 ) {
   # Argument checks
@@ -796,7 +808,13 @@ centralization_eigenvector_centrality_tmax_impl <- function(
     ensure_igraph(graph)
   }
   nodes <- as.numeric(nodes)
-  directed <- as.logical(directed)
+  mode <- switch_igraph_arg(
+    mode,
+    "out" = 1L,
+    "in" = 2L,
+    "all" = 3L,
+    "total" = 3L
+  )
   scale <- as.logical(scale)
 
   on.exit(.Call(R_igraph_finalizer))
@@ -805,7 +823,7 @@ centralization_eigenvector_centrality_tmax_impl <- function(
     R_igraph_centralization_eigenvector_centrality_tmax,
     graph,
     nodes,
-    directed,
+    mode,
     scale
   )
 
