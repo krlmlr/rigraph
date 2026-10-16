@@ -56,29 +56,13 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# delete_vertices_idx_impl basic
-
-    Code
-      delete_vertices_idx_impl(graph = g, vertices = 1)
-    Output
-      $graph
-      IGRAPH D--- 2 0 -- 
-      + edges:
-      
-      $idx
-      [1] 0 1 2
-      
-      $invidx
-      [1] 1 2
-      
-
 # delete_vertices_idx_impl errors
 
     Code
       delete_vertices_idx_impl(graph = NULL, vertices = 1)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
+      Error in `delete_vertices_idx_impl()`:
+      ! could not find function "delete_vertices_idx_impl"
 
 # vcount_impl basic
 
@@ -94,20 +78,6 @@
     Condition
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
-
-# degree_impl basic
-
-    Code
-      degree_impl(graph = g)
-    Output
-      [1] 0 0 0
-
----
-
-    Code
-      degree_impl(graph = g, mode = "in")
-    Output
-      [1] 0 0 0
 
 # degree_impl errors
 
@@ -817,22 +787,13 @@
       + edges:
       [1] 1--2 1--3 2--3 1--4 2--4 1--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnp_impl(n = 5, p = 0.5, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 12 -- 
-      + edges:
-       [1] 2->1 3->1 4->1 2->2 1->3 2->3 4->3 1->4 2->4 5->4 3->5 4->5
-
 # erdos_renyi_game_gnp_impl errors
 
     Code
       erdos_renyi_game_gnp_impl(n = -1, p = 0.5)
     Condition
       Error in `erdos_renyi_game_gnp_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # erdos_renyi_game_gnm_impl basic
@@ -844,22 +805,13 @@
       + edges:
       [1] 3--4 2--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnm_impl(n = 5, m = 3, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 3 -- 
-      + edges:
-      [1] 4->3 5->3 3->5
-
 # erdos_renyi_game_gnm_impl errors
 
     Code
       erdos_renyi_game_gnm_impl(n = -1, m = 3)
     Condition
       Error in `erdos_renyi_game_gnm_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # growing_random_game_impl basic
@@ -1163,35 +1115,13 @@
       ! Number of nodes must be non-negative. Invalid value
       Source: <file>:<line>
 
-# sbm_game_impl basic
-
-    Code
-      sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3))
-    Output
-      IGRAPH U--- 5 6 -- Stochastic block model
-      + attr: name (g/c), loops (g/l)
-      + edges:
-      [1] 1--2 1--3 2--3 1--4 1--5 3--5
-
----
-
-    Code
-      sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3),
-      directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 14 -- Stochastic block model
-      + attr: name (g/c), loops (g/l)
-      + edges:
-       [1] 1->1 2->1 2->4 1->5 4->1 5->1 5->2 3->3 5->3 3->4 4->4 5->4 3->5 5->5
-
 # sbm_game_impl errors
 
     Code
       sbm_game_impl(n = -1, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3))
     Condition
       Error in `sbm_game_impl()`:
-      ! Sum of the block sizes (5) must equal the number of vertices (-1). Invalid value
-      Source: <file>:<line>
+      ! unused argument (n = -1)
 
 # hsbm_game_impl basic
 
@@ -1297,7 +1227,7 @@
       correlated_pair_game_impl(n = -1, corr = 0.5, p = 0.5)
     Condition
       Error in `correlated_pair_game_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # dot_product_game_impl basic
@@ -1307,7 +1237,7 @@
     Condition
       Warning in `dot_product_game_impl()`:
       Greater than 1 connection probability in dot-product graph.
-      Source: games/dotproduct.c:89
+      Source: games/dotproduct.c:87
     Output
       IGRAPH U--- 2 1 -- 
       + edge:
@@ -1320,7 +1250,7 @@
     Condition
       Warning in `dot_product_game_impl()`:
       Greater than 1 connection probability in dot-product graph.
-      Source: games/dotproduct.c:89
+      Source: games/dotproduct.c:87
     Output
       IGRAPH D--- 2 2 -- 
       + edges:
@@ -2338,20 +2268,6 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# maxdegree_impl basic
-
-    Code
-      maxdegree_impl(graph = g)
-    Output
-      [1] 2
-
----
-
-    Code
-      maxdegree_impl(graph = g, mode = "in", loops = FALSE)
-    Output
-      [1] 2
-
 # maxdegree_impl errors
 
     Code
@@ -3088,20 +3004,6 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# strength_impl basic
-
-    Code
-      strength_impl(graph = g)
-    Output
-      [1] 1 2 1
-
----
-
-    Code
-      strength_impl(graph = g, mode = "in", loops = FALSE)
-    Output
-      [1] 1 2 1
-
 # strength_impl errors
 
     Code
@@ -3132,36 +3034,6 @@
       Error in `centralization_impl()`:
       ! 'list' object cannot be coerced to type 'double'
 
-# centralization_degree_impl basic
-
-    Code
-      centralization_degree_impl(graph = g)
-    Output
-      $res
-      [1] 1 2 1
-      
-      $centralization
-      [1] 0.3333333
-      
-      $theoretical_max
-      [1] 6
-      
-
----
-
-    Code
-      centralization_degree_impl(graph = g, mode = "in", loops = FALSE, normalized = FALSE)
-    Output
-      $res
-      [1] 1 2 1
-      
-      $centralization
-      [1] 2
-      
-      $theoretical_max
-      [1] 2
-      
-
 # centralization_degree_impl errors
 
     Code
@@ -3170,28 +3042,13 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# centralization_degree_tmax_impl basic
-
-    Code
-      centralization_degree_tmax_impl(nodes = 3, loops = TRUE)
-    Output
-      [1] 6
-
----
-
-    Code
-      centralization_degree_tmax_impl(nodes = 3, mode = "in", loops = FALSE)
-    Output
-      [1] 4
-
 # centralization_degree_tmax_impl errors
 
     Code
       centralization_degree_tmax_impl(nodes = -1, loops = TRUE)
     Condition
       Error in `centralization_degree_tmax_impl()`:
-      ! Number of vertices must not be negative. Invalid value
-      Source: <file>:<line>
+      ! `loops` must be one of "none", "twice", or "once", not "true".
 
 # centralization_betweenness_impl basic
 
@@ -4194,7 +4051,7 @@
       bipartite_game_gnp_impl(n1 = -1, n2 = 2, p = 0.5)
     Condition
       Error in `bipartite_game_gnp_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # bipartite_game_gnm_impl basic
@@ -4231,7 +4088,7 @@
       bipartite_game_gnm_impl(n1 = -1, n2 = 2, m = 1)
     Condition
       Error in `bipartite_game_gnm_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # get_laplacian_impl basic
@@ -6522,7 +6379,7 @@
       [1] 1--2
       
       $map
-      [1] 2 3 1
+      [1] 1 2 0
       
       $invmap
       [1] 1 2
@@ -6539,7 +6396,7 @@
       [1] 1--2
       
       $map
-      [1] 2 3 1
+      [1] 1 2 0
       
       $invmap
       [1] 1 2
@@ -7340,7 +7197,7 @@
       canonical_permutation_impl(graph = g)
     Output
       $labeling
-      [1] 2 3 1
+      [1] 3 1 2
       
       $info
       $info$nof_nodes
@@ -7772,173 +7629,6 @@
     Condition
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
-
-# adjacency_spectral_embedding_impl basic
-
-    Code
-      adjacency_spectral_embedding_impl(graph = g, no = 2)
-    Output
-      $X
-                [,1]       [,2]
-      [1,] 0.6718598 -0.4487712
-      [2,] 1.1328501  0.5323058
-      [3,] 0.6718598 -0.4487712
-      
-      $Y
-                [,1]       [,2]
-      [1,] 0.6718598 -0.4487712
-      [2,] 1.1328501  0.5323058
-      [3,] 0.6718598 -0.4487712
-      
-      $D
-      [1]  2.1861407 -0.6861407
-      
-      $options
-      $options$bmat
-      [1] "I"
-      
-      $options$n
-      [1] 3
-      
-      $options$which
-      [1] "LM"
-      
-      $options$nev
-      [1] 2
-      
-      $options$tol
-      [1] 0
-      
-      $options$ncv
-      [1] 3
-      
-      $options$ldv
-      [1] 0
-      
-      $options$ishift
-      [1] 1
-      
-      $options$maxiter
-      [1] 3000
-      
-      $options$nb
-      [1] 1
-      
-      $options$mode
-      [1] 1
-      
-      $options$start
-      [1] 1
-      
-      $options$sigma
-      [1] 0
-      
-      $options$sigmai
-      [1] 0
-      
-      $options$info
-      [1] 0
-      
-      $options$iter
-      [1] 1
-      
-      $options$nconv
-      [1] 2
-      
-      $options$numop
-      [1] 3
-      
-      $options$numopb
-      [1] 0
-      
-      $options$numreo
-      [1] 2
-      
-      
-
----
-
-    Code
-      adjacency_spectral_embedding_impl(graph = g, no = 2, weights = c(1, 2), which = "la",
-      scaled = FALSE, cvec = c(1, 2, 3), options = list(maxiter = 10))
-    Output
-      $X
-                [,1]       [,2]
-      [1,] 0.1720265 -0.7864357
-      [2,] 0.6311790 -0.3743620
-      [3,] 0.7563200  0.4912963
-      
-      $Y
-                [,1]       [,2]
-      [1,] 0.1720265 -0.7864357
-      [2,] 0.6311790 -0.3743620
-      [3,] 0.7563200  0.4912963
-      
-      $D
-      [1] 4.669079 1.476024
-      
-      $options
-      $options$bmat
-      [1] "I"
-      
-      $options$n
-      [1] 3
-      
-      $options$which
-      [1] "LA"
-      
-      $options$nev
-      [1] 2
-      
-      $options$tol
-      [1] 0
-      
-      $options$ncv
-      [1] 3
-      
-      $options$ldv
-      [1] 0
-      
-      $options$ishift
-      [1] 1
-      
-      $options$maxiter
-      [1] 10
-      
-      $options$nb
-      [1] 1
-      
-      $options$mode
-      [1] 1
-      
-      $options$start
-      [1] 1
-      
-      $options$sigma
-      [1] 0
-      
-      $options$sigmai
-      [1] 0
-      
-      $options$info
-      [1] 0
-      
-      $options$iter
-      [1] 1
-      
-      $options$nconv
-      [1] 2
-      
-      $options$numop
-      [1] 3
-      
-      $options$numopb
-      [1] 0
-      
-      $options$numreo
-      [1] 2
-      
-      
 
 # adjacency_spectral_embedding_impl errors
 
@@ -11532,30 +11222,6 @@
     Condition
       Error in `cliques_callback_closure_impl()`:
       ! `callback` must be a function
-
-# maximal_cliques_callback_closure_impl basic
-
-    Code
-      cat("Result:\n")
-    Output
-      Result:
-    Code
-      print(result)
-    Output
-      NULL
-    Code
-      cat("\nNumber of maximal cliques found:", length(clique_data), "\n")
-    Output
-      
-      Number of maximal cliques found: 3 
-    Code
-      if (length(clique_data) > 0) {
-        cat("First maximal clique:\n")
-        print(clique_data[[1]])
-      }
-    Output
-      First maximal clique:
-      [1] 2 1 4
 
 # maximal_cliques_callback_closure_impl errors
 
