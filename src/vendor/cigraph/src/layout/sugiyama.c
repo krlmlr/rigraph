@@ -377,6 +377,11 @@ igraph_error_t igraph_layout_sugiyama(
         }
         component_size = next_new_vertex_id;
 
+        /* Entries for the dummy vertices of this component follow those of its
+         * own vertices, which are numbered from zero, so that the entry of the
+         * dummy vertex with new ID i is at index i. */
+        IGRAPH_CHECK(igraph_vector_int_resize(&new_vertex_id_to_edge_id, component_size));
+
         /* Construct a proper layering of the component in new_graph where each edge
          * points downwards and spans exactly one layer. */
         for (i = 0; i < no_of_nodes; i++) {
