@@ -16776,7 +16776,40 @@ SEXP R_igraph_isomorphic_bliss(SEXP graph1, SEXP graph2, SEXP colors1, SEXP colo
 /*-------------------------------------------/
 / igraph_count_automorphisms                 /
 /-------------------------------------------*/
-SEXP R_igraph_count_automorphisms(SEXP graph, SEXP colors, SEXP sh) {
+SEXP R_igraph_count_automorphisms(SEXP graph, SEXP colors) {
+                                        /* Declarations */
+  igraph_t c_graph;
+  igraph_vector_int_t c_colors;
+  igraph_real_t c_result;
+  SEXP result;
+
+  SEXP r_result;
+                                        /* Convert input */
+  Rz_SEXP_to_igraph(graph, &c_graph);
+  if (!Rf_isNull(colors)) {
+    IGRAPH_R_CHECK(Rz_SEXP_to_vector_int_copy(colors, &c_colors));
+  } else {
+    IGRAPH_R_CHECK(igraph_vector_int_init(&c_colors, 0));
+  }
+  IGRAPH_FINALLY(igraph_vector_int_destroy, &c_colors);
+                                        /* Call igraph */
+  IGRAPH_R_CHECK(igraph_count_automorphisms(&c_graph, (Rf_isNull(colors) ? 0 : &c_colors), &c_result));
+
+                                        /* Convert output */
+  igraph_vector_int_destroy(&c_colors);
+  IGRAPH_FINALLY_CLEAN(1);
+  PROTECT(result=NEW_NUMERIC(1));
+  REAL(result)[0]=c_result;
+  r_result = result;
+
+  UNPROTECT(1);
+  return(r_result);
+}
+
+/*-------------------------------------------/
+/ igraph_count_automorphisms_bliss           /
+/-------------------------------------------*/
+SEXP R_igraph_count_automorphisms_bliss(SEXP graph, SEXP colors, SEXP sh) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_vector_int_t c_colors;
@@ -16795,7 +16828,7 @@ SEXP R_igraph_count_automorphisms(SEXP graph, SEXP colors, SEXP sh) {
   IGRAPH_FINALLY(igraph_vector_int_destroy, &c_colors);
   c_sh = (igraph_bliss_sh_t) Rf_asInteger(sh);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_count_automorphisms(&c_graph, (Rf_isNull(colors) ? 0 : &c_colors), c_sh, &c_info));
+  IGRAPH_R_CHECK(igraph_count_automorphisms_bliss(&c_graph, (Rf_isNull(colors) ? 0 : &c_colors), c_sh, &c_info));
 
                                         /* Convert output */
   igraph_vector_int_destroy(&c_colors);
