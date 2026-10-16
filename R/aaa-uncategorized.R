@@ -56,3 +56,28 @@ delete_vertices_map_impl <- function(
 
   res
 }
+
+iea_game_impl <- function(
+  n,
+  m,
+  directed = FALSE,
+  loops = FALSE
+) {
+  # Argument checks
+  n <- as.numeric(n)
+  m <- as.numeric(m)
+  directed <- as.logical(directed)
+  loops <- as.logical(loops)
+
+  on.exit(.Call(R_igraph_finalizer))
+  # Function call
+  res <- .Call(
+    R_igraph_iea_game,
+    n,
+    m,
+    directed,
+    loops
+  )
+
+  res
+}
