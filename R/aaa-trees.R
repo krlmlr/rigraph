@@ -68,7 +68,8 @@ is_tree_impl <- function(
 
 minimum_spanning_tree_impl <- function(
   graph,
-  weights = NULL
+  weights = NULL,
+  method = AUTOMATIC
 ) {
   # Argument checks
   ensure_igraph(graph)
@@ -86,7 +87,8 @@ minimum_spanning_tree_impl <- function(
   res <- .Call(
     R_igraph_minimum_spanning_tree,
     graph,
-    weights
+    weights,
+    method
   )
   if (igraph_opt("return.vs.es")) {
     res <- create_es(graph, res)
