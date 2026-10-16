@@ -133,8 +133,7 @@ static_fitness_game_impl <- function(
   no_of_edges,
   fitness_out,
   fitness_in = NULL,
-  loops = FALSE,
-  multiple = FALSE
+  allowed_edge_types = c("simple", "loops", "multi", "all")
 ) {
   # Argument checks
   no_of_edges <- as.numeric(no_of_edges)
@@ -142,8 +141,15 @@ static_fitness_game_impl <- function(
   if (!is.null(fitness_in)) {
     fitness_in <- as.numeric(fitness_in)
   }
-  loops <- as.logical(loops)
-  multiple <- as.logical(multiple)
+  allowed_edge_types <- switch_igraph_arg(
+    allowed_edge_types,
+    "simple" = 0L,
+    "loop" = 1L,
+    "loops" = 1L,
+    "multi" = 6L,
+    "multiple" = 6L,
+    "all" = 7L
+  )
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -152,8 +158,7 @@ static_fitness_game_impl <- function(
     no_of_edges,
     fitness_out,
     fitness_in,
-    loops,
-    multiple
+    allowed_edge_types
   )
 
   if (igraph_opt("add.params")) {
@@ -170,8 +175,7 @@ static_power_law_game_impl <- function(
   no_of_edges,
   exponent_out,
   exponent_in = -1,
-  loops = FALSE,
-  multiple = FALSE,
+  allowed_edge_types = c("simple", "loops", "multi", "all"),
   finite_size_correction = TRUE
 ) {
   # Argument checks
@@ -179,8 +183,15 @@ static_power_law_game_impl <- function(
   no_of_edges <- as.numeric(no_of_edges)
   exponent_out <- as.numeric(exponent_out)
   exponent_in <- as.numeric(exponent_in)
-  loops <- as.logical(loops)
-  multiple <- as.logical(multiple)
+  allowed_edge_types <- switch_igraph_arg(
+    allowed_edge_types,
+    "simple" = 0L,
+    "loop" = 1L,
+    "loops" = 1L,
+    "multi" = 6L,
+    "multiple" = 6L,
+    "all" = 7L
+  )
   finite_size_correction <- as.logical(finite_size_correction)
 
   on.exit(.Call(R_igraph_finalizer))
@@ -191,8 +202,7 @@ static_power_law_game_impl <- function(
     no_of_edges,
     exponent_out,
     exponent_in,
-    loops,
-    multiple,
+    allowed_edge_types,
     finite_size_correction
   )
 

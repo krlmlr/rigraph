@@ -461,8 +461,8 @@ extern SEXP R_igraph_st_mincut(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_st_mincut_value(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_st_vertex_connectivity(SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_star(SEXP, SEXP, SEXP);
-extern SEXP R_igraph_static_fitness_game(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP R_igraph_static_power_law_game(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP R_igraph_static_fitness_game(SEXP, SEXP, SEXP, SEXP);
+extern SEXP R_igraph_static_power_law_game(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_status(SEXP);
 extern SEXP R_igraph_stochastic_imitation(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP R_igraph_strength(SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -1045,8 +1045,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"R_igraph_st_mincut_value",                                (DL_FUNC) &R_igraph_st_mincut_value,                                 4},
     {"R_igraph_st_vertex_connectivity",                         (DL_FUNC) &R_igraph_st_vertex_connectivity,                          4},
     {"R_igraph_star",                                           (DL_FUNC) &R_igraph_star,                                            3},
-    {"R_igraph_static_fitness_game",                            (DL_FUNC) &R_igraph_static_fitness_game,                             5},
-    {"R_igraph_static_power_law_game",                          (DL_FUNC) &R_igraph_static_power_law_game,                           7},
+    {"R_igraph_static_fitness_game",                            (DL_FUNC) &R_igraph_static_fitness_game,                             4},
+    {"R_igraph_static_power_law_game",                          (DL_FUNC) &R_igraph_static_power_law_game,                           6},
     {"R_igraph_status",                                         (DL_FUNC) &R_igraph_status,                                          1},
     {"R_igraph_stochastic_imitation",                           (DL_FUNC) &R_igraph_stochastic_imitation,                            6},
     {"R_igraph_strength",                                       (DL_FUNC) &R_igraph_strength,                                        5},
