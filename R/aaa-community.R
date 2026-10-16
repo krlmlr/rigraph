@@ -630,7 +630,8 @@ community_label_propagation_impl <- function(
   mode = c("all", "out", "in", "total"),
   weights = NULL,
   initial = NULL,
-  fixed = NULL
+  fixed = NULL,
+  lpa_variant = DOMINANCE
 ) {
   # Argument checks
   ensure_igraph(graph)
@@ -664,7 +665,8 @@ community_label_propagation_impl <- function(
     mode,
     weights,
     initial,
-    fixed
+    fixed,
+    lpa_variant
   )
 
   res
