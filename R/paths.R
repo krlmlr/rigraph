@@ -345,7 +345,7 @@ eccentricity <- function(
     }
   }
 
-  eccentricity_dijkstra_impl(
+  eccentricity_impl(
     graph = graph,
     vids = vids,
     weights = weights,
@@ -403,7 +403,7 @@ radius <- function(
     }
   }
 
-  radius_dijkstra_impl(
+  radius_impl(
     graph = graph,
     weights = weights,
     mode = mode
@@ -442,7 +442,7 @@ graph_center <- function(
   weights = NULL,
   mode = c("all", "out", "in", "total")
 ) {
-  graph_center_dijkstra_impl(
+  graph_center_impl(
     graph = graph,
     weights = weights,
     mode = mode
