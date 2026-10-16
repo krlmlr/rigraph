@@ -286,7 +286,7 @@ igraph_hub_and_authority_scores:
     # in the argument list.
     DEPS: weights ON graph, hub ON graph V(graph), authority ON graph V(graph)
     PARAMS: GRAPH graph, OUT VERTEX_QTY hub, OUT VERTEX_QTY authority,
-        OUT REAL value, BOOLEAN scale=True, OPTIONAL EDGEWEIGHTS weights,
+        OUT REAL value, OPTIONAL EDGEWEIGHTS weights,
         INOUT ARPACKOPT options=ARPACK_DEFAULTS
 
 igraph_is_mutual:
