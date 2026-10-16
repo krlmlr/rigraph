@@ -13946,7 +13946,7 @@ SEXP R_igraph_motifs_randesu(SEXP graph, SEXP size, SEXP cut_prob) {
 SEXP R_igraph_motifs_randesu_estimate(SEXP graph, SEXP size, SEXP cut_prob, SEXP sample_size, SEXP sample) {
                                         /* Declarations */
   igraph_t c_graph;
-  igraph_integer_t c_est;
+  igraph_real_t c_est;
   igraph_integer_t c_size;
   igraph_vector_t c_cut_prob;
   igraph_integer_t c_sample_size;
@@ -13956,7 +13956,6 @@ SEXP R_igraph_motifs_randesu_estimate(SEXP graph, SEXP size, SEXP cut_prob, SEXP
   SEXP r_result;
                                         /* Convert input */
   Rz_SEXP_to_igraph(graph, &c_graph);
-  c_est=0;
   IGRAPH_R_CHECK_INT(size);
   c_size = (igraph_integer_t) REAL(size)[0];
   if (!Rf_isNull(cut_prob)) {
@@ -13976,7 +13975,7 @@ SEXP R_igraph_motifs_randesu_estimate(SEXP graph, SEXP size, SEXP cut_prob, SEXP
 
                                         /* Convert output */
   PROTECT(est=NEW_NUMERIC(1));
-  REAL(est)[0]=(double) c_est;
+  REAL(est)[0]=c_est;
   igraph_vector_int_destroy(&c_sample);
   IGRAPH_FINALLY_CLEAN(1);
   r_result = est;
@@ -13991,7 +13990,7 @@ SEXP R_igraph_motifs_randesu_estimate(SEXP graph, SEXP size, SEXP cut_prob, SEXP
 SEXP R_igraph_motifs_randesu_no(SEXP graph, SEXP size, SEXP cut_prob) {
                                         /* Declarations */
   igraph_t c_graph;
-  igraph_integer_t c_no;
+  igraph_real_t c_no;
   igraph_integer_t c_size;
   igraph_vector_t c_cut_prob;
   SEXP no;
@@ -13999,7 +13998,6 @@ SEXP R_igraph_motifs_randesu_no(SEXP graph, SEXP size, SEXP cut_prob) {
   SEXP r_result;
                                         /* Convert input */
   Rz_SEXP_to_igraph(graph, &c_graph);
-  c_no=0;
   IGRAPH_R_CHECK_INT(size);
   c_size = (igraph_integer_t) REAL(size)[0];
   if (!Rf_isNull(cut_prob)) {
@@ -14010,7 +14008,7 @@ SEXP R_igraph_motifs_randesu_no(SEXP graph, SEXP size, SEXP cut_prob) {
 
                                         /* Convert output */
   PROTECT(no=NEW_NUMERIC(1));
-  REAL(no)[0]=(double) c_no;
+  REAL(no)[0]=c_no;
   r_result = no;
 
   UNPROTECT(1);
