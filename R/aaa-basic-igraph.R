@@ -305,7 +305,8 @@ get_eids_impl <- function(
 incident_impl <- function(
   graph,
   vid,
-  mode = c("all", "out", "in", "total")
+  mode = c("all", "out", "in", "total"),
+  loops = TWICE
 ) {
   # Argument checks
   ensure_igraph(graph)
@@ -323,6 +324,7 @@ incident_impl <- function(
     "all" = 3L,
     "total" = 3L
   )
+  loops <- switch_igraph_arg(loops, "none" = 0L, "twice" = 1L, "once" = 2L)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -330,7 +332,8 @@ incident_impl <- function(
     R_igraph_incident,
     graph,
     vid - 1,
-    mode
+    mode,
+    loops
   )
   if (igraph_opt("return.vs.es")) {
     res <- create_es(graph, res)
@@ -357,7 +360,9 @@ is_directed_impl <- function(
 neighbors_impl <- function(
   graph,
   vid,
-  mode = c("all", "out", "in", "total")
+  mode = c("all", "out", "in", "total"),
+  loops = TWICE,
+  multiple = TRUE
 ) {
   # Argument checks
   ensure_igraph(graph)
@@ -375,6 +380,8 @@ neighbors_impl <- function(
     "all" = 3L,
     "total" = 3L
   )
+  loops <- switch_igraph_arg(loops, "none" = 0L, "twice" = 1L, "once" = 2L)
+  multiple <- as.logical(multiple)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -382,7 +389,9 @@ neighbors_impl <- function(
     R_igraph_neighbors,
     graph,
     vid - 1,
-    mode
+    mode,
+    loops,
+    multiple
   )
   if (igraph_opt("return.vs.es")) {
     res <- create_vs(graph, res)
