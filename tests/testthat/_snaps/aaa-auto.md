@@ -56,29 +56,13 @@
       Error in `ensure_igraph()`:
       ! Must provide a graph object (provided `NULL`).
 
-# delete_vertices_idx_impl basic
-
-    Code
-      delete_vertices_idx_impl(graph = g, vertices = 1)
-    Output
-      $graph
-      IGRAPH D--- 2 0 -- 
-      + edges:
-      
-      $idx
-      [1] 0 1 2
-      
-      $invidx
-      [1] 1 2
-      
-
 # delete_vertices_idx_impl errors
 
     Code
       delete_vertices_idx_impl(graph = NULL, vertices = 1)
     Condition
-      Error in `ensure_igraph()`:
-      ! Must provide a graph object (provided `NULL`).
+      Error in `delete_vertices_idx_impl()`:
+      ! could not find function "delete_vertices_idx_impl"
 
 # vcount_impl basic
 
@@ -1307,7 +1291,7 @@
     Condition
       Warning in `dot_product_game_impl()`:
       Greater than 1 connection probability in dot-product graph.
-      Source: games/dotproduct.c:89
+      Source: games/dotproduct.c:87
     Output
       IGRAPH U--- 2 1 -- 
       + edge:
@@ -1320,7 +1304,7 @@
     Condition
       Warning in `dot_product_game_impl()`:
       Greater than 1 connection probability in dot-product graph.
-      Source: games/dotproduct.c:89
+      Source: games/dotproduct.c:87
     Output
       IGRAPH D--- 2 2 -- 
       + edges:
@@ -6522,7 +6506,7 @@
       [1] 1--2
       
       $map
-      [1] 2 3 1
+      [1] 1 2 0
       
       $invmap
       [1] 1 2
@@ -6539,7 +6523,7 @@
       [1] 1--2
       
       $map
-      [1] 2 3 1
+      [1] 1 2 0
       
       $invmap
       [1] 1 2
@@ -7340,7 +7324,7 @@
       canonical_permutation_impl(graph = g)
     Output
       $labeling
-      [1] 2 3 1
+      [1] 3 1 2
       
       $info
       $info$nof_nodes
