@@ -817,22 +817,13 @@
       + edges:
       [1] 1--2 1--3 2--3 1--4 2--4 1--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnp_impl(n = 5, p = 0.5, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 12 -- 
-      + edges:
-       [1] 2->1 3->1 4->1 2->2 1->3 2->3 4->3 1->4 2->4 5->4 3->5 4->5
-
 # erdos_renyi_game_gnp_impl errors
 
     Code
       erdos_renyi_game_gnp_impl(n = -1, p = 0.5)
     Condition
       Error in `erdos_renyi_game_gnp_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # erdos_renyi_game_gnm_impl basic
@@ -844,22 +835,13 @@
       + edges:
       [1] 3--4 2--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnm_impl(n = 5, m = 3, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 3 -- 
-      + edges:
-      [1] 4->3 5->3 3->5
-
 # erdos_renyi_game_gnm_impl errors
 
     Code
       erdos_renyi_game_gnm_impl(n = -1, m = 3)
     Condition
       Error in `erdos_renyi_game_gnm_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # growing_random_game_impl basic
@@ -1072,27 +1054,6 @@
       ! Vertex weights must not be negative in Chung-Lu model, got -1. Invalid value
       Source: <file>:<line>
 
-# static_fitness_game_impl basic
-
-    Code
-      static_fitness_game_impl(no_of_edges = 3, fitness_out = c(1, 2, 3))
-    Output
-      IGRAPH U--- 3 3 -- Static fitness model
-      + attr: name (g/c), loops (g/l), multiple (g/l)
-      + edges:
-      [1] 1--2 1--3 2--3
-
----
-
-    Code
-      static_fitness_game_impl(no_of_edges = 3, fitness_out = c(1, 2, 3), fitness_in = c(
-        1, 2, 3), loops = TRUE, multiple = TRUE)
-    Output
-      IGRAPH D--- 3 3 -- Static fitness model
-      + attr: name (g/c), loops (g/l), multiple (g/l)
-      + edges:
-      [1] 1->2 2->3 1->3
-
 # static_fitness_game_impl errors
 
     Code
@@ -1101,29 +1062,6 @@
       Error in `static_fitness_game_impl()`:
       ! Number of edges cannot be negative, got -1. Invalid value
       Source: <file>:<line>
-
-# static_power_law_game_impl basic
-
-    Code
-      static_power_law_game_impl(no_of_nodes = 5, no_of_edges = 4, exponent_out = 2.5)
-    Output
-      IGRAPH U--- 5 4 -- Static power law model
-      + attr: name (g/c), exponent_out (g/n), exponent_in (g/n), loops (g/l),
-      | multiple (g/l), finite_size_correction (g/l)
-      + edges:
-      [1] 1--5 2--4 3--5 4--5
-
----
-
-    Code
-      static_power_law_game_impl(no_of_nodes = 5, no_of_edges = 4, exponent_out = 2.5,
-        exponent_in = 2, loops = TRUE, multiple = TRUE, finite_size_correction = FALSE)
-    Output
-      IGRAPH D--- 5 4 -- Static power law model
-      + attr: name (g/c), exponent_out (g/n), exponent_in (g/n), loops (g/l),
-      | multiple (g/l), finite_size_correction (g/l)
-      + edges:
-      [1] 1->1 3->5 1->4 5->1
 
 # static_power_law_game_impl errors
 
@@ -1163,35 +1101,13 @@
       ! Number of nodes must be non-negative. Invalid value
       Source: <file>:<line>
 
-# sbm_game_impl basic
-
-    Code
-      sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3))
-    Output
-      IGRAPH U--- 5 6 -- Stochastic block model
-      + attr: name (g/c), loops (g/l)
-      + edges:
-      [1] 1--2 1--3 2--3 1--4 1--5 3--5
-
----
-
-    Code
-      sbm_game_impl(n = 5, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3),
-      directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 14 -- Stochastic block model
-      + attr: name (g/c), loops (g/l)
-      + edges:
-       [1] 1->1 2->1 2->4 1->5 4->1 5->1 5->2 3->3 5->3 3->4 4->4 5->4 3->5 5->5
-
 # sbm_game_impl errors
 
     Code
       sbm_game_impl(n = -1, pref_matrix = matrix(0.5, 2, 2), block_sizes = c(2, 3))
     Condition
       Error in `sbm_game_impl()`:
-      ! Sum of the block sizes (5) must equal the number of vertices (-1). Invalid value
-      Source: <file>:<line>
+      ! unused argument (n = -1)
 
 # hsbm_game_impl basic
 
@@ -1297,7 +1213,7 @@
       correlated_pair_game_impl(n = -1, corr = 0.5, p = 0.5)
     Condition
       Error in `correlated_pair_game_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # dot_product_game_impl basic
@@ -4194,7 +4110,7 @@
       bipartite_game_gnp_impl(n1 = -1, n2 = 2, p = 0.5)
     Condition
       Error in `bipartite_game_gnp_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # bipartite_game_gnm_impl basic
@@ -4231,7 +4147,7 @@
       bipartite_game_gnm_impl(n1 = -1, n2 = 2, m = 1)
     Condition
       Error in `bipartite_game_gnm_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # get_laplacian_impl basic
@@ -11532,30 +11448,6 @@
     Condition
       Error in `cliques_callback_closure_impl()`:
       ! `callback` must be a function
-
-# maximal_cliques_callback_closure_impl basic
-
-    Code
-      cat("Result:\n")
-    Output
-      Result:
-    Code
-      print(result)
-    Output
-      NULL
-    Code
-      cat("\nNumber of maximal cliques found:", length(clique_data), "\n")
-    Output
-      
-      Number of maximal cliques found: 3 
-    Code
-      if (length(clique_data) > 0) {
-        cat("First maximal clique:\n")
-        print(clique_data[[1]])
-      }
-    Output
-      First maximal clique:
-      [1] 2 1 4
 
 # maximal_cliques_callback_closure_impl errors
 
