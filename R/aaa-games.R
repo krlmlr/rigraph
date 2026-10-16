@@ -574,28 +574,33 @@ preference_game_impl <- function(
 }
 
 sbm_game_impl <- function(
-  n,
   pref_matrix,
   block_sizes,
   directed = FALSE,
-  loops = FALSE
+  allowed_edge_types = c("simple", "loops", "multi", "all")
 ) {
   # Argument checks
-  n <- as.numeric(n)
   pref_matrix[] <- as.numeric(pref_matrix)
   block_sizes <- as.numeric(block_sizes)
   directed <- as.logical(directed)
-  loops <- as.logical(loops)
+  allowed_edge_types <- switch_igraph_arg(
+    allowed_edge_types,
+    "simple" = 0L,
+    "loop" = 1L,
+    "loops" = 1L,
+    "multi" = 6L,
+    "multiple" = 6L,
+    "all" = 7L
+  )
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
   res <- .Call(
     R_igraph_sbm_game,
-    n,
     pref_matrix,
     block_sizes,
     directed,
-    loops
+    allowed_edge_types
   )
 
   if (igraph_opt("add.params")) {
