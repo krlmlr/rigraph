@@ -305,8 +305,7 @@ subisomorphic_lad_impl <- function(
   pattern,
   target,
   domains = NULL,
-  induced,
-  time_limit
+  induced
 ) {
   # Argument checks
   ensure_igraph(pattern)
@@ -318,7 +317,6 @@ subisomorphic_lad_impl <- function(
     )
   }
   induced <- as.logical(induced)
-  time_limit <- as.numeric(time_limit)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -327,8 +325,7 @@ subisomorphic_lad_impl <- function(
     pattern,
     target,
     if (!is.null(domains)) lapply(domains, function(.x) .x - 1),
-    induced,
-    time_limit
+    induced
   )
 
   res
