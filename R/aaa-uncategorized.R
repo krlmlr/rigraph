@@ -38,6 +38,45 @@ bipartite_iea_game_impl <- function(
   res
 }
 
+count_automorphisms_bliss_impl <- function(
+  graph,
+  colors = NULL,
+  sh = c("fm", "f", "fs", "fl", "flm", "fsm")
+) {
+  # Argument checks
+  ensure_igraph(graph)
+  if (is_missing(colors)) {
+    if ("color" %in% vertex_attr_names(graph)) {
+      colors <- V(graph)$color
+    } else {
+      colors <- NULL
+    }
+  }
+  if (!is.null(colors)) {
+    colors <- as.numeric(colors) - 1
+  }
+  sh <- switch_igraph_arg(
+    sh,
+    "f" = 0L,
+    "fl" = 1L,
+    "fs" = 2L,
+    "fm" = 3L,
+    "flm" = 4L,
+    "fsm" = 5L
+  )
+
+  on.exit(.Call(R_igraph_finalizer))
+  # Function call
+  res <- .Call(
+    R_igraph_count_automorphisms_bliss,
+    graph,
+    colors,
+    sh
+  )
+
+  res
+}
+
 iea_game_impl <- function(
   n,
   m,
