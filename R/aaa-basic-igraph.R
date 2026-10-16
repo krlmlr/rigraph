@@ -83,25 +83,6 @@ delete_edges_impl <- function(
   res
 }
 
-delete_vertices_idx_impl <- function(
-  graph,
-  vertices
-) {
-  # Argument checks
-  ensure_igraph(graph)
-  vertices <- as_igraph_vs(graph, vertices)
-
-  on.exit(.Call(R_igraph_finalizer))
-  # Function call
-  res <- .Call(
-    R_igraph_delete_vertices_idx,
-    graph,
-    vertices - 1
-  )
-
-  res
-}
-
 delete_vertices_impl <- function(
   graph,
   vertices
