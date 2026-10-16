@@ -509,7 +509,7 @@ igraph_error_t igraph_independent_vertex_sets(const igraph_t *graph,
         /* Add the cliques just found to the result if requested */
         if (i >= min_size && i <= max_size) {
             for (igraph_int_t j = 0, k = 0; j < indset_count; j++, k += i) {
-                igraph_vector_int_view(&new_member_storage_view, new_member_storage + k, i);
+                new_member_storage_view = igraph_vector_int_view(new_member_storage + k, i);
                 IGRAPH_CHECK(igraph_vector_int_list_push_back_copy(res, &new_member_storage_view));
             }
         }
@@ -1008,7 +1008,7 @@ static igraph_error_t igraph_i_maximal_or_largest_cliques_or_indsets(const igrap
     clqdata.keep_only_largest = keep_only_largest;
 
     if (complementer) {
-        IGRAPH_CHECK(igraph_adjlist_init_complementer(graph, &clqdata.adj_list, IGRAPH_ALL, 0));
+        IGRAPH_CHECK(igraph_adjlist_init_complementer(graph, &clqdata.adj_list, IGRAPH_ALL, IGRAPH_NO_LOOPS));
     } else {
         IGRAPH_CHECK(igraph_adjlist_init(
             graph, &clqdata.adj_list, IGRAPH_ALL, IGRAPH_NO_LOOPS, IGRAPH_NO_MULTIPLE
