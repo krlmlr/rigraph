@@ -201,7 +201,6 @@ edge_betweenness_impl <- function(
 eigenvector_centrality_impl <- function(
   graph,
   mode = c("out", "in", "all", "total"),
-  scale = TRUE,
   weights = NULL,
   options = arpack_defaults()
 ) {
@@ -214,7 +213,6 @@ eigenvector_centrality_impl <- function(
     "all" = 3L,
     "total" = 3L
   )
-  scale <- as.logical(scale)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -231,7 +229,6 @@ eigenvector_centrality_impl <- function(
     R_igraph_eigenvector_centrality,
     graph,
     mode,
-    scale,
     weights,
     options
   )
@@ -766,7 +763,6 @@ centralization_degree_tmax_impl <- function(
 centralization_eigenvector_centrality_impl <- function(
   graph,
   mode = c("out", "in", "all", "total"),
-  scale = TRUE,
   options = arpack_defaults(),
   normalized = TRUE
 ) {
@@ -779,7 +775,6 @@ centralization_eigenvector_centrality_impl <- function(
     "all" = 3L,
     "total" = 3L
   )
-  scale <- as.logical(scale)
   options <- modify_list(arpack_defaults(), options)
   normalized <- as.logical(normalized)
 
@@ -789,7 +784,6 @@ centralization_eigenvector_centrality_impl <- function(
     R_igraph_centralization_eigenvector_centrality,
     graph,
     mode,
-    scale,
     options,
     normalized
   )
@@ -800,8 +794,7 @@ centralization_eigenvector_centrality_impl <- function(
 centralization_eigenvector_centrality_tmax_impl <- function(
   graph = NULL,
   nodes = 0,
-  mode = c("out", "in", "all", "total"),
-  scale = TRUE
+  mode = c("out", "in", "all", "total")
 ) {
   # Argument checks
   if (!is.null(graph)) {
@@ -815,7 +808,6 @@ centralization_eigenvector_centrality_tmax_impl <- function(
     "all" = 3L,
     "total" = 3L
   )
-  scale <- as.logical(scale)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
@@ -823,8 +815,7 @@ centralization_eigenvector_centrality_tmax_impl <- function(
     R_igraph_centralization_eigenvector_centrality_tmax,
     graph,
     nodes,
-    mode,
-    scale
+    mode
   )
 
   res
