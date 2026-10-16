@@ -30,7 +30,7 @@ igraph_error_t igraph_i_edge_type_to_loops_multiple(
     *multiple = (allowed_edge_types & IGRAPH_I_MULTI_EDGES_SW) ? true : false;
 
     if (*loops) {
-        igraph_bool_t multi_loops = (allowed_edge_types & IGRAPH_I_MULTI_LOOPS_SW);
+        igraph_bool_t multi_loops = (allowed_edge_types & IGRAPH_I_MULTI_LOOPS_SW) ? true : false;
         if (*multiple != multi_loops) {
             IGRAPH_ERROR("Either both multi-edges and multi-loops should be allowed or neither.",
                          IGRAPH_EINVAL);
