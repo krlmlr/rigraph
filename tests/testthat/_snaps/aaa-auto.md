@@ -817,22 +817,13 @@
       + edges:
       [1] 1--2 1--3 2--3 1--4 2--4 1--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnp_impl(n = 5, p = 0.5, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 12 -- 
-      + edges:
-       [1] 2->1 3->1 4->1 2->2 1->3 2->3 4->3 1->4 2->4 5->4 3->5 4->5
-
 # erdos_renyi_game_gnp_impl errors
 
     Code
       erdos_renyi_game_gnp_impl(n = -1, p = 0.5)
     Condition
       Error in `erdos_renyi_game_gnp_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # erdos_renyi_game_gnm_impl basic
@@ -844,22 +835,13 @@
       + edges:
       [1] 3--4 2--5 4--5
 
----
-
-    Code
-      erdos_renyi_game_gnm_impl(n = 5, m = 3, directed = TRUE, loops = TRUE)
-    Output
-      IGRAPH D--- 5 3 -- 
-      + edges:
-      [1] 4->3 5->3 3->5
-
 # erdos_renyi_game_gnm_impl errors
 
     Code
       erdos_renyi_game_gnm_impl(n = -1, m = 3)
     Condition
       Error in `erdos_renyi_game_gnm_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # growing_random_game_impl basic
@@ -1297,7 +1279,7 @@
       correlated_pair_game_impl(n = -1, corr = 0.5, p = 0.5)
     Condition
       Error in `correlated_pair_game_impl()`:
-      ! Invalid number of vertices. Invalid value
+      ! Invalid number of vertices for G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # dot_product_game_impl basic
@@ -4194,7 +4176,7 @@
       bipartite_game_gnp_impl(n1 = -1, n2 = 2, p = 0.5)
     Condition
       Error in `bipartite_game_gnp_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,p) model. Invalid value
       Source: <file>:<line>
 
 # bipartite_game_gnm_impl basic
@@ -4231,7 +4213,7 @@
       bipartite_game_gnm_impl(n1 = -1, n2 = 2, m = 1)
     Condition
       Error in `bipartite_game_gnm_impl()`:
-      ! Invalid number of vertices for bipartite graph. Invalid value
+      ! Invalid number of vertices for bipartite G(n,m) model. Invalid value
       Source: <file>:<line>
 
 # get_laplacian_impl basic
@@ -11532,30 +11514,6 @@
     Condition
       Error in `cliques_callback_closure_impl()`:
       ! `callback` must be a function
-
-# maximal_cliques_callback_closure_impl basic
-
-    Code
-      cat("Result:\n")
-    Output
-      Result:
-    Code
-      print(result)
-    Output
-      NULL
-    Code
-      cat("\nNumber of maximal cliques found:", length(clique_data), "\n")
-    Output
-      
-      Number of maximal cliques found: 3 
-    Code
-      if (length(clique_data) > 0) {
-        cat("First maximal clique:\n")
-        print(clique_data[[1]])
-      }
-    Output
-      First maximal clique:
-      [1] 2 1 4
 
 # maximal_cliques_callback_closure_impl errors
 
