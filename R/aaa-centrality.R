@@ -40,14 +40,13 @@ authority_score_impl <- function(
 
 betweenness_impl <- function(
   graph,
+  weights = NULL,
   vids = V(graph),
   directed = TRUE,
-  weights = NULL
+  normalized = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  vids <- as_igraph_vs(graph, vids)
-  directed <- as.logical(directed)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -56,15 +55,19 @@ betweenness_impl <- function(
   } else {
     weights <- NULL
   }
+  vids <- as_igraph_vs(graph, vids)
+  directed <- as.logical(directed)
+  normalized <- as.logical(normalized)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
   res <- .Call(
     R_igraph_betweenness,
     graph,
+    weights,
     vids - 1,
     directed,
-    weights
+    normalized
   )
   if (igraph_opt("add.vertex.names") && is_named(graph)) {
     names(res) <- vertex_attr(graph, "name", vids)
@@ -162,12 +165,13 @@ convergence_degree_impl <- function(
 
 edge_betweenness_impl <- function(
   graph,
+  weights = NULL,
+  eids = E(graph),
   directed = TRUE,
-  weights = NULL
+  normalized = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  directed <- as.logical(directed)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -176,14 +180,19 @@ edge_betweenness_impl <- function(
   } else {
     weights <- NULL
   }
+  eids <- as_igraph_es(graph, eids)
+  directed <- as.logical(directed)
+  normalized <- as.logical(normalized)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
   res <- .Call(
     R_igraph_edge_betweenness,
     graph,
+    weights,
+    eids - 1,
     directed,
-    weights
+    normalized
   )
 
   res
@@ -832,15 +841,14 @@ centralization_impl <- function(
 
 betweenness_cutoff_impl <- function(
   graph,
+  weights = NULL,
   vids = V(graph),
   directed = TRUE,
-  weights = NULL,
+  normalized = FALSE,
   cutoff = -1
 ) {
   # Argument checks
   ensure_igraph(graph)
-  vids <- as_igraph_vs(graph, vids)
-  directed <- as.logical(directed)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -849,6 +857,9 @@ betweenness_cutoff_impl <- function(
   } else {
     weights <- NULL
   }
+  vids <- as_igraph_vs(graph, vids)
+  directed <- as.logical(directed)
+  normalized <- as.logical(normalized)
   cutoff <- as.numeric(cutoff)
 
   on.exit(.Call(R_igraph_finalizer))
@@ -856,9 +867,10 @@ betweenness_cutoff_impl <- function(
   res <- .Call(
     R_igraph_betweenness_cutoff,
     graph,
+    weights,
     vids - 1,
     directed,
-    weights,
+    normalized,
     cutoff
   )
   if (igraph_opt("add.vertex.names") && is_named(graph)) {
@@ -915,13 +927,14 @@ closeness_cutoff_impl <- function(
 
 edge_betweenness_cutoff_impl <- function(
   graph,
-  directed = TRUE,
   weights = NULL,
+  eids = E(graph),
+  directed = TRUE,
+  normalized = FALSE,
   cutoff = -1
 ) {
   # Argument checks
   ensure_igraph(graph)
-  directed <- as.logical(directed)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -930,6 +943,9 @@ edge_betweenness_cutoff_impl <- function(
   } else {
     weights <- NULL
   }
+  eids <- as_igraph_es(graph, eids)
+  directed <- as.logical(directed)
+  normalized <- as.logical(normalized)
   cutoff <- as.numeric(cutoff)
 
   on.exit(.Call(R_igraph_finalizer))
@@ -937,8 +953,10 @@ edge_betweenness_cutoff_impl <- function(
   res <- .Call(
     R_igraph_edge_betweenness_cutoff,
     graph,
-    directed,
     weights,
+    eids - 1,
+    directed,
+    normalized,
     cutoff
   )
 
@@ -995,18 +1013,15 @@ harmonic_centrality_cutoff_impl <- function(
 
 betweenness_subset_impl <- function(
   graph,
-  vids = V(graph),
-  directed = TRUE,
+  weights = NULL,
   sources = V(graph),
   targets = V(graph),
-  weights = NULL
+  vids = V(graph),
+  directed = TRUE,
+  normalized = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  vids <- as_igraph_vs(graph, vids)
-  directed <- as.logical(directed)
-  sources <- as_igraph_vs(graph, sources)
-  targets <- as_igraph_vs(graph, targets)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -1015,17 +1030,23 @@ betweenness_subset_impl <- function(
   } else {
     weights <- NULL
   }
+  sources <- as_igraph_vs(graph, sources)
+  targets <- as_igraph_vs(graph, targets)
+  vids <- as_igraph_vs(graph, vids)
+  directed <- as.logical(directed)
+  normalized <- as.logical(normalized)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
   res <- .Call(
     R_igraph_betweenness_subset,
     graph,
-    vids - 1,
-    directed,
+    weights,
     sources - 1,
     targets - 1,
-    weights
+    vids - 1,
+    directed,
+    normalized
   )
   if (igraph_opt("add.vertex.names") && is_named(graph)) {
     names(res) <- vertex_attr(graph, "name", vids)
@@ -1035,18 +1056,15 @@ betweenness_subset_impl <- function(
 
 edge_betweenness_subset_impl <- function(
   graph,
-  eids = E(graph),
-  directed = TRUE,
+  weights = NULL,
   sources = V(graph),
   targets = V(graph),
-  weights = NULL
+  eids = E(graph),
+  directed = TRUE,
+  normalized = FALSE
 ) {
   # Argument checks
   ensure_igraph(graph)
-  eids <- as_igraph_es(graph, eids)
-  directed <- as.logical(directed)
-  sources <- as_igraph_vs(graph, sources)
-  targets <- as_igraph_vs(graph, targets)
   if (is.null(weights) && "weight" %in% edge_attr_names(graph)) {
     weights <- E(graph)$weight
   }
@@ -1055,17 +1073,23 @@ edge_betweenness_subset_impl <- function(
   } else {
     weights <- NULL
   }
+  sources <- as_igraph_vs(graph, sources)
+  targets <- as_igraph_vs(graph, targets)
+  eids <- as_igraph_es(graph, eids)
+  directed <- as.logical(directed)
+  normalized <- as.logical(normalized)
 
   on.exit(.Call(R_igraph_finalizer))
   # Function call
   res <- .Call(
     R_igraph_edge_betweenness_subset,
     graph,
-    eids - 1,
-    directed,
+    weights,
     sources - 1,
     targets - 1,
-    weights
+    eids - 1,
+    directed,
+    normalized
   )
 
   res
