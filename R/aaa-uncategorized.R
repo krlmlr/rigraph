@@ -2,6 +2,51 @@
 # styler: off
 # jarl-ignore-file unused_function: irrelevant for _impl functions
 
+automorphism_group_bliss_impl <- function(
+  graph,
+  colors = NULL,
+  sh = c("fm", "f", "fs", "fl", "flm", "fsm"),
+  details = FALSE
+) {
+  # Argument checks
+  ensure_igraph(graph)
+  if (is_missing(colors)) {
+    if ("color" %in% vertex_attr_names(graph)) {
+      colors <- V(graph)$color
+    } else {
+      colors <- NULL
+    }
+  }
+  if (!is.null(colors)) {
+    colors <- as.numeric(colors) - 1
+  }
+  sh <- switch_igraph_arg(
+    sh,
+    "f" = 0L,
+    "fl" = 1L,
+    "fs" = 2L,
+    "fm" = 3L,
+    "flm" = 4L,
+    "fsm" = 5L
+  )
+
+  on.exit(.Call(R_igraph_finalizer))
+  # Function call
+  res <- .Call(
+    R_igraph_automorphism_group_bliss,
+    graph,
+    colors,
+    sh
+  )
+  if (igraph_opt("return.vs.es")) {
+    res$generators <- create_vs_list(graph, res$generators)
+  }
+  if (!details) {
+    res <- res$generators
+  }
+  res
+}
+
 bipartite_iea_game_impl <- function(
   n1,
   n2,

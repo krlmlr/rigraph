@@ -16844,7 +16844,43 @@ SEXP R_igraph_count_automorphisms_bliss(SEXP graph, SEXP colors, SEXP sh) {
 /*-------------------------------------------/
 / igraph_automorphism_group                  /
 /-------------------------------------------*/
-SEXP R_igraph_automorphism_group(SEXP graph, SEXP colors, SEXP sh) {
+SEXP R_igraph_automorphism_group(SEXP graph, SEXP colors) {
+                                        /* Declarations */
+  igraph_t c_graph;
+  igraph_vector_int_t c_colors;
+  igraph_vector_int_list_t c_generators;
+  SEXP generators;
+
+  SEXP r_result;
+                                        /* Convert input */
+  Rz_SEXP_to_igraph(graph, &c_graph);
+  if (!Rf_isNull(colors)) {
+    IGRAPH_R_CHECK(Rz_SEXP_to_vector_int_copy(colors, &c_colors));
+  } else {
+    IGRAPH_R_CHECK(igraph_vector_int_init(&c_colors, 0));
+  }
+  IGRAPH_FINALLY(igraph_vector_int_destroy, &c_colors);
+  IGRAPH_R_CHECK(igraph_vector_int_list_init(&c_generators, 0));
+  IGRAPH_FINALLY(igraph_vector_int_list_destroy, &c_generators);
+                                        /* Call igraph */
+  IGRAPH_R_CHECK(igraph_automorphism_group(&c_graph, (Rf_isNull(colors) ? 0 : &c_colors), &c_generators));
+
+                                        /* Convert output */
+  igraph_vector_int_destroy(&c_colors);
+  IGRAPH_FINALLY_CLEAN(1);
+  PROTECT(generators=Ry_igraph_vector_int_list_to_SEXPp1(&c_generators));
+  igraph_vector_int_list_destroy(&c_generators);
+  IGRAPH_FINALLY_CLEAN(1);
+  r_result = generators;
+
+  UNPROTECT(1);
+  return(r_result);
+}
+
+/*-------------------------------------------/
+/ igraph_automorphism_group_bliss            /
+/-------------------------------------------*/
+SEXP R_igraph_automorphism_group_bliss(SEXP graph, SEXP colors, SEXP sh) {
                                         /* Declarations */
   igraph_t c_graph;
   igraph_vector_int_t c_colors;
@@ -16867,7 +16903,7 @@ SEXP R_igraph_automorphism_group(SEXP graph, SEXP colors, SEXP sh) {
   IGRAPH_FINALLY(igraph_vector_int_list_destroy, &c_generators);
   c_sh = (igraph_bliss_sh_t) Rf_asInteger(sh);
                                         /* Call igraph */
-  IGRAPH_R_CHECK(igraph_automorphism_group(&c_graph, (Rf_isNull(colors) ? 0 : &c_colors), &c_generators, c_sh, &c_info));
+  IGRAPH_R_CHECK(igraph_automorphism_group_bliss(&c_graph, (Rf_isNull(colors) ? 0 : &c_colors), &c_generators, c_sh, &c_info));
 
                                         /* Convert output */
   PROTECT(r_result=NEW_LIST(2));
