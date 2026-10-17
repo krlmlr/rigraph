@@ -1,0 +1,67 @@
+# Convert a graph to an adjacency matrix
+
+**\[deprecated\]**
+
+`get.adjacency()` was renamed to
+[`as_adjacency_matrix()`](https://r.igraph.org/reference/as_adjacency_matrix.md)
+to create a more consistent API.
+
+## Usage
+
+``` r
+get.adjacency(
+  graph,
+  type = c("both", "upper", "lower"),
+  attr = NULL,
+  edges = FALSE,
+  names = TRUE,
+  sparse = igraph_opt("sparsematrices")
+)
+```
+
+## Arguments
+
+- graph:
+
+  The graph to convert.
+
+- type:
+
+  Gives how to create the adjacency matrix for undirected graphs. It is
+  ignored for directed graphs. Possible values: `upper`: the upper right
+  triangle of the matrix is used, `lower`: the lower left triangle of
+  the matrix is used. `both`: the whole matrix is used, a symmetric
+  matrix is returned.
+
+- attr:
+
+  **\[deprecated\]** Use `weights` instead. A character edge attribute
+  name is forwarded to `weights` unchanged; `NULL` becomes
+  `weights = NA`, since `attr = NULL` asked for a traditional unweighted
+  matrix while `weights = NULL` picks the `weight` attribute up.
+
+- edges:
+
+  **\[deprecated\]** Logical, whether to return the edge IDs in the
+  matrix. For non-existant edges zero is returned.
+
+- names:
+
+  Logical, whether to assign row and column names to the matrix. These
+  are only assigned if the `name` vertex attribute is present in the
+  graph.
+
+- sparse:
+
+  Logical, whether to create a sparse matrix. The ‘`Matrix`’ package
+  must be installed for creating sparse matrices. The default `NULL`
+  uses the `sparsematrices` igraph option.
+
+## Related documentation in the C library
+
+[`get_adjacency()`](https://igraph.org/c/html/0.10.17/igraph-Structural.html#igraph_get_adjacency),
+[`get_adjacency_sparse()`](https://igraph.org/c/html/0.10.17/igraph-Structural.html#igraph_get_adjacency_sparse),
+[`vcount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_vcount),
+[`edges()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_edges),
+[`get_eids()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_get_eids),
+[`ecount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_ecount)

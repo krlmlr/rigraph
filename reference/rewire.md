@@ -1,0 +1,58 @@
+# Rewiring edges of a graph
+
+See the links below for the implemented rewiring methods.
+
+## Usage
+
+``` r
+rewire(graph, with)
+```
+
+## Arguments
+
+- graph:
+
+  The graph to rewire
+
+- with:
+
+  A function call to one of the rewiring methods, see details below.
+
+## Value
+
+The rewired graph.
+
+## See also
+
+Other rewiring functions:
+[`each_edge()`](https://r.igraph.org/reference/each_edge.md),
+[`keeping_degseq()`](https://r.igraph.org/reference/keeping_degseq.md)
+
+## Examples
+
+``` r
+g <- make_ring(10)
+g %>%
+  rewire(each_edge(p = 0.1, loops = FALSE)) %>%
+  plot(layout = layout_in_circle)
+
+print_all(rewire(g, with = keeping_degseq(niter = vcount(g) * 10)))
+#> ── <igraph> Ring graph ────────────────────────────────────────────── d227b1c ──
+#> ℹ undirected
+#> ℹ 10 vertices · 10 edges
+#> 
+#> ── Attributes ──────────────────────────────────────────────────────────────────
+#> → graph:  name <chr>, mutual <lgl>, circular <lgl>
+#> 
+#> ── Graph attributes ────────────────────────────────────────────────────────────
+#> name:
+#>   [1] "Ring graph"
+#> mutual:
+#>   [1] FALSE
+#> circular:
+#>   [1] TRUE
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 6 ─ 7   5 ─ 7   3 ─ 9   5 ─ 10  1 ─ 4   4 ─ 8   2 ─ 3   1 ─ 2   8 ─ 9  
+#> [10] 6 ─ 10 
+```

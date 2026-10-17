@@ -1,0 +1,118 @@
+# Sample a pair of correlated \\G(n,p)\\ random graphs
+
+Sample a new graph by perturbing the adjacency matrix of a given graph
+and shuffling its vertices.
+
+## Usage
+
+``` r
+sample_correlated_gnp_pair(n, corr, p, directed = FALSE, permutation = NULL)
+```
+
+## Arguments
+
+- n:
+
+  Numeric scalar, the number of vertices for the sampled graphs.
+
+- corr:
+
+  A scalar in the unit interval, the target Pearson correlation between
+  the adjacency matrices of the original the generated graph (the
+  adjacency matrix being used as a vector).
+
+- p:
+
+  A numeric scalar, the probability of an edge between two vertices, it
+  must in the open (0,1) interval.
+
+- directed:
+
+  Logical, whether to generate directed graphs.
+
+- permutation:
+
+  A numeric vector, a permutation vector that is applied on the vertices
+  of the first graph, to get the second graph. If `NULL`, the vertices
+  are not permuted.
+
+## Value
+
+A list of two igraph objects, named `graph1` and `graph2`, which are two
+graphs whose adjacency matrix entries are correlated with `corr`.
+
+## Details
+
+Please see the reference given below.
+
+## Related documentation in the C library
+
+[`correlated_pair_game()`](https://igraph.org/c/html/0.10.17/igraph-Generators.html#igraph_correlated_pair_game)
+
+## References
+
+Lyzinski, V., Fishkind, D. E., Priebe, C. E. (2013). Seeded graph
+matching for correlated Erdős-Rényi graphs.
+<https://arxiv.org/abs/1304.7844>
+
+## See also
+
+Random graph models (games):
+[`bipartite_gnm()`](https://r.igraph.org/reference/sample_bipartite_gnm.md),
+[`erdos.renyi.game()`](https://r.igraph.org/reference/erdos.renyi.game.md),
+[`sample_()`](https://r.igraph.org/reference/sample_.md),
+[`sample_bipartite()`](https://r.igraph.org/reference/sample_bipartite.md),
+[`sample_chung_lu()`](https://r.igraph.org/reference/sample_chung_lu.md),
+[`sample_correlated_gnp()`](https://r.igraph.org/reference/sample_correlated_gnp.md),
+[`sample_degseq()`](https://r.igraph.org/reference/sample_degseq.md),
+[`sample_dot_product()`](https://r.igraph.org/reference/sample_dot_product.md),
+[`sample_fitness()`](https://r.igraph.org/reference/sample_fitness.md),
+[`sample_fitness_pl()`](https://r.igraph.org/reference/sample_fitness_pl.md),
+[`sample_forestfire()`](https://r.igraph.org/reference/sample_forestfire.md),
+[`sample_gnm()`](https://r.igraph.org/reference/sample_gnm.md),
+[`sample_gnp()`](https://r.igraph.org/reference/sample_gnp.md),
+[`sample_grg()`](https://r.igraph.org/reference/sample_grg.md),
+[`sample_growing()`](https://r.igraph.org/reference/sample_growing.md),
+[`sample_hierarchical_sbm()`](https://r.igraph.org/reference/sample_hierarchical_sbm.md),
+[`sample_islands()`](https://r.igraph.org/reference/sample_islands.md),
+[`sample_k_regular()`](https://r.igraph.org/reference/sample_k_regular.md),
+[`sample_last_cit()`](https://r.igraph.org/reference/sample_last_cit.md),
+[`sample_pa()`](https://r.igraph.org/reference/sample_pa.md),
+[`sample_pa_age()`](https://r.igraph.org/reference/sample_pa_age.md),
+[`sample_pref()`](https://r.igraph.org/reference/sample_pref.md),
+[`sample_sbm()`](https://r.igraph.org/reference/sample_sbm.md),
+[`sample_smallworld()`](https://r.igraph.org/reference/sample_smallworld.md),
+[`sample_traits_callaway()`](https://r.igraph.org/reference/sample_traits_callaway.md),
+[`sample_tree()`](https://r.igraph.org/reference/sample_tree.md)
+
+## Examples
+
+``` r
+gg <- sample_correlated_gnp_pair(
+  n = 10, corr = 0.8, p = 0.5,
+  directed = FALSE
+)
+gg
+#> $graph1
+#> ── <igraph> ───────────────────────────────────────────────────────── 3046e96 ──
+#> ℹ undirected
+#> ℹ 10 vertices · 26 edges
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 1 ─ 2   1 ─ 3   2 ─ 3   2 ─ 4   3 ─ 4   2 ─ 5   3 ─ 5   4 ─ 5   3 ─ 6  
+#> [10] 4 ─ 6   1 ─ 7   2 ─ 7   5 ─ 7   6 ─ 7   5 ─ 8   1 ─ 9   2 ─ 9   3 ─ 9  
+#> [19] 6 ─ 9   8 ─ 9   1 ─ 10  2 ─ 10  3 ─ 10  4 ─ 10  6 ─ 10  7 ─ 10 
+#> 
+#> $graph2
+#> ── <igraph> ───────────────────────────────────────────────────────── 28eab86 ──
+#> ℹ undirected
+#> ℹ 10 vertices · 27 edges
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 1 ─ 2   1 ─ 3   2 ─ 3   2 ─ 4   3 ─ 4   2 ─ 5   3 ─ 5   4 ─ 5   2 ─ 6  
+#> [10] 4 ─ 6   1 ─ 7   3 ─ 7   5 ─ 7   6 ─ 7   1 ─ 9   2 ─ 9   3 ─ 9   5 ─ 9  
+#> [19] 6 ─ 9   8 ─ 9   1 ─ 10  2 ─ 10  3 ─ 10  4 ─ 10  6 ─ 10  7 ─ 10  9 ─ 10 
+#> 
+cor(as.vector(gg[[1]][]), as.vector(gg[[2]][]))
+#> [1] 0.7196808
+```

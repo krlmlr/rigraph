@@ -1,0 +1,79 @@
+# Set one or more edge attributes
+
+Set one or more edge attributes
+
+## Usage
+
+``` r
+edge_attr(graph, name, index = NULL) <- value
+```
+
+## Arguments
+
+- graph:
+
+  The graph.
+
+- name:
+
+  The name of the edge attribute to set. If missing, then `value` must
+  be a named list, and its entries are set as edge attributes.
+
+- index:
+
+  An optional edge sequence to set the attributes of a subset of edges.
+  The default `NULL` selects all edges.
+
+- value:
+
+  The new value of the attribute(s) for all (or `index`) edges.
+
+## Value
+
+The graph, with the edge attribute(s) added or set.
+
+## See also
+
+Vertex, edge and graph attributes:
+[`delete_edge_attr()`](https://r.igraph.org/reference/delete_edge_attr.md),
+[`delete_graph_attr()`](https://r.igraph.org/reference/delete_graph_attr.md),
+[`delete_vertex_attr()`](https://r.igraph.org/reference/delete_vertex_attr.md),
+[`edge_attr()`](https://r.igraph.org/reference/edge_attr.md),
+[`edge_attr_names()`](https://r.igraph.org/reference/edge_attr_names.md),
+[`graph_attr()`](https://r.igraph.org/reference/graph_attr.md),
+[`graph_attr<-()`](https://r.igraph.org/reference/graph_attr-set.md),
+[`graph_attr_names()`](https://r.igraph.org/reference/graph_attr_names.md),
+[`igraph-attribute-combination`](https://r.igraph.org/reference/igraph-attribute-combination.md),
+[`igraph-dollar`](https://r.igraph.org/reference/igraph-dollar.md),
+[`igraph-vs-attributes`](https://r.igraph.org/reference/igraph-vs-attributes.md),
+[`set_edge_attr()`](https://r.igraph.org/reference/set_edge_attr.md),
+[`set_graph_attr()`](https://r.igraph.org/reference/set_graph_attr.md),
+[`set_vertex_attr()`](https://r.igraph.org/reference/set_vertex_attr.md),
+[`set_vertex_attrs()`](https://r.igraph.org/reference/set_vertex_attrs.md),
+[`vertex_attr()`](https://r.igraph.org/reference/vertex_attr.md),
+[`vertex_attr<-()`](https://r.igraph.org/reference/vertex_attr-set.md),
+[`vertex_attr_names()`](https://r.igraph.org/reference/vertex_attr_names.md)
+
+## Examples
+
+``` r
+g <- make_ring(10)
+edge_attr(g) <- list(
+  name = LETTERS[1:10],
+  color = rep("green", gsize(g))
+)
+edge_attr(g, "label") <- E(g)$name
+g
+#> ── <igraph> Ring graph ────────────────────────────────────────────── a867dca ──
+#> ℹ undirected
+#> ℹ 10 vertices · 10 edges
+#> 
+#> ── Attributes ──────────────────────────────────────────────────────────────────
+#> → graph:  name <chr>, mutual <lgl>, circular <lgl>
+#> → edge:   name <chr>, color <chr>, label <chr>
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 1 ─ 2   2 ─ 3   3 ─ 4   4 ─ 5   5 ─ 6   6 ─ 7   7 ─ 8   8 ─ 9   9 ─ 10 
+#> [10] 1 ─ 10 
+plot(g)
+```

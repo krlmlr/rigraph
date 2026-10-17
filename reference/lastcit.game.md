@@ -1,0 +1,54 @@
+# Random citation graphs
+
+**\[deprecated\]**
+
+`lastcit.game()` was renamed to
+[`sample_last_cit()`](https://r.igraph.org/reference/sample_last_cit.md)
+to create a more consistent API.
+
+## Usage
+
+``` r
+lastcit.game(
+  n,
+  edges = 1,
+  agebins = n/7100,
+  pref = (1:(agebins + 1))^-3,
+  directed = TRUE
+)
+```
+
+## Arguments
+
+- n:
+
+  Number of vertices.
+
+- edges:
+
+  Number of edges per step.
+
+- agebins:
+
+  Number of aging bins. The default `NULL` uses `n / 7100`.
+
+- pref:
+
+  Vector
+  ([`sample_last_cit()`](https://r.igraph.org/reference/sample_last_cit.md)
+  and
+  [`sample_cit_types()`](https://r.igraph.org/reference/sample_last_cit.md)
+  or matrix
+  ([`sample_cit_cit_types()`](https://r.igraph.org/reference/sample_last_cit.md))
+  giving the (unnormalized) citation probabilities for the different
+  vertex types. The default `NULL` uses `(1:(agebins + 1))^-3` for
+  [`sample_last_cit()`](https://r.igraph.org/reference/sample_last_cit.md)
+  and all-one probabilities for the other two.
+
+- directed:
+
+  Logical, whether to generate directed networks.
+
+## Related documentation in the C library
+
+[`lastcit_game()`](https://igraph.org/c/html/0.10.17/igraph-Generators.html#igraph_lastcit_game)

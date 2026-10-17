@@ -1,0 +1,107 @@
+# Create a ring graph
+
+A ring is a one-dimensional lattice and this function is a special case
+of [`make_lattice()`](https://r.igraph.org/reference/make_lattice.md).
+
+## Usage
+
+``` r
+make_ring(n, ..., directed = FALSE, mutual = FALSE, circular = TRUE)
+
+ring(n, ..., directed = FALSE, mutual = FALSE, circular = TRUE)
+```
+
+## Arguments
+
+- n:
+
+  Number of vertices.
+
+- ...:
+
+  These dots are for future extensions and must be empty.
+
+- directed:
+
+  Whether the graph is directed.
+
+- mutual:
+
+  Whether directed edges are mutual. It is ignored in undirected graphs.
+
+- circular:
+
+  Whether to create a circular ring. A non-circular ring is essentially
+  a “line”: a tree where every non-leaf vertex has one child.
+
+## Value
+
+An igraph graph.
+
+## Related documentation in the C library
+
+[`ring()`](https://igraph.org/c/html/0.10.17/igraph-Generators.html#igraph_ring)
+
+## See also
+
+Other deterministic constructors:
+[`graph_from_atlas()`](https://r.igraph.org/reference/graph_from_atlas.md),
+[`graph_from_edgelist()`](https://r.igraph.org/reference/graph_from_edgelist.md),
+[`graph_from_literal()`](https://r.igraph.org/reference/graph_from_literal.md),
+[`make_()`](https://r.igraph.org/reference/make_.md),
+[`make_chordal_ring()`](https://r.igraph.org/reference/make_chordal_ring.md),
+[`make_circulant()`](https://r.igraph.org/reference/make_circulant.md),
+[`make_empty_graph()`](https://r.igraph.org/reference/make_empty_graph.md),
+[`make_full_citation_graph()`](https://r.igraph.org/reference/make_full_citation_graph.md),
+[`make_full_graph()`](https://r.igraph.org/reference/make_full_graph.md),
+[`make_full_multipartite()`](https://r.igraph.org/reference/make_full_multipartite.md),
+[`make_graph()`](https://r.igraph.org/reference/make_graph.md),
+[`make_lattice()`](https://r.igraph.org/reference/make_lattice.md),
+[`make_star()`](https://r.igraph.org/reference/make_star.md),
+[`make_tree()`](https://r.igraph.org/reference/make_tree.md),
+[`make_turan()`](https://r.igraph.org/reference/make_turan.md),
+[`make_wheel()`](https://r.igraph.org/reference/make_wheel.md)
+
+## Examples
+
+``` r
+print_all(make_ring(10))
+#> ── <igraph> Ring graph ────────────────────────────────────────────── 04f01b8 ──
+#> ℹ undirected
+#> ℹ 10 vertices · 10 edges
+#> 
+#> ── Attributes ──────────────────────────────────────────────────────────────────
+#> → graph:  name <chr>, mutual <lgl>, circular <lgl>
+#> 
+#> ── Graph attributes ────────────────────────────────────────────────────────────
+#> name:
+#>   [1] "Ring graph"
+#> mutual:
+#>   [1] FALSE
+#> circular:
+#>   [1] TRUE
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 1 ─ 2   2 ─ 3   3 ─ 4   4 ─ 5   5 ─ 6   6 ─ 7   7 ─ 8   8 ─ 9   9 ─ 10 
+#> [10] 1 ─ 10 
+print_all(make_ring(10, directed = TRUE, mutual = TRUE))
+#> ── <igraph> Ring graph ────────────────────────────────────────────── 2700794 ──
+#> ℹ directed
+#> ℹ 10 vertices · 20 edges
+#> 
+#> ── Attributes ──────────────────────────────────────────────────────────────────
+#> → graph:  name <chr>, mutual <lgl>, circular <lgl>
+#> 
+#> ── Graph attributes ────────────────────────────────────────────────────────────
+#> name:
+#>   [1] "Ring graph"
+#> mutual:
+#>   [1] TRUE
+#> circular:
+#>   [1] TRUE
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 1 → 2   2 → 1   2 → 3   3 → 2   3 → 4   4 → 3   4 → 5   5 → 4   5 → 6  
+#> [10] 6 → 5   6 → 7   7 → 6   7 → 8   8 → 7   8 → 9   9 → 8   9 → 10  10 → 9 
+#> [19] 10 → 1  1 → 10 
+```

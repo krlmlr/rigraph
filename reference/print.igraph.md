@@ -1,0 +1,175 @@
+# Print graphs to the terminal
+
+These functions attempt to print a graph to the terminal in a human
+readable form.
+
+## Usage
+
+``` r
+# S3 method for class 'igraph'
+print(
+  x,
+  full = NULL,
+  graph.attributes = NULL,
+  vertex.attributes = NULL,
+  edge.attributes = NULL,
+  names = TRUE,
+  max.lines = NULL,
+  id = NULL,
+  ...
+)
+
+# S3 method for class 'igraph'
+summary(object, ...)
+```
+
+## Arguments
+
+- x:
+
+  The graph to print.
+
+- full:
+
+  Logical, whether to print the graph structure itself as well. The
+  default `NULL` uses the `print.full` igraph option.
+
+- graph.attributes:
+
+  Logical, whether to print graph attributes. The default `NULL` uses
+  the `print.graph.attributes` igraph option.
+
+- vertex.attributes:
+
+  Logical, whether to print vertex attributes. The default `NULL` uses
+  the `print.vertex.attributes` igraph option.
+
+- edge.attributes:
+
+  Logical, whether to print edge attributes. The default `NULL` uses the
+  `print.edge.attributes` igraph option.
+
+- names:
+
+  Logical, whether to print symbolic vertex names (i.e. the `name`
+  vertex attribute) or vertex IDs.
+
+- max.lines:
+
+  The maximum number of lines to use. The rest of the output will be
+  truncated. If not given, the `auto.print.lines` igraph option applies;
+  `NULL` prints all lines.
+
+- id:
+
+  Whether to print the graph ID. The default `NULL` uses the `print.id`
+  igraph option.
+
+- ...:
+
+  Additional agruments.
+
+- object:
+
+  The graph of which the summary will be printed.
+
+## Value
+
+All these functions return the graph invisibly.
+
+## Details
+
+`summary.igraph` prints the number of vertices, edges and whether the
+graph is directed.
+
+`print_all()` prints the same information, and also lists the edges, and
+optionally graph, vertex and/or edge attributes.
+
+`print.igraph()` behaves either as `summary.igraph` or `print_all()`
+depending on the `full` argument. See also the ‘print.full’ igraph
+option and
+[`igraph_opt()`](https://r.igraph.org/reference/igraph_opt.md).
+
+The graph summary printed by `summary.igraph` (and `print.igraph()` and
+`print_all()`) consists of one or more lines. The first line contains
+the basic properties of the graph, and the rest contains its attributes.
+Here is an example, a small star graph with weighted directed edges and
+named vertices:
+
+        IGRAPH badcafe DNW- 10 9 -- In-star
+        + attr: name (g/c), mode (g/c), center (g/n), name (v/c),
+          weight (e/n) 
+
+The first line always starts with `IGRAPH`, showing you that the object
+is an igraph graph. Then a seven character code is printed, this the
+first seven characters of the unique ID of the graph. See
+[`graph_id()`](https://r.igraph.org/reference/graph_id.md) for more.
+Then a four letter long code string is printed. The first letter
+distinguishes between directed (‘`D`’) and undirected (‘`U`’) graphs.
+The second letter is ‘`N`’ for named graphs, i.e. graphs with the `name`
+vertex attribute set. The third letter is ‘`W`’ for weighted graphs,
+i.e. graphs with the `weight` edge attribute set. The fourth letter is
+‘`B`’ for bipartite graphs, i.e. for graphs with the `type` vertex
+attribute set.
+
+This is followed by the number of vertices and edges, then two dashes.
+
+Finally, after two dashes, the name of the graph is printed, if it has
+one, i.e. if the `name` graph attribute is set.
+
+From the second line, the attributes of the graph are listed, separated
+by a comma. After the attribute names, the kind of the attribute – graph
+(‘`g`’), vertex (‘`v`’) or edge (‘`e`’) – is denoted, and the type of
+the attribute as well, character (‘`c`’), numeric (‘`n`’), logical
+(‘`l`’), or other (‘`x`’).
+
+As of igraph 0.4 `print_all()` and `print.igraph()` use the `max.print`
+option, see [`base::options()`](https://rdrr.io/r/base/options.html) for
+details.
+
+As of igraph 1.1.1, the `str.igraph` function is defunct, use
+`print_all()`.
+
+Output style is controlled by the `print.style` igraph option. The
+default `"cli"` produces cli-styled output with section rules, typed
+attribute listings and Unicode arrows for edges. Set
+`igraph_options(print.style = "classic")` for the historical
+`IGRAPH ... DNW-` header relied on by parsers and tutorials.
+
+## Related documentation in the C library
+
+[`degree()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_degree),
+[`is_directed()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_is_directed),
+[`vcount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_vcount),
+[`edges()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_edges),
+[`ecount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_ecount),
+[`get_eids()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_get_eids)
+
+## Author
+
+Gabor Csardi <csardi.gabor@gmail.com>
+
+## Examples
+
+``` r
+
+g <- make_ring(10)
+g
+#> ── <igraph> Ring graph ────────────────────────────────────────────── 4456265 ──
+#> ℹ undirected
+#> ℹ 10 vertices · 10 edges
+#> 
+#> ── Attributes ──────────────────────────────────────────────────────────────────
+#> → graph:  name <chr>, mutual <lgl>, circular <lgl>
+#> 
+#> ── Edges ───────────────────────────────────────────────────────────────────────
+#>  [1] 1 ─ 2   2 ─ 3   3 ─ 4   4 ─ 5   5 ─ 6   6 ─ 7   7 ─ 8   8 ─ 9   9 ─ 10 
+#> [10] 1 ─ 10 
+summary(g)
+#> ── <igraph> Ring graph ────────────────────────────────────────────── 4456265 ──
+#> ℹ undirected
+#> ℹ 10 vertices · 10 edges
+#> 
+#> ── Attributes ──────────────────────────────────────────────────────────────────
+#> → graph:  name <chr>, mutual <lgl>, circular <lgl>
+```

@@ -1,0 +1,191 @@
+# Convert a graph to an adjacency matrix
+
+Sometimes it is useful to work with a standard representation of a
+graph, like an adjacency matrix.
+
+## Usage
+
+``` r
+as_adjacency_matrix(
+  graph,
+  type = c("both", "upper", "lower"),
+  ...,
+  weights = NULL,
+  names = TRUE,
+  sparse = NULL,
+  edges = deprecated(),
+  attr = deprecated()
+)
+```
+
+## Arguments
+
+- graph:
+
+  The graph to convert.
+
+- type:
+
+  Gives how to create the adjacency matrix for undirected graphs. It is
+  ignored for directed graphs. Possible values: `upper`: the upper right
+  triangle of the matrix is used, `lower`: the lower left triangle of
+  the matrix is used. `both`: the whole matrix is used, a symmetric
+  matrix is returned.
+
+- ...:
+
+  These dots are for future extensions and must be empty.
+
+- weights:
+
+  One of the following:
+
+  - `NULL` (default): use the `weight` edge attribute if the graph has
+    one, otherwise return a traditional (unweighted) adjacency matrix.
+
+  - `NA`: explicitly unweighted, ignoring any `weight` edge attribute.
+
+  - A numeric or logical vector of length
+    [`ecount()`](https://r.igraph.org/reference/gsize.md): use these
+    values directly as edge weights.
+
+  - A character scalar: the name of an edge attribute whose values are
+    used as weights. The attribute must be numeric or logical.
+
+  If multiple edges share endpoints, the value of an arbitrarily chosen
+  edge is included in the matrix.
+
+- names:
+
+  Logical, whether to assign row and column names to the matrix. These
+  are only assigned if the `name` vertex attribute is present in the
+  graph.
+
+- sparse:
+
+  Logical, whether to create a sparse matrix. The ‘`Matrix`’ package
+  must be installed for creating sparse matrices. The default `NULL`
+  uses the `sparsematrices` igraph option.
+
+- edges:
+
+  **\[deprecated\]** Logical, whether to return the edge IDs in the
+  matrix. For non-existant edges zero is returned.
+
+- attr:
+
+  **\[deprecated\]** Use `weights` instead. A character edge attribute
+  name is forwarded to `weights` unchanged; `NULL` becomes
+  `weights = NA`, since `attr = NULL` asked for a traditional unweighted
+  matrix while `weights = NULL` picks the `weight` attribute up.
+
+## Value
+
+A `vcount(graph)` by `vcount(graph)` (usually) numeric matrix.
+
+## Details
+
+`as_adjacency_matrix()` returns the adjacency matrix of a graph, a
+regular matrix if `sparse` is `FALSE`, or a sparse matrix, as defined in
+the ‘`Matrix`’ package, if `sparse` if `TRUE`.
+
+## Related documentation in the C library
+
+[`get_adjacency()`](https://igraph.org/c/html/0.10.17/igraph-Structural.html#igraph_get_adjacency),
+[`get_adjacency_sparse()`](https://igraph.org/c/html/0.10.17/igraph-Structural.html#igraph_get_adjacency_sparse),
+[`vcount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_vcount),
+[`edges()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_edges),
+[`get_eids()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_get_eids),
+[`ecount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_ecount)
+
+## See also
+
+[`graph_from_adjacency_matrix()`](https://r.igraph.org/reference/graph_from_adjacency_matrix.md),
+[`read_graph()`](https://r.igraph.org/reference/read_graph.md)
+
+Other conversion:
+[`as.matrix.igraph()`](https://r.igraph.org/reference/as.matrix.igraph.md),
+[`as_adj_list()`](https://r.igraph.org/reference/as_adj_list.md),
+[`as_biadjacency_matrix()`](https://r.igraph.org/reference/as_biadjacency_matrix.md),
+[`as_data_frame()`](https://r.igraph.org/reference/graph_from_data_frame.md),
+[`as_directed()`](https://r.igraph.org/reference/as_directed.md),
+[`as_edgelist()`](https://r.igraph.org/reference/as_edgelist.md),
+[`as_graphnel()`](https://r.igraph.org/reference/as_graphnel.md),
+[`as_long_data_frame()`](https://r.igraph.org/reference/as_long_data_frame.md),
+[`graph_from_adj_list()`](https://r.igraph.org/reference/graph_from_adj_list.md),
+[`graph_from_graphnel()`](https://r.igraph.org/reference/graph_from_graphnel.md)
+
+## Examples
+
+``` r
+
+g <- sample_gnp(10, 2 / 10)
+as_adjacency_matrix(g)
+#> 10 x 10 sparse Matrix of class "dgCMatrix"
+#>                          
+#>  [1,] . . . . . . . . . .
+#>  [2,] . . . . . 1 . 1 . .
+#>  [3,] . . . . . . 1 . . .
+#>  [4,] . . . . . . 1 . . 1
+#>  [5,] . . . . . 1 . 1 . 1
+#>  [6,] . 1 . . 1 . 1 . . 1
+#>  [7,] . . 1 1 . 1 . . . 1
+#>  [8,] . 1 . . 1 . . . . 1
+#>  [9,] . . . . . . . . . 1
+#> [10,] . . . 1 1 1 1 1 1 .
+V(g)$name <- letters[1:vcount(g)]
+as_adjacency_matrix(g)
+#> 10 x 10 sparse Matrix of class "dgCMatrix"
+#>   [[ suppressing 10 column names ‘a’, ‘b’, ‘c’ ... ]]
+#>                      
+#> a . . . . . . . . . .
+#> b . . . . . 1 . 1 . .
+#> c . . . . . . 1 . . .
+#> d . . . . . . 1 . . 1
+#> e . . . . . 1 . 1 . 1
+#> f . 1 . . 1 . 1 . . 1
+#> g . . 1 1 . 1 . . . 1
+#> h . 1 . . 1 . . . . 1
+#> i . . . . . . . . . 1
+#> j . . . 1 1 1 1 1 1 .
+E(g)$weight <- runif(ecount(g))
+as_adjacency_matrix(g)
+#> 10 x 10 sparse Matrix of class "dgCMatrix"
+#>   [[ suppressing 10 column names ‘a’, ‘b’, ‘c’ ... ]]
+#>                                                                                
+#> a . .         .          .         .           .           .          .        
+#> b . .         .          .         .           0.330121691 .          0.8328456
+#> c . .         .          .         .           .           0.07899829 .        
+#> d . .         .          .         .           .           0.62337103 .        
+#> e . .         .          .         .           0.009822477 .          0.4678542
+#> f . 0.3301217 .          .         0.009822477 .           0.35373960 .        
+#> g . .         0.07899829 0.6233710 .           0.353739604 .          .        
+#> h . 0.8328456 .          .         0.467854201 .           .          .        
+#> i . .         .          .         .           .           .          .        
+#> j . .         .          0.9239261 0.316179677 0.823120607 0.78203059 0.8823195
+#>                      
+#> a .         .        
+#> b .         .        
+#> c .         .        
+#> d .         0.9239261
+#> e .         0.3161797
+#> f .         0.8231206
+#> g .         0.7820306
+#> h .         0.8823195
+#> i .         0.3621016
+#> j 0.3621016 .        
+as_adjacency_matrix(g, weights = NA)
+#> 10 x 10 sparse Matrix of class "dgCMatrix"
+#>   [[ suppressing 10 column names ‘a’, ‘b’, ‘c’ ... ]]
+#>                      
+#> a . . . . . . . . . .
+#> b . . . . . 1 . 1 . .
+#> c . . . . . . 1 . . .
+#> d . . . . . . 1 . . 1
+#> e . . . . . 1 . 1 . 1
+#> f . 1 . . 1 . 1 . . 1
+#> g . . 1 1 . 1 . . . 1
+#> h . 1 . . 1 . . . . 1
+#> i . . . . . . . . . 1
+#> j . . . 1 1 1 1 1 1 .
+```

@@ -1,0 +1,112 @@
+# Breadth-first search
+
+**\[deprecated\]**
+
+`graph.bfs()` was renamed to
+[`bfs()`](https://r.igraph.org/reference/bfs.md) to create a more
+consistent API.
+
+## Usage
+
+``` r
+graph.bfs(
+  graph,
+  root,
+  mode = c("out", "in", "all", "total"),
+  unreachable = TRUE,
+  restricted = NULL,
+  order = TRUE,
+  rank = FALSE,
+  father = FALSE,
+  pred = FALSE,
+  succ = FALSE,
+  dist = FALSE,
+  callback = NULL,
+  extra = NULL,
+  rho = parent.frame(),
+  neimode
+)
+```
+
+## Arguments
+
+- graph:
+
+  The input graph.
+
+- root:
+
+  Numeric vector, usually of length one. The root vertex, or root
+  vertices to start the search from. When several roots are given, they
+  are considered in the order they appear. If a root vertex was already
+  reached while searching from an earlier root, no separate search is
+  started from it, so it keeps the distance it was first found at rather
+  than `0`.
+
+- mode:
+
+  For directed graphs specifies the type of edges to follow. ‘out’
+  follows outgoing, ‘in’ incoming edges. ‘all’ ignores edge directions
+  completely. ‘total’ is a synonym for ‘all’. This argument is ignored
+  for undirected graphs.
+
+- unreachable:
+
+  Logical, whether the search should visit the vertices that are
+  unreachable from the given root vertex (or vertices). If `TRUE`, then
+  additional searches are performed until all vertices are visited.
+
+- restricted:
+
+  `NULL` (=no restriction), or a vector of vertices (IDs or symbolic
+  names). In the latter case, the search is restricted to the given
+  vertices.
+
+- order:
+
+  Logical, whether to return the ordering of the vertices.
+
+- rank:
+
+  Logical, whether to return the rank of the vertices.
+
+- father:
+
+  Logical, whether to return the father of the vertices.
+
+- pred:
+
+  Logical, whether to return the predecessors of the vertices.
+
+- succ:
+
+  Logical, whether to return the successors of the vertices.
+
+- dist:
+
+  Logical, whether to return the distance from the root of the search
+  tree.
+
+- callback:
+
+  Callback function. This is called whenever a vertex is visited. The
+  callback function should return `FALSE` to continue the search or
+  `TRUE` to stop it. See details below. Default: `NULL`.
+
+- extra:
+
+  Additional argument to supply to the callback function.
+
+- rho:
+
+  The environment in which the callback function is evaluated. The
+  default `NULL` uses the caller's environment.
+
+- neimode:
+
+  **\[deprecated\]** This argument is deprecated from igraph 1.3.0; use
+  `mode` instead.
+
+## Related documentation in the C library
+
+[`vcount()`](https://igraph.org/c/html/0.10.17/igraph-Basic.html#igraph_vcount)
