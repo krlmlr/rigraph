@@ -3,33 +3,31 @@
 | field | value |
 | --- | --- |
 | package | igraph |
-| dev | 2.3.3.9033 |
-| CRAN | 2.3.3 |
-| commit | c5c185f49 |
+| dev | 2.3.3.9042.301 |
+| CRAN | 2.3.4 |
+| commit | eb81f11cc |
 | R | 4.6 |
 | platform | x86_64-pc-linux-gnu |
-| run | 33777134786 |
-| date | 2026-09-03 |
+| run | 39009807438 |
+| date | 2026-10-17 |
 
 # Revdeps
 
-## Failed to check (8)
+## Failed to check (5)
 
-|package         |version |error |warning |note |
-|:---------------|:-------|:-----|:-------|:----|
-|ctmm            |?       |      |        |     |
-|E2E             |?       |      |        |     |
-|gllvm           |2.0.13  |1     |        |     |
-|hespdiv         |?       |      |        |     |
-|orchaRd         |?       |      |        |     |
-|PortfolioTesteR |?       |      |        |     |
-|sphet           |?       |      |        |     |
-|xpect           |?       |      |        |     |
+|package    |version |error |warning |note |
+|:----------|:-------|:-----|:-------|:----|
+|bifrost    |?       |      |        |     |
+|ctmm       |?       |      |        |     |
+|gllvm      |2.0.15  |1     |        |     |
+|rladybugdb |?       |      |        |     |
+|xpect      |?       |      |        |     |
 
-## New problems (26)
+## New problems (32)
 
 |package     |version |error  |warning  |note |
 |:-----------|:-------|:------|:--------|:----|
+|[bitriad](problems.md#bitriad)|0.4     |__+1__ |         |1    |
 |[Boptbd](problems.md#boptbd)|1.0.7   |__+1__ |         |     |
 |[c3net](problems.md#c3net)|1.1.1.1 |__+1__ |         |     |
 |[cfid](problems.md#cfid)|0.1.8   |__+1__ |         |     |
@@ -40,20 +38,25 @@
 |[ECoL](problems.md#ecol)|0.4.4   |__+2__ |         |     |
 |[ggm](problems.md#ggm)|2.5.4   |__+1__ |         |     |
 |[ggraph](problems.md#ggraph)|2.2.2   |__+2__ |         |1    |
-|[glyrepr](problems.md#glyrepr)|1.0.0   |__+1__ |         |     |
+|[glyrepr](problems.md#glyrepr)|1.1.0   |__+1__ |         |1    |
 |[GoodFitSBM](problems.md#goodfitsbm)|0.0.1   |__+1__ |         |     |
-|[manynet](problems.md#manynet)|2.3.1   |__+1__ |         |     |
+|[manynet](problems.md#manynet)|2.4.0   |__+1__ |         |     |
 |[MetaNet](problems.md#metanet)|0.3.2   |__+1__ |         |     |
-|[migraph](problems.md#migraph)|1.7.0   |__+1__ |         |     |
 |[nat](problems.md#nat)|1.8.26  |__+3__ |         |-1   |
 |[nethist](problems.md#nethist)|1.0.0   |__+1__ |         |1    |
+|[netrics](problems.md#netrics)|1.1.0   |__+1__ |         |     |
+|[NIMAA](problems.md#nimaa)|0.2.2   |__+1__ |         |     |
 |[optbdmaeAT](problems.md#optbdmaeat)|1.0.2   |__+1__ |         |     |
 |[optrcdmaeAT](problems.md#optrcdmaeat)|1.0.1   |__+1__ |         |     |
+|[pcalg](problems.md#pcalg)|2.7-12  |__+1__ |         |1    |
 |[R6causal](problems.md#r6causal)|0.8.3   |       |1 __+1__ |     |
 |[scistreer](problems.md#scistreer)|1.2.1   |__+1__ |1        |2    |
+|[scoredec](problems.md#scoredec)|0.1.2   |__+1__ |         |1    |
 |[SEMgraph](problems.md#semgraph)|1.2.4   |__+1__ |         |     |
-|[sfclust](problems.md#sfclust)|1.1.0   |__+1__ |         |     |
+|[sfclust](problems.md#sfclust)|1.1.1   |__+1__ |         |     |
 |[SpaDES.core](problems.md#spadescore)|3.2.1   |__+1__ |         |     |
+|[specr](problems.md#specr)|1.1.0   |__+1__ |         |     |
 |[tidygraph](problems.md#tidygraph)|1.3.1   |__+2__ |         |2    |
 |[vkR](problems.md#vkr)|0.2     |       |__+1__   |     |
+|[wdnet](problems.md#wdnet)|1.2.4   |__+1__ |         |1    |
 

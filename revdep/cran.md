@@ -1,14 +1,17 @@
 ## revdepcheck results
 
-We checked 3470 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 3595 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 26 new problems
- * We failed to check 8 packages
+ * We saw 32 new problems
+ * We failed to check 5 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
+
+* bitriad
+  checking examples ... ERROR
 
 * Boptbd
   checking examples ... ERROR
@@ -56,9 +59,6 @@ Issues with CRAN packages are summarised below.
 * MetaNet
   checking examples ... ERROR
 
-* migraph
-  checking tests ... ERROR
-
 * nat
   checking examples ... ERROR
   checking tests ... ERROR
@@ -67,17 +67,29 @@ Issues with CRAN packages are summarised below.
 * nethist
   checking tests ... ERROR
 
+* netrics
+  checking tests ... ERROR
+
+* NIMAA
+  checking re-building of vignette outputs ... ERROR
+
 * optbdmaeAT
   checking examples ... ERROR
 
 * optrcdmaeAT
   checking examples ... ERROR
 
+* pcalg
+  checking tests ... ERROR
+
 * R6causal
   checking whether package ‘R6causal’ can be installed ... WARNING
 
 * scistreer
   checking examples ... ERROR
+
+* scoredec
+  checking tests ... ERROR
 
 * SEMgraph
   checking examples ... ERROR
@@ -88,6 +100,9 @@ Issues with CRAN packages are summarised below.
 * SpaDES.core
   checking tests ... ERROR
 
+* specr
+  checking tests ... ERROR
+
 * tidygraph
   checking examples ... ERROR
   checking tests ... ERROR
@@ -95,13 +110,13 @@ Issues with CRAN packages are summarised below.
 * vkR
   checking dependencies in R code ... WARNING
 
+* wdnet
+  checking tests ... ERROR
+
 ### Failed to check
 
-* ctmm            (NA)
-* E2E             (NA)
-* gllvm           (NA)
-* hespdiv         (NA)
-* orchaRd         (NA)
-* PortfolioTesteR (NA)
-* sphet           (NA)
-* xpect           (NA)
+* bifrost    (NA)
+* ctmm       (NA)
+* gllvm      (NA)
+* rladybugdb (NA)
+* xpect      (NA)

@@ -1,3 +1,46 @@
+# bitriad (0.4)
+
+* Email: <mailto:cornelioid@gmail.com>
+* GitHub mirror: <https://github.com/cran/bitriad>
+
+Run `revdepcheck::revdep_details(, "bitriad")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     Running examples in ‘bitriad-Ex.R’ failed
+     The error most likely occurred in:
+     
+     > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+     > ### Name: modes
+     > ### Title: Actor and event node iteration and attribute querying and
+     > ###   assignment
+     > ### Aliases: modes V1 V2 actor_attr event_attr set_actor_attr
+     > ###   set_event_attr V1<- V2<-
+     > 
+     > ### ** Examples
+     > 
+     > data(women_clique)
+     > print(V1(women_clique))
+     ── <vertex sequence> 5/10 · named · from bb1857e ───────────────────────────────
+     [1] Miss A Miss B Miss C Miss D Miss E
+     > print(V2(women_clique))
+     ── <vertex sequence> 5/10 · named · from bb1857e ───────────────────────────────
+     [1] Bridge   Dinner   Movies   Dance    Visiting
+     > V1(women_clique)$label <- LETTERS[1:5]
+     Error in `V1<-`(`*tmp*`, value = 1:5) : invalid indexing
+     Execution halted
+     ```
+
+## In both
+
+*   checking compilation flags used ... NOTE
+     ```
+     Compilation used the following non-portable flag(s):
+       ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
+     ```
+
 # Boptbd (1.0.7)
 
 * Email: <mailto:diboobayu@gmail.com>
@@ -548,7 +591,7 @@ Run `revdepcheck::revdep_details(, "ggraph")` for more info
        ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 
-# glyrepr (1.0.0)
+# glyrepr (1.1.0)
 
 * GitHub: <https://github.com/glycoverse/glyrepr>
 * Email: <mailto:23110220018@m.fudan.edu.cn>
@@ -561,31 +604,39 @@ Run `revdepcheck::revdep_details(, "glyrepr")` for more info
 *   checking tests ... ERROR
      ```
      ...
-         'test-floating-parts.R:480:1', 'test-floating-substituents.R:94:1',
-         'test-floating-substituents.R:133:1', 'test-floating-substituents.R:173:1',
-         'test-floating-validation.R:37:1', 'test-floating-validation.R:51:1',
-         'test-floating-validation.R:65:1', 'test-floating-validation.R:79:1',
-         'test-floating-validation.R:109:1', 'test-floating-validation.R:139:1',
-         'test-floating-validation.R:159:1', 'test-floating-validation.R:203:1',
-         'test-low-level-structure.R:46:1', 'test-low-level-structure.R:82:1',
-         'test-low-level-structure.R:159:1', 'test-low-level-structure.R:222:1',
-         'test-low-level-structure.R:236:1', 'test-smap.R:1041:1',
-         'test-structure-tables.R:497:1', 'test-structure.R:520:1',
-         'test-structure.R:539:1', 'test-structure.R:588:1', 'test-structure.R:608:1',
-         'test-structure.R:668:1', 'test-structure.R:675:1', 'test-structure.R:683:1',
-         'test-structure.R:724:1', 'test-structure.R:779:1'
+         'test-floating-substituents.R:94:1', 'test-floating-substituents.R:133:1',
+         'test-floating-substituents.R:173:1', 'test-floating-validation.R:37:1',
+         'test-floating-validation.R:51:1', 'test-floating-validation.R:65:1',
+         'test-floating-validation.R:79:1', 'test-floating-validation.R:109:1',
+         'test-floating-validation.R:139:1', 'test-floating-validation.R:159:1',
+         'test-floating-validation.R:203:1', 'test-low-level-structure.R:46:1',
+         'test-low-level-structure.R:82:1', 'test-low-level-structure.R:159:1',
+         'test-low-level-structure.R:222:1', 'test-low-level-structure.R:236:1',
+         'test-smap.R:1041:1', 'test-structure-arrays.R:53:1',
+         'test-structure-arrays.R:137:1', 'test-structure-tables.R:497:1',
+         'test-structure.R:574:1', 'test-structure.R:593:1', 'test-structure.R:642:1',
+         'test-structure.R:662:1', 'test-structure.R:722:1', 'test-structure.R:729:1',
+         'test-structure.R:737:1', 'test-structure.R:778:1', 'test-structure.R:833:1'
        
        ══ Failed tests ════════════════════════════════════════════════════════════════
        ── Error ('test-structure-to-iupac.R:124:3'): structure_to_iupac handles complex branched structures ──
        <purrr_error_indexed/rlang_error/error/condition>
-       Error in `purrr::map(valid_graphs, function(graph) {     checkmate::assert_class(graph, "igraph")     graph %>% validate_glycan_graph() %>% canonicalize_glycan_graph() })`: i In index: 1.
+       Error in `purrr::map(graphs, process_glycan_structure_element)`: i In index: 1.
        Caused by error in `validate_glycan_graph()`:
        ! Duplicated linkage positions.
        
-       [ FAIL 1 | WARN 0 | SKIP 46 | PASS 1885 ]
+       [ FAIL 1 | WARN 0 | SKIP 51 | PASS 2073 ]
        Error:
        ! Test failures.
        Execution halted
+     ```
+
+## In both
+
+*   checking compilation flags used ... NOTE
+     ```
+     Compilation used the following non-portable flag(s):
+       ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 
 # GoodFitSBM (0.0.1)
@@ -628,7 +679,7 @@ Run `revdepcheck::revdep_details(, "GoodFitSBM")` for more info
      Execution halted
      ```
 
-# manynet (2.3.1)
+# manynet (2.4.0)
 
 * GitHub: <https://github.com/stocnet/manynet>
 * Email: <mailto:james.hollway@graduateinstitute.ch>
@@ -641,30 +692,30 @@ Run `revdepcheck::revdep_details(, "manynet")` for more info
 *   checking tests ... ERROR
      ```
      ...
-           ▆
-        1. ├─testthat::expect_null(...) at test-tutorials_manynet.R:4:5
         2. │ └─testthat::quasi_label(enquo(object), label)
         3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
         4. └─manynet:::check_tute_functions(tute)
-        5.   └─testthat::expect_null(...) at ./helper-manynet.R:225:5
-       ── Failure ('test-tutorials_manynet.R:4:5'): manynet tutorial code runs without warnings or errors ──
-       Expected `w` to be NULL.
+        5.   └─testthat::expect_null(...) at ./helper-manynet.R:233:5
+       ── Failure ('test-coercion.R:28:7'): coercion from stocnet to other classes is lossless where expected ──
+       Expected `lossless_roundtrip(obj, to)` to be TRUE.
        Differences:
-       `actual` is an S3 object of class <lifecycle_warning_deprecated/rlang_warning/warning/condition>, a list
-       `expected` is NULL
+       `actual`:   FALSE
+       `expected`: TRUE 
        
-       Warning in expression 54 : mean(as_matrix(s_women))
-       Backtrace:
-           ▆
-        1. ├─testthat::expect_null(...) at test-tutorials_manynet.R:4:5
-        2. │ └─testthat::quasi_label(enquo(object), label)
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. └─manynet:::check_tute_functions(tute)
-        5.   └─testthat::expect_null(...) at ./helper-manynet.R:225:5
+       Lossy coercion: stocnet (obj) → network (obj2)
        
-       [ FAIL 6 | WARN 1317 | SKIP 96 | PASS 4747 ]
+       [ FAIL 9 | WARN 1336 | SKIP 108 | PASS 7572 ]
        Error:
        ! Test failures.
+       Warning messages:
+       1: Calling `make_ring()` with positional or abbreviated arguments was deprecated
+       in igraph 3.0.0.
+       ℹ Detected call: make_ring(n, directed)
+       ℹ Use instead: make_ring(n, directed = ) 
+       2: The `attr` argument of `as_adjacency_matrix()` is deprecated as of igraph
+       3.0.0.
+       ℹ Please use the `weights` argument instead.
+       ℹ `attr = NULL` becomes `weights = NA`, not `weights = NULL`. 
        Execution halted
      ```
 
@@ -696,46 +747,6 @@ Run `revdepcheck::revdep_details(, "MetaNet")` for more info
      Error in deter_role(x["Pi"], x["Zi"], backs) : object 'role' not found
      Calls: zp_analyse -> apply -> FUN -> deter_role
      Execution halted
-     ```
-
-# migraph (1.7.0)
-
-* GitHub: <https://github.com/stocnet/migraph>
-* Email: <mailto:james.hollway@graduateinstitute.ch>
-* GitHub mirror: <https://github.com/cran/migraph>
-
-Run `revdepcheck::revdep_details(, "migraph")` for more info
-
-## Newly broken
-
-*   checking tests ... ERROR
-     ```
-     ...
-       ══ Skipped tests (3) ═══════════════════════════════════════════════════════════
-       • On Linux (1): 'test-model_tests.R:58:3'
-       • Skipping slow functions in diffusion.Rmd (1): 'test-tutorials_migraph.R:12:5'
-       • empty test (1): 'test-measure_over.R:1:1'
-       
-       ══ Failed tests ════════════════════════════════════════════════════════════════
-       ── Failure ('test-tutorials_migraph.R:12:5'): migraph tutorial code runs without warnings or errors ──
-       Expected `w` to be NULL.
-       Differences:
-       `actual` is an S3 object of class <lifecycle_warning_deprecated/rlang_warning/warning/condition>, a list
-       `expected` is NULL
-       
-       Warning in expression 17 : rg <- create_ring(32, width = 2)
-       Backtrace:
-           ▆
-        1. ├─testthat::expect_null(...) at test-tutorials_migraph.R:12:5
-        2. │ └─testthat::quasi_label(enquo(object), label)
-        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
-        4. └─migraph:::check_tute_functions(tute, skip = "ergm\\(|play_diffusions\\(")
-        5.   └─testthat::expect_null(...) at ./helper-functions.R:126:5
-       
-       [ FAIL 1 | WARN 0 | SKIP 3 | PASS 276 ]
-       Error:
-       ! Test failures.
-       Execution halted
      ```
 
 # nat (1.8.26)
@@ -843,7 +854,7 @@ Run `revdepcheck::revdep_details(, "nat")` for more info
 *   checking for detritus in the temp directory ... NOTE
      ```
      Found the following files/directories:
-       ‘org.chromium.Chromium.lbepW8’
+       ‘org.chromium.Chromium.mf10Kf’
      ```
 
 # nethist (1.0.0)
@@ -892,6 +903,86 @@ Run `revdepcheck::revdep_details(, "nethist")` for more info
      ```
      Compilation used the following non-portable flag(s):
        ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
+     ```
+
+# netrics (1.1.0)
+
+* GitHub: <https://github.com/stocnet/netrics>
+* Email: <mailto:james.hollway@graduateinstitute.ch>
+* GitHub mirror: <https://github.com/cran/netrics>
+
+Run `revdepcheck::revdep_details(, "netrics")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+       Expected the warnings raised to match regexp "communities".
+       Actual text:
+       x | 
+       Backtrace:
+           ▆
+        1. ├─testthat::expect_s3_class(...) at test-member_community.R:65:3
+        2. │ └─testthat::quasi_label(enquo(object))
+        3. │   └─rlang::eval_bare(expr, quo_get_env(quo))
+        4. └─netrics:::expect_snet_warn(...)
+        5.   └─testthat::expect_match(...) at ./helper-netrics.R:28:3
+       ── Failure ('test-shapes.R:48:3'): node_by_hub() and node_by_authority() do not warn when signed ──
+       Expected `node_by_hub(signed_multilevel)` not to throw any warnings.
+       Actually got a <simpleWarning> with message:
+         Hub and authority scores requested for undirected graph. These are the same as eigenvector centralities.
+         Source: centrality/hub_authority.c:294
+       ── Failure ('test-shapes.R:49:3'): node_by_hub() and node_by_authority() do not warn when signed ──
+       Expected `node_by_authority(signed_multilevel)` not to throw any warnings.
+       Actually got a <simpleWarning> with message:
+         Hub and authority scores requested for undirected graph. These are the same as eigenvector centralities.
+         Source: centrality/hub_authority.c:294
+       
+       [ FAIL 5 | WARN 67 | SKIP 39 | PASS 4810 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+# NIMAA (0.2.2)
+
+* GitHub: <https://github.com/jafarilab/NIMAA>
+* Email: <mailto:mohieddin.jafari@helsinki.fi>
+* GitHub mirror: <https://github.com/cran/NIMAA>
+
+Run `revdepcheck::revdep_details(, "NIMAA")` for more info
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+     --- re-building ‘NIMAA-vignette.Rmd’ using rmarkdown
+     
+     Quitting from NIMAA-vignette.Rmd:188-193 [unnamed-chunk-8]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     <error/rlang_error>
+     Error in `sc$clus.avg.widths`:
+     ! $ operator is invalid for atomic vectors
+     ---
+     Backtrace:
+         ▆
+      1. └─NIMAA::findCluster(sub_matrices$Rectangular_element_max, part = 2)
+      2.   └─NIMAA:::compareClusters(clusters = result, extra_feature = extra_feature)
+      3.     └─NIMAA::scoreCluster(...)
+      4.       └─fpc::cluster.stats(d = dist_mat, clustering = community$membership)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'NIMAA-vignette.Rmd' failed with diagnostics:
+     $ operator is invalid for atomic vectors
+     --- failed re-building ‘NIMAA-vignette.Rmd’
+     
+     SUMMARY: processing the following file failed:
+       ‘NIMAA-vignette.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
      ```
 
 # optbdmaeAT (1.0.2)
@@ -970,6 +1061,53 @@ Run `revdepcheck::revdep_details(, "optrcdmaeAT")` for more info
       4.       └─lifecycle:::deprecate_stop0(msg)
       5.         └─rlang::cnd_signal(...)
      Execution halted
+     ```
+
+# pcalg (2.7-12)
+
+* Email: <mailto:kalisch@stat.math.ethz.ch>
+* GitHub mirror: <https://github.com/cran/pcalg>
+
+Run `revdepcheck::revdep_details(, "pcalg")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+       > 
+       > ## Minimal checks on graphs generated via igraph
+       > stopifnot( require("graph") )
+       > set.seed(37)
+       > dagList <- vector(mode = "list", length = 6)
+       > dagList[[1]] <- randDAG(10, 4, "regular")
+       > dagList[[2]] <- randDAG(10, 4, "watts")
+       > dagList[[3]] <- randDAG(10, 4, "er")
+       > dagList[[4]] <- randDAG(10, 4, "bipartite")
+       > dagList[[5]] <- randDAG(10, 4, "geometric")
+       > dagList[[6]] <- randDAG(10, 4, "interEr", par2 = 0.5)
+       > 
+       > ## number of nodes
+       > stopifnot(all.equal(
+       +   sapply(dagList, numNodes),
+       +   rep(10,6)
+       + ))
+       > ## number of edges
+       > stopifnot(all.equal(
+       +   sapply(dagList, numEdges),
+       +   c(20,20,16,15,10,18)
+       + ))
+       Error: sapply(dagList, numEdges) and c(20, 20, 16, 15, 10, 18) are not equal:
+         Mean relative difference: 0.125
+       Execution halted
+     ```
+
+## In both
+
+*   checking compilation flags used ... NOTE
+     ```
+     Compilation used the following non-portable flag(s):
+       ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 
 # R6causal (0.8.3)
@@ -1075,6 +1213,54 @@ Run `revdepcheck::revdep_details(, "scistreer")` for more info
        ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 
+# scoredec (0.1.2)
+
+* GitHub: <https://github.com/cadam00/scoredec>
+* Email: <mailto:econp266@econ.soc.uoc.gr>
+* GitHub mirror: <https://github.com/cran/scoredec>
+
+Run `revdepcheck::revdep_details(, "scoredec")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+       > library(scoredec)
+       > 
+       > test_check("scoredec")
+       Saving _problems/test-s_coreness-44.R
+       Saving _problems/test-s_coreness-105.R
+       [ FAIL 2 | WARN 2 | SKIP 0 | PASS 18 ]
+       
+       ══ Failed tests ════════════════════════════════════════════════════════════════
+       ── Failure ('test-s_coreness.R:43:3'): s_coreness g and W work double ──────────
+       Expected `scoredec::s_coreness(g = g)` to equal `c(3, 1, 5, 2, 4)`.
+       Differences:
+         `actual`: 3.0 2.0 1.0 4.0 5.0
+       `expected`: 3.0 1.0 5.0 2.0 4.0
+       
+       ── Failure ('test-s_coreness.R:104:3'): s_coreness g and W work integer ────────
+       Expected `scoredec::s_coreness(g = g)` to equal `c(4, 3, 2, 2, 1)`.
+       Differences:
+         `actual`: 3.0 5.0 1.0 4.0 2.0
+       `expected`: 4.0 3.0 2.0 2.0 1.0
+       
+       
+       [ FAIL 2 | WARN 2 | SKIP 0 | PASS 18 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+## In both
+
+*   checking compilation flags used ... NOTE
+     ```
+     Compilation used the following non-portable flag(s):
+       ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
+     ```
+
 # SEMgraph (1.2.4)
 
 * GitHub: <https://github.com/fernandoPalluzzi/SEMgraph>
@@ -1088,8 +1274,6 @@ Run `revdepcheck::revdep_details(, "SEMgraph")` for more info
 *   checking examples ... ERROR
      ```
      ...
-       Please report the issue at <https://github.com/igraph/rigraph/issues>.
-     > plot(dag0$dag, layout=layout.circle, main = "Output DAG")
      Warning: vertex attribute color contains NAs. Replacing with default value 1
      > plot(dag0$dag.old, layout=layout.circle, main = "Inferred old edges")
      Warning: vertex attribute color contains NAs. Replacing with default value 1
@@ -1104,6 +1288,8 @@ Run `revdepcheck::revdep_details(, "SEMgraph")` for more info
      DAG conversion : TRUE
      Node Linear Ordering with TO setting
      
+     Warning in check.penalty.factor(penalty.factor, nvars) :
+       values for penalty.factor must be between 0 and Inf; negative values set to zero
      > dag2 <- SEMdag(ig, X, LO="TL")
      WARNING: input graph is not acyclic !
       Applying graph -> DAG conversion...
@@ -1115,7 +1301,7 @@ Run `revdepcheck::revdep_details(, "SEMgraph")` for more info
      Execution halted
      ```
 
-# sfclust (1.1.0)
+# sfclust (1.1.1)
 
 * GitHub: <https://github.com/ErickChacon/sfclust>
 * Email: <mailto:erick.chaconmontalvan@wur.nl>
@@ -1195,6 +1381,46 @@ Run `revdepcheck::revdep_details(, "SpaDES.core")` for more info
        Ran 1/1 deferred expressions
      ```
 
+# specr (1.1.0)
+
+* GitHub: <https://github.com/masurp/specr>
+* Email: <mailto:phil.masur@gmail.com>
+* GitHub mirror: <https://github.com/cran/specr>
+
+Run `revdepcheck::revdep_details(, "specr")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+       
+       Models fitted based on 32 specifications
+       Number of cores used: 1 
+       
+       Descriptive summary of the specification curve:
+       
+        median  mad  min  max  q25 q75
+          0.44 0.26 0.16 0.66 0.23 0.6
+       boundary (singular) fit: see help('isSingular')
+       boundary (singular) fit: see help('isSingular')
+       [ FAIL 1 | WARN 0 | SKIP 4 | PASS 273 ]
+       
+       ══ Skipped tests (4) ═══════════════════════════════════════════════════════════
+       • On CRAN (4): 'test-infer_curve.R:136:3', 'test-infer_curve.R:224:3',
+         'test-specr.R:60:3', 'test-specr.R:174:3'
+       
+       ══ Failed tests ════════════════════════════════════════════════════════════════
+       ── Failure ('test-deprecated.R:44:3'): the plot functions still work ───────────
+       Expected `deprecations(p <- plot_decisiontree(results_old))` to have length 1.
+       Actual length: 2.
+       
+       [ FAIL 1 | WARN 0 | SKIP 4 | PASS 273 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
 # tidygraph (1.3.1)
 
 * GitHub: <https://github.com/thomasp85/tidygraph>
@@ -1259,7 +1485,7 @@ Run `revdepcheck::revdep_details(, "tidygraph")` for more info
        ! The `father` argument of `bfs()` was deprecated in igraph 2.2.0 and is now defunct.
        i Please use the `parent` argument instead.
        
-       [ FAIL 6 | WARN 55 | SKIP 1 | PASS 423 ]
+       [ FAIL 6 | WARN 58 | SKIP 1 | PASS 423 ]
        Error:
        ! Test failures.
        Execution halted
@@ -1294,5 +1520,52 @@ Run `revdepcheck::revdep_details(, "vkR")` for more info
 *   checking dependencies in R code ... WARNING
      ```
      Missing or unexported object: ‘igraph::get.edge’
+     ```
+
+# wdnet (1.2.4)
+
+* Email: <mailto:yelie.yuan@gmail.com>
+* GitHub mirror: <https://github.com/cran/wdnet>
+
+Run `revdepcheck::revdep_details(, "wdnet")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+       Component "assortcoef": Component "outin": Mean relative difference: 0.07398271
+       Component "assortcoef": Component "inout": Mean relative difference: 0.2124229
+       Component "assortcoef": Component "inin": Mean relative difference: 1.189848
+       Component "netwk": Component "edgelist": Mean relative difference: 0.8303969
+       Backtrace:
+           ▆
+        1. └─wdnet (local) my_expect_true(nstep = nstep, control = control, directed = TRUE) at test-rewire.R:108:3
+        2.   └─testthat::expect_equal(ret1, ret2) at test-rewire.R:98:5
+       ── Failure ('test-rewire.R:100:5'): rewire ─────────────────────────────────────
+       Expected `ret1` to equal `ret4`.
+       Differences:
+       Component "assortcoef": Component "outout": Mean relative difference: 0.04105655
+       Component "assortcoef": Component "outin": Mean relative difference: 0.07398271
+       Component "assortcoef": Component "inout": Mean relative difference: 0.2124229
+       Component "assortcoef": Component "inin": Mean relative difference: 1.189848
+       Component "netwk": Component "edgelist": Mean relative difference: 0.8303969
+       Backtrace:
+           ▆
+        1. └─wdnet (local) my_expect_true(nstep = nstep, control = control, directed = TRUE) at test-rewire.R:108:3
+        2.   └─testthat::expect_equal(ret1, ret4) at test-rewire.R:100:5
+       
+       [ FAIL 3 | WARN 0 | SKIP 0 | PASS 85 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+## In both
+
+*   checking compilation flags used ... NOTE
+     ```
+     Compilation used the following non-portable flag(s):
+       ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 

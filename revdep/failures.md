@@ -1,3 +1,31 @@
+# bifrost (0.2.0)
+
+* GitHub mirror: <https://github.com/cran/bifrost>
+
+Run `revdepcheck::revdep_details(, "bifrost")` for more info
+
+## Error before installation
+
+### Devel
+
+```
+Dependencies not installed: RhpcBLASctl
+
+
+
+
+
+```
+### CRAN
+
+```
+Dependencies not installed: RhpcBLASctl
+
+
+
+
+
+```
 # ctmm (1.3.0)
 
 * GitHub mirror: <https://github.com/cran/ctmm>
@@ -26,35 +54,7 @@ new check timed out after 1800s, at: * checking re-building of vignette outputs 
 
 
 ```
-# E2E (0.1.3)
-
-* GitHub mirror: <https://github.com/cran/E2E>
-
-Run `revdepcheck::revdep_details(, "E2E")` for more info
-
-## Error before installation
-
-### Devel
-
-```
-new check timed out after 1802s, at: * checking re-building of vignette outputs ...
-
-
-
-
-
-```
-### CRAN
-
-```
-new check timed out after 1802s, at: * checking re-building of vignette outputs ...
-
-
-
-
-
-```
-# gllvm (2.0.13)
+# gllvm (2.0.15)
 
 * GitHub mirror: <https://github.com/cran/gllvm>
 
@@ -152,18 +152,18 @@ Source tarball could not be downloaded
 
 
 ```
-# orchaRd (2.2.1)
+# rladybugdb (0.4.4)
 
-* GitHub mirror: <https://github.com/cran/orchaRd>
+* GitHub mirror: <https://github.com/cran/rladybugdb>
 
-Run `revdepcheck::revdep_details(, "orchaRd")` for more info
+Run `revdepcheck::revdep_details(, "rladybugdb")` for more info
 
 ## Error before installation
 
 ### Devel
 
 ```
-old check timed out after 1800s, at: * checking tests ...
+old check timed out after 1800s, at: * checking whether package ‘rladybugdb’ can be installed ...
 
 
 
@@ -173,35 +173,7 @@ old check timed out after 1800s, at: * checking tests ...
 ### CRAN
 
 ```
-old check timed out after 1800s, at: * checking tests ...
-
-
-
-
-
-```
-# PortfolioTesteR (0.1.4)
-
-* GitHub mirror: <https://github.com/cran/PortfolioTesteR>
-
-Run `revdepcheck::revdep_details(, "PortfolioTesteR")` for more info
-
-## Error before installation
-
-### Devel
-
-```
-new check timed out after 1801s, at: * checking re-building of vignette outputs ...
-
-
-
-
-
-```
-### CRAN
-
-```
-new check timed out after 1801s, at: * checking re-building of vignette outputs ...
+old check timed out after 1800s, at: * checking whether package ‘rladybugdb’ can be installed ...
 
 
 
@@ -236,64 +208,6 @@ Source tarball could not be downloaded
 
 
 ```
-# sphet (2.1-1)
-
-* GitHub mirror: <https://github.com/cran/sphet>
-
-Run `revdepcheck::revdep_details(, "sphet")` for more info
-
-## Error before installation
-
-### Devel
-
-```
-Not checked (deferred)
-
-
-
-
-
-```
-### CRAN
-
-```
-Not checked (deferred)
-
-
-
-
-
-```
-# tinyVAST (1.6.2)
-
-* GitHub mirror: <https://github.com/cran/tinyVAST>
-
-Run `revdepcheck::revdep_details(, "tinyVAST")` for more info
-
-## In both
-
-*   checking whether package ‘tinyVAST’ can be installed ... ERROR
-     ```
-     Installation failed.
-     See ‘<lib>/tinyVAST.Rcheck/00install.out’ for details.
-     ```
-
-## Installation
-
-### Devel
-
-```
-<00install.out file does not exist>
-
-
-```
-### CRAN
-
-```
-<00install.out file does not exist>
-
-
-```
 # xpect (1.2)
 
 * GitHub mirror: <https://github.com/cran/xpect>
@@ -305,7 +219,7 @@ Run `revdepcheck::revdep_details(, "xpect")` for more info
 ### Devel
 
 ```
-new check timed out after 1801s, at: * checking tests ...
+old check timed out after 1800s, at: * checking tests ...
 
 
 
@@ -315,7 +229,7 @@ new check timed out after 1801s, at: * checking tests ...
 ### CRAN
 
 ```
-new check timed out after 1801s, at: * checking tests ...
+old check timed out after 1800s, at: * checking tests ...
 
 
 
