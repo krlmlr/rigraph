@@ -90,7 +90,20 @@
 # turn the run red -- the summary and the report artifact are the
 # deliverable; only infrastructure failures fail jobs.
 
+# TEMPORARY (Bioconductor-only most-2 run on main-rc-alpha): GitHub only
+# registers a workflow_dispatch workflow once its file exists on the default
+# branch, and krlmlr/rigraph does not list revdep4, so a dispatch there
+# answers 404. This push trigger fires the run from this branch instead, with
+# the dispatch inputs defaulting to the test parameters (most, depth 2,
+# Bioconductor all) below, the package list read from
+# revdep/bioc-most-2.txt, and the run title hardcoded in `run-name`. The
+# branch name avoids `revdep*` (revdep.yaml) and `*-dev` (each.yaml), so this
+# push starts revdep4 and nothing else.
+# Drop this commit, or the branch, after the run.
 on:
+  push:
+    branches:
+      - "claude/bioc-most-2-main-rc-alpha"
   workflow_dispatch:
     inputs:
       ref:
@@ -165,7 +178,9 @@ name: revdep4
 
 # GitHub does not show a run the inputs it was dispatched with, so the ones
 # that decide how much work the run is go into the run's own title.
-run-name: "revdep4 ${{ inputs.packages && format('({0})', inputs.packages) || format('({0}, depth {1})', inputs.which || 'strong', inputs.depth || '1') }}${{ inputs['retry-run'] && format(', retry of {0}', inputs['retry-run']) || '' }}${{ inputs['dry-run'] && ', dry run' || '' }}"
+# TEMPORARY: hardcoded while the push trigger drives the run -- a push event
+# has no inputs, and the expression's defaults would mislabel the run.
+run-name: "revdep4 (Bioconductor only, 704 packages, most depth 2)"
 
 # Read-only by default; every job opts back into what it actually needs.
 permissions:
@@ -190,8 +205,10 @@ concurrency:
 env:
   REVDEPX_ENGINE: queue
   REVDEPX_PACKAGES: ${{ inputs.packages || '' }}
-  REVDEPX_WHICH: ${{ inputs.which || 'strong' }}
-  REVDEPX_DEPTH: ${{ inputs.depth || '1' }}
+  # TEMPORARY: defaults for the push-triggered run (a push event has no
+  # inputs); dispatch inputs take over again once this commit is dropped.
+  REVDEPX_WHICH: ${{ inputs.which || 'most' }}
+  REVDEPX_DEPTH: ${{ inputs.depth || '2' }}
   REVDEPX_BIOC: ${{ inputs.bioconductor || 'all' }}
   REVDEPX_RETRY_RUN: ${{ inputs.retry-run || '' }}
   REVDEPX_PART: ${{ inputs.part || '' }}
@@ -311,6 +328,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           OUT: ${{ runner.temp }}/plan.json
         run: |
+          # TEMPORARY: a push event has no `packages` input, so the plan reads
+          # the explicit list (one name per line) from the branch instead.
+          # plan.R splits REVDEPX_PACKAGES at commas and whitespace.
+          if [ "${GITHUB_EVENT_NAME}" = "push" ]; then
+            REVDEPX_PACKAGES="$(paste -sd, revdep/bioc-most-2.txt)"
+            export REVDEPX_PACKAGES
+            echo "Explicit package list: $(grep -c . revdep/bioc-most-2.txt) names from revdep/bioc-most-2.txt"
+          fi
           Rscript "${REVDEPX_DIR}/plan.R"
         shell: bash
 
