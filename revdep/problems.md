@@ -1,3 +1,182 @@
+# annoLinker (1.0.0)
+
+* GitHub: <https://github.com/jianhong/annoLinker>
+* Email: <mailto:jou@morgridge.org>
+* GitHub mirror: <https://github.com/cran/annoLinker>
+
+Run `revdepcheck::revdep_details(, "annoLinker")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+       > require("future") || stop("unable to load future")
+       Loading required package: future
+       
+       Attaching package: 'future'
+       
+       The following objects are masked from 'package:igraph':
+       
+           %->%, %<-%
+       
+       [1] TRUE
+       > test_check("annoLinker")
+       Saving _problems/test_utilities-195.R
+       [ FAIL 1 | WARN 1 | SKIP 0 | PASS 30 ]
+       
+       ══ Failed tests ════════════════════════════════════════════════════════════════
+       ── Failure ('test_utilities.R:192:5'): build_interaction_graph or detect_clusters works not correct ──
+       Expected `res[[4]]$clusters` to equal `res[[2]]$clusters`.
+       Differences:
+       Component "cluster_id": Mean relative difference: 0.2894737
+       Component "cluster_size": Mean relative difference: 0.3243243
+       
+       [ FAIL 1 | WARN 1 | SKIP 0 | PASS 30 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+# batchelor (1.28.0)
+
+* Email: <mailto:infinite.monkeys.with.keyboards@gmail.com>
+* GitHub mirror: <https://github.com/cran/batchelor>
+
+Run `revdepcheck::revdep_details(, "batchelor")` for more info
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     Error(s) in re-building vignettes:
+       ...
+     --- re-building ‘correction.Rmd’ using rmarkdown
+     The magick package is required to crop "<lib>/batchelor.Rcheck/vign_test/batchelor/vignettes/correction_files/figure-html/unnamed-chunk-7-1.png" but not available.
+     The magick package is required to crop "<lib>/batchelor.Rcheck/vign_test/batchelor/vignettes/correction_files/figure-html/unnamed-chunk-11-1.png" but not available.
+     The magick package is required to crop "<lib>/batchelor.Rcheck/vign_test/batchelor/vignettes/correction_files/figure-html/unnamed-chunk-12-1.png" but not available.
+     The magick package is required to crop "<lib>/batchelor.Rcheck/vign_test/batchelor/vignettes/correction_files/figure-html/unnamed-chunk-18-1.png" but not available.
+     Killed
+     --- re-building ‘extension.Rmd’ using rmarkdown
+     --- finished re-building ‘extension.Rmd’
+     
+     SUMMARY: processing the following file failed:
+       ‘correction.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking tests ... ERROR
+     ```
+     ...
+       ── Failure ('test-reduced-mnn.R:128:5'): reducedMNN works correctly with restriction ──
+       Expected `ref$corrected[ref$batch == 1, ]` to be identical to `out$corrected[out$batch == 1, ][keep1, ]`.
+       Differences:
+       Objects equal but not identical
+       ── Failure ('test-reduced-mnn.R:129:5'): reducedMNN works correctly with restriction ──
+       Expected `ref$corrected[ref$batch == 2, ]` to be identical to `out$corrected[out$batch == 2, ][keep2, ]`.
+       Differences:
+       Objects equal but not identical
+       ── Failure ('test-reduced-mnn.R:130:5'): reducedMNN works correctly with restriction ──
+       Expected `ref$corrected[ref$batch == 3, ]` to be identical to `out$corrected[out$batch == 3, ][keep3, ]`.
+       Differences:
+       Objects equal but not identical
+       ── Failure ('test-reduced-mnn.R:133:5'): reducedMNN works correctly with restriction ──
+       Expected `ref$corrected[ref$batch == 2, ][i2, ]` to be identical to `out$corrected[out$batch == 2, ][-keep2, ]`.
+       Differences:
+       Objects equal but not identical
+       ── Failure ('test-reduced-mnn.R:134:5'): reducedMNN works correctly with restriction ──
+       Expected `ref$corrected[ref$batch == 3, ][i3, ]` to be identical to `out$corrected[out$batch == 3, ][-keep3, ]`.
+       Differences:
+       Objects equal but not identical
+       
+       [ FAIL 6 | WARN 1029 | SKIP 0 | PASS 1041 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+*   checking examples ... WARNING
+     ```
+     ...
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'sumCountsAcrossCells' is deprecated.
+       Warning in .local(x, ...) : 'summarizeAssayByGroup' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'librarySizeFactors' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'librarySizeFactors' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in fitTrendVar(fm, fv, ...) : 'fitTrendVar' is deprecated.
+       Warning in fitTrendVar(fm, fv, ...) : 'fitTrendVar' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+     Deprecated functions may be defunct as soon as of the next release of
+     R.
+     See ?Deprecated.
+     ```
+
+*   checking whether package ‘batchelor’ can be installed ... NOTE
+     ```
+     Found the following notes/warnings:
+       SystemRequirements specified C++11: support has been removed
+     See ‘<lib>/batchelor.Rcheck/00install.out’ for details.
+     ```
+
+*   checking C++ specification ... NOTE
+     ```
+       Obsolete C++11 standard request will be ignored
+     ```
+
+*   checking Rd cross-references ... NOTE
+     ```
+     ...
+       diagnostics-cluster.Rd: normalizeCounts
+       fastMNN.Rd: SingleCellExperiment-class, BiocSingularParam-class,
+         BiocNeighborParam-class, BiocParallelParam-class, DataFrame-class,
+         List-class, altExps
+       intersectRows.Rd: SingleCellExperiment-class
+       mnnCorrect.Rd: SingleCellExperiment-class, BiocSingularParam-class,
+         BiocNeighborParam-class, BiocParallelParam-class, List-class
+       mnnDeltaVariance.Rd: SingleCellExperiment-class, DataFrame-class,
+         BiocParallelParam-class, metadata
+       multiBatchNorm.Rd: SingleCellExperiment-class,
+         BiocParallelParam-class, logNormCounts, altExps
+       multiBatchPCA.Rd: SingleCellExperiment-class,
+         BiocSingularParam-class, runSVD, BiocParallelParam-class,
+         List-class, IrlbaParam, RandomParam, bsdeferred
+       noCorrect.Rd: SingleCellExperiment-class, colData
+       quickCorrect.Rd: SingleCellExperiment-class, DataFrame,
+         DataFrame-class
+       reducedMNN.Rd: BiocNeighborParam-class, BiocParallelParam-class,
+         DataFrame-class
+       regressBatches.Rd: SingleCellExperiment-class, ResidualMatrix,
+         BiocSingularParam-class, BiocParallelParam-class,
+         ResidualMatrix-class, reducedDims, altExps
+       rescaleBatches.Rd: SingleCellExperiment-class, altExps
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
+     ```
+
+*   checking compilation flags used ... NOTE
+     ```
+     Compilation used the following non-portable flag(s):
+       ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
+     ```
+
 # Boptbd (1.0.7)
 
 * Email: <mailto:diboobayu@gmail.com>
@@ -37,6 +216,48 @@ Run `revdepcheck::revdep_details(, "Boptbd")` for more info
      Execution halted
      ```
 
+# BulkSignalR (1.4.0)
+
+* GitHub: <https://github.com/jcolinge/BulkSignalR>
+* Email: <mailto:jpvillemin@gmail.com>
+* GitHub mirror: <https://github.com/cran/BulkSignalR>
+
+Run `revdepcheck::revdep_details(, "BulkSignalR")` for more info
+
+## Newly broken
+
+*   checking whether the package can be loaded ... ERROR
+     ```
+     Loading this package had a fatal error status code 1
+     Loading log:
+     ✖ Remote server is down. 
+     "https://partage-dev.montp.inserm.fr:9192/CBSB/"
+     Error while performing HEAD request.
+        Proceeding without cache information.
+     Error: package or namespace load failed for ‘BulkSignalR’:
+      .onLoad failed in loadNamespace() for 'BulkSignalR', details:
+       call: if (any(BiocFileCache::bfcneedsupdate(bfc, config = config))) {
+       error: missing value where TRUE/FALSE needed
+     Execution halted
+     ```
+
+## Newly fixed
+
+*   checking for non-standard things in the check directory ... NOTE
+     ```
+     Found the following files/directories:
+       ‘interaction-plot-ADAM17-ERBB4’ ‘interaction-plot-ADM-VIPR1’
+       ‘spatialIndexPlot’
+     ```
+
+## In both
+
+*   checking top-level files ... NOTE
+     ```
+     Non-standard file/directory found at top level:
+       ‘LICENSE.md’
+     ```
+
 # c3net (1.1.1.1)
 
 * Email: <mailto:altayscience@gmail.com>
@@ -73,6 +294,106 @@ Run `revdepcheck::revdep_details(, "c3net")` for more info
       4.       └─lifecycle::deprecate_stop("3.0.0", "tkplot()")
       5.         └─lifecycle:::deprecate_stop0(msg)
       6.           └─rlang::cnd_signal(...)
+     Execution halted
+     ```
+
+# CBNplot (1.12.0)
+
+* GitHub: <https://github.com/noriakis/CBNplot>
+* Email: <mailto:nori@hgc.jp>
+* GitHub mirror: <https://github.com/cran/CBNplot>
+
+Run `revdepcheck::revdep_details(, "CBNplot")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     > ### Title: bngeneplot
+     > ### Aliases: bngeneplot
+     > 
+     > ### ** Examples
+     > 
+     > data("exampleEaRes");data("exampleGeneExp")
+     > res <- bngeneplot(results = exampleEaRes, exp = exampleGeneExp, pathNum = 1,
+     +                   R = 10, convertSymbol = TRUE, expRow = "ENSEMBL")
+     'select()' returned 1:1 mapping between keys and columns
+     'select()' returned 1:1 mapping between keys and columns
+     Warning: `set.edge.attribute()` was deprecated in igraph 2.0.0.
+     ℹ Please use `set_edge_attr()` instead.
+     ℹ The deprecated feature was likely used in the CBNplot package.
+       Please report the issue at <https://github.com/noriakis/CBNplot/issues>.
+     Error:
+     ! `hub.score()` was deprecated in igraph 2.0.0 and is now defunct.
+     ℹ Please use `hits_scores()` instead.
+     Backtrace:
+         ▆
+      1. └─CBNplot::bngeneplot(...)
+      2.   └─igraph::hub.score(g, scale = TRUE, weights = E(g)$color)
+      3.     └─lifecycle::deprecate_stop("2.0.0", "hub.score()", "hits_scores()")
+      4.       └─lifecycle:::deprecate_stop0(msg)
+      5.         └─rlang::cnd_signal(...)
+     Execution halted
+     ```
+
+*   checking tests ... ERROR
+     ```
+     ...
+         3. │   └─testthat:::quasi_capture(...)
+         4. │     ├─testthat (local) .capture(...)
+         5. │     │ └─base::withCallingHandlers(...)
+         6. │     └─rlang::eval_bare(quo_get_expr(.quo), quo_get_env(.quo))
+         7. └─CBNplot::bnpathplotCustom(...)
+         8.   └─igraph::hub.score(g, scale = TRUE, weights = E(g)$color)
+         9.     └─lifecycle::deprecate_stop("2.0.0", "hub.score()", "hits_scores()")
+        10.       └─lifecycle:::deprecate_stop0(msg)
+        11.         └─rlang::cnd_signal(...)
+       ── Error ('test-utils.R:6:5'): utilities: not produce errors in variou parameters ──
+       <lifecycle_error_deprecated/defunctError/rlang_error/error/condition>
+       Error: `hub.score()` was deprecated in igraph 2.0.0 and is now defunct.
+       i Please use `hits_scores()` instead.
+       Backtrace:
+           ▆
+        1. └─CBNplot::bngeneplot(...) at test-utils.R:6:5
+        2.   └─igraph::hub.score(g, scale = TRUE, weights = E(g)$color)
+        3.     └─lifecycle::deprecate_stop("2.0.0", "hub.score()", "hits_scores()")
+        4.       └─lifecycle:::deprecate_stop0(msg)
+        5.         └─rlang::cnd_signal(...)
+       
+       [ FAIL 18 | WARN 141 | SKIP 0 | PASS 1 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+     Quitting from CBNplot_basic_usage.Rmd:58-60 [usecase]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     <error/lifecycle_error_deprecated>
+     Error:
+     ! `hub.score()` was deprecated in igraph 2.0.0 and is now defunct.
+     ℹ Please use `hits_scores()` instead.
+     ---
+     Backtrace:
+         ▆
+      1. └─CBNplot::bngeneplot(...)
+      2.   └─igraph::hub.score(g, scale = TRUE, weights = E(g)$color)
+      3.     └─lifecycle::deprecate_stop("2.0.0", "hub.score()", "hits_scores()")
+      4.       └─lifecycle:::deprecate_stop0(msg)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'CBNplot_basic_usage.Rmd' failed with diagnostics:
+     `hub.score()` was deprecated in igraph 2.0.0 and is now defunct.
+     ℹ Please use `hits_scores()` instead.
+     --- failed re-building ‘CBNplot_basic_usage.Rmd’
+     
+     SUMMARY: processing the following file failed:
+       ‘CBNplot_basic_usage.Rmd’
+     
+     Error: Vignette re-building failed.
      Execution halted
      ```
 
@@ -173,6 +494,154 @@ Run `revdepcheck::revdep_details(, "comato")` for more info
      Found if() conditions comparing class() to string:
      File ‘comato/R/concept_maps.r’: if (class(m) != "conceptmap") ...
      Use inherits() (or maybe is()) instead.
+     ```
+
+# condiments (1.20.0)
+
+* GitHub: <https://github.com/HectorRDB/condiments>
+* Email: <mailto:hector.rouxdebezieux@berkeley.edu>
+* GitHub mirror: <https://github.com/cran/condiments>
+
+Run `revdepcheck::revdep_details(, "condiments")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     > rd <- slingshotExample$rd
+     > cl <- slingshotExample$cl
+     > condition <- factor(rep(c('A','B'), length.out = nrow(rd)))
+     > condition[110:139] <- 'A'
+     > sds <- slingshot::slingshot(rd, cl)
+     Warning: `graph.adjacency()` was deprecated in igraph 2.0.0.
+     ℹ Please use `graph_from_adjacency_matrix()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Warning: `minimum.spanning.tree()` was deprecated in igraph 2.0.0.
+     ℹ Please use `mst()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Warning: `get.edge.ids()` was deprecated in igraph 2.1.0.
+     ℹ Please use `get_edge_ids()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Warning: `delete.edges()` was deprecated in igraph 2.0.0.
+     ℹ Please use `delete_edges()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Error in vapply(forest, function(tree) { : values must be length 1,
+      but FUN(X[[1]]) result is length 0
+     Calls: <Anonymous> ... getLineages -> getLineages -> getLineages -> .local -> vapply
+     Execution halted
+     ```
+
+*   checking tests ... ERROR
+     ```
+     ...
+         8.         ├─slingshot::getLineages(...)
+         9.         └─slingshot::getLineages(...)
+        10.           └─slingshot (local) .local(data, clusterLabels, ...)
+        11.             └─base::vapply(...)
+       ── Error ('test_utils.R:12:1'): (code run outside of `test_that()`) ────────────
+       Error in `vapply(forest, function(tree) {     if (length(igraph::V(tree)) == 1) {         return(names(igraph::V(tree)))     }     if (any(start.clus %in% names(igraph::V(tree)))) {         return(start.clus[start.clus %in% names(igraph::V(tree))][1])     }     adj <- igraph::as_adjacency_matrix(tree, sparse = FALSE)     leaves <- rownames(adj)[rowSums(adj) == 1]     avg.lineage.length <- vapply(leaves, function(l) {         ends <- leaves[leaves != l]         paths <- igraph::shortest_paths(tree, from = l, to = ends, mode = "out", output = "vpath")$vpath         mean(vapply(paths, length, 0))     }, 0)     return(names(avg.lineage.length)[which.max(avg.lineage.length)]) }, FUN.VALUE = "")`: values must be length 1,
+        but FUN(X[[1]]) result is length 0
+       Backtrace:
+            ▆
+         1. ├─slingshot::slingshot(rd, cl) at test_utils.R:12:1
+         2. └─slingshot::slingshot(rd, cl)
+         3.   ├─slingshot::slingshot(...)
+         4.   └─slingshot::slingshot(...)
+         5.     └─slingshot (local) .local(data, clusterLabels, ...)
+         6.       ├─slingshot::getLineages(...)
+         7.       └─slingshot::getLineages(...)
+         8.         ├─slingshot::getLineages(...)
+         9.         └─slingshot::getLineages(...)
+        10.           └─slingshot (local) .local(data, clusterLabels, ...)
+        11.             └─base::vapply(...)
+       
+       [ FAIL 9 | WARN 4 | SKIP 1 | PASS 0 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+         ▆
+      1. ├─slingshot::slingshot(rd, df$cl)
+      2. └─slingshot::slingshot(rd, df$cl)
+      3.   └─slingshot (local) .local(data, clusterLabels, ...)
+      4.     ├─slingshot::getLineages(...)
+      5.     └─slingshot::getLineages(...)
+      6.       ├─slingshot::getLineages(...)
+      7.       └─slingshot::getLineages(...)
+      8.         └─slingshot (local) .local(data, clusterLabels, ...)
+      9.           └─base::vapply(...)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'controls.Rmd' failed with diagnostics:
+     values must be length 1,
+      but FUN(X[[1]]) result is length 0
+     --- failed re-building ‘controls.Rmd’
+     
+     --- re-building ‘examples.Rmd’ using rmarkdown
+     --- finished re-building ‘examples.Rmd’
+     
+     SUMMARY: processing the following files failed:
+       ‘condiments.Rmd’ ‘controls.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking R code for possible problems ... NOTE
+     ```
+     .condition_sling: no visible binding for global variable ‘.’
+     .condition_sling : <anonymous>: no visible binding for global variable
+       ‘.’
+     .distinct_inputs: no visible binding for global variable ‘Samples’
+     .distinct_inputs: no visible binding for global variable ‘.’
+     .fateSelectionTest: no visible binding for global variable ‘pair’
+     .fateSelectionTest: no visible binding for global variable ‘statistic’
+     .fateSelectionTest: no visible binding for global variable ‘p.value’
+     .multiple_samples: no visible binding for global variable ‘p.value’
+     .progressionTest: no visible binding for global variable ‘lineage’
+     .progressionTest: no visible binding for global variable ‘statistic’
+     .progressionTest: no visible binding for global variable ‘p.value’
+     .topologyTest_multipleSamples: no visible binding for global variable
+       ‘p.value’
+     fateSelectionTest_multipleSamples,SlingshotDataSet: no visible binding
+       for global variable ‘condition’
+     progressionTest_multipleSamples,SlingshotDataSet: no visible binding
+       for global variable ‘condition’
+     Undefined global functions or variables:
+       . Samples condition lineage p.value pair statistic
+     ```
+
+*   checking Rd cross-references ... NOTE
+     ```
+     Found the following Rd file(s) with Rd \link{} targets missing package
+     anchors:
+       fateSelectionTest.Rd: SlingshotDataSet, SingleCellExperiment,
+         classifier_test, mmd_test, wasserstein_permut
+       fateSelectionTest_multipleSamples.Rd: SlingshotDataSet,
+         SingleCellExperiment
+       imbalance_score.Rd: SingleCellExperiment, colData
+       progressionTest.Rd: SlingshotDataSet, SingleCellExperiment, mmd_test,
+         classifier_test, wasserstein_permut, ks_test
+       progressionTest_multipleSamples.Rd: SlingshotDataSet,
+         SingleCellExperiment
+       slingshot_conditions.Rd: SlingshotDataSet, SingleCellExperiment
+       topologyTest.Rd: SlingshotDataSet, SingleCellExperiment, ks_test,
+         classifier_test, mmd_test, wasserstein_permut, distinct_test
+       topologyTest_multipleSamples.Rd: SlingshotDataSet,
+         SingleCellExperiment
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
      ```
 
 # cranly (0.6.0)
@@ -431,6 +900,125 @@ Run `revdepcheck::revdep_details(, "ECoL")` for more info
        Execution halted
      ```
 
+# FELLA (1.32.0)
+
+* Email: <mailto:sergi.picart@upc.edu>
+* GitHub mirror: <https://github.com/cran/FELLA>
+
+Run `revdepcheck::revdep_details(, "FELLA")` for more info
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+       Please report the issue to the authors.
+     Computing probabilities for random subgraphs... (this may take a while)
+     Directory /tmp/RtmpeJPu49/working_dir/RtmpArF5s5/my_database does not exist. Creating it...
+     Done.
+     Done.
+     Computing diffusion.matrix... (this may take a while and use some memory)
+     Warning: `as.undirected()` was deprecated in igraph 2.1.0.
+     ℹ Please use `as_undirected()` instead.
+     ℹ The deprecated feature was likely used in the FELLA package.
+       Please report the issue to the authors.
+     Warning: `graph.laplacian()` was deprecated in igraph 2.0.0.
+     ℹ Please use `laplacian_matrix()` instead.
+     ℹ The deprecated feature was likely used in the FELLA package.
+       Please report the issue to the authors.
+     Warning: The `normalized` argument of `make_lattice()` provide normalization instead as
+     of igraph 2.0.3.
+     ℹ `normalized` is now deprecated, use `normalization` instead.
+     ℹ The deprecated feature was likely used in the igraph package.
+       Please report the issue at <https://github.com/igraph/rigraph/issues>.
+     Killed
+     SUMMARY: processing the following files failed:
+       ‘musmusculus.Rmd’ ‘zebrafish.Rmd’ ‘FELLA.Rnw’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+*   checking whether package ‘FELLA’ can be installed ... WARNING
+     ```
+     Found the following significant warnings:
+       Warning: `graph.empty()` was deprecated in igraph 2.1.0.
+     See ‘<lib>/FELLA.Rcheck/00install.out’ for details.
+     ```
+
+## Newly fixed
+
+*   checking re-building of vignette outputs ... WARNING
+     ```
+     ...
+     
+     --- re-building ‘FELLA.Rnw’ using Sweave
+     Building through KEGGREST...
+     Available gene annotations: ncbi-geneid, ncbi-proteinid. Using ncbi-geneid
+     Done.
+     Building graph...
+     Filtering 5 pathways.
+     Done.
+     Pruning graph...
+     Current weight: 1 out of 4...
+     Current weight: 2 out of 4...
+     Current weight: 3 out of 4...
+     Current weight: 4 out of 4...
+     Done.
+     Computing probabilities for random subgraphs... (this may take a while)
+     Directory /tmp/RtmpxnwKXY/working_dir/Rtmp42Heuk/my_database does not exist. Creating it...
+     Done.
+     Done.
+     Computing diffusion.matrix... (this may take a while and use some memory)
+     Killed
+     SUMMARY: processing the following files failed:
+       ‘musmusculus.Rmd’ ‘zebrafish.Rmd’ ‘FELLA.Rnw’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking sizes of PDF files under ‘inst/doc’ ... WARNING
+     ```
+       ‘gs+qpdf’ made some significant size reductions:
+          compacted ‘FELLA.pdf’ from 1130Kb to 624Kb
+       consider running tools::compactPDF(gs_quality = "ebook") on these files,
+       or build the source package with --compact-vignettes=both
+     ```
+
+*   checking R code for possible problems ... NOTE
+     ```
+     buildGraphFromKEGGREST: no visible global function definition for
+       ‘capture.output’
+     Undefined global functions or variables:
+       capture.output
+     Consider adding
+       importFrom("utils", "capture.output")
+     to your NAMESPACE file.
+     ```
+
+*   checking Rd \usage sections ... NOTE
+     ```
+     Documented arguments not in \usage in Rd file 'dot-params.Rd':
+       ‘databaseDir’ ‘internalDir’ ‘object’ ‘data’ ‘type’ ‘level’ ‘method’
+       ‘methods’ ‘approx’ ‘loadMatrix’ ‘threshold’
+       ‘thresholdConnectedComponent’ ‘plimit’ ‘nlimit’ ‘niter’ ‘layout’
+       ‘graph’ ‘GOterm’ ‘GONamesAsLabels’ ‘LabelLengthAtPlot’
+       ‘godata.options’ ‘mart.options’ ‘p.adjust’ ‘dampingFactor’ ‘t.df’
+       ‘compounds’ ‘compoundsBackground’ ‘NamesAsLabels’ ‘capPscores’
+     
+     Documented arguments not in \usage in Rd file 'infere.con2ec.Rd':
+       ‘gene2enyzme’
+     
+     Functions with \usage entries need to have the appropriate \alias
+     entries, and all their arguments documented.
+     The \usage entries must correspond to syntactically valid R code.
+     See chapter ‘Writing R documentation files’ in the ‘Writing R
+     Extensions’ manual.
+     ```
+
 # ggm (2.5.4)
 
 * Email: <mailto:giovanni.marchetti@unifi.it>
@@ -548,6 +1136,106 @@ Run `revdepcheck::revdep_details(, "ggraph")` for more info
        ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 
+# glycoTraitR (1.0.0)
+
+* GitHub: <https://github.com/matsui-lab/glycoTraitR>
+* Email: <mailto:zhang.bingyuan.w8@f.mail.nagoya-u.ac.jp>
+* GitHub mirror: <https://github.com/cran/glycoTraitR>
+
+Run `revdepcheck::revdep_details(, "glycoTraitR")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     +   from = "pGlyco3",
+     +   motifs = NULL,
+     +   level = "protein",
+     +   meta = meta_toyexample
+     + )
+     adding traits to the gpsm matrix
+     Error:
+     ! The `father` argument of `bfs()` was deprecated in igraph 2.2.0 and is
+       now defunct.
+     ℹ Please use the `parent` argument instead.
+     Backtrace:
+          ▆
+       1. └─glycoTraitR::build_trait_se(...)
+       2.   └─glycoTraitR:::annotate_traits_to_gpsm(gpsm, from, motifs)
+       3.     └─pbapply::pblapply(glycan, get_trait_vector)
+       4.       └─base::lapply(X, FUN, ...)
+       5.         └─glycoTraitR (local) FUN(X[[i]], ...)
+       6.           └─glycoTraitR::compute_glycan_traits(glycan_list, motifs)
+       7.             └─glycoTraitR:::compute_structural_traits(tree)
+       8.               └─glycoTraitR::build_glycan_igraph(tree)
+       9.                 └─igraph::bfs(g0, root = "a", father = TRUE)
+      10.                   └─lifecycle::deprecate_stop("2.2.0", "bfs(father = )", "bfs(parent = )")
+      11.                     └─lifecycle:::deprecate_stop0(msg)
+      12.                       └─rlang::cnd_signal(...)
+     Execution halted
+     ```
+
+*   checking tests ... ERROR
+     ```
+     ...
+        11.                     └─lifecycle:::deprecate_stop0(msg)
+        12.                       └─rlang::cnd_signal(...)
+       ── Error ('test-trait_workflow.R:57:3'): plot_trait_distribution returns ggplot objects ──
+       <lifecycle_error_deprecated/defunctError/rlang_error/error/condition>
+       Error: The `father` argument of `bfs()` was deprecated in igraph 2.2.0 and is now defunct.
+       i Please use the `parent` argument instead.
+       Backtrace:
+            ▆
+         1. └─glycoTraitR::build_trait_se(...) at test-trait_workflow.R:57:3
+         2.   └─glycoTraitR:::annotate_traits_to_gpsm(gpsm, from, motifs)
+         3.     └─pbapply::pblapply(glycan, get_trait_vector)
+         4.       └─base::lapply(X, FUN, ...)
+         5.         └─glycoTraitR (local) FUN(X[[i]], ...)
+         6.           └─glycoTraitR::compute_glycan_traits(glycan_list, motifs)
+         7.             └─glycoTraitR:::compute_structural_traits(tree)
+         8.               └─glycoTraitR::build_glycan_igraph(tree)
+         9.                 └─igraph::bfs(g0, root = "a", father = TRUE)
+        10.                   └─lifecycle::deprecate_stop("2.2.0", "bfs(father = )", "bfs(parent = )")
+        11.                     └─lifecycle:::deprecate_stop0(msg)
+        12.                       └─rlang::cnd_signal(...)
+       
+       [ FAIL 12 | WARN 0 | SKIP 0 | PASS 55 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+          ▆
+       1. └─glycoTraitR::build_trait_se(...)
+       2.   └─glycoTraitR:::annotate_traits_to_gpsm(gpsm, from, motifs)
+       3.     └─pbapply::pblapply(glycan, get_trait_vector)
+       4.       └─base::lapply(X, FUN, ...)
+       5.         └─glycoTraitR (local) FUN(X[[i]], ...)
+       6.           └─glycoTraitR::compute_glycan_traits(glycan_list, motifs)
+       7.             └─glycoTraitR:::compute_structural_traits(tree)
+       8.               └─glycoTraitR::build_glycan_igraph(tree)
+       9.                 └─igraph::bfs(g0, root = "a", father = TRUE)
+      10.                   └─lifecycle::deprecate_stop("2.2.0", "bfs(father = )", "bfs(parent = )")
+      11.                     └─lifecycle:::deprecate_stop0(msg)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'quick_start.Rmd' failed with diagnostics:
+     The `father` argument of `bfs()` was deprecated in igraph 2.2.0 and is
+     now defunct.
+     ℹ Please use the `parent` argument instead.
+     --- failed re-building ‘quick_start.Rmd’
+     
+     SUMMARY: processing the following file failed:
+       ‘quick_start.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
 # glyrepr (1.0.0)
 
 * GitHub: <https://github.com/glycoverse/glyrepr>
@@ -626,6 +1314,185 @@ Run `revdepcheck::revdep_details(, "GoodFitSBM")` for more info
       10.                   └─lifecycle:::deprecate_stop0(msg)
       11.                     └─rlang::cnd_signal(...)
      Execution halted
+     ```
+
+# graphite (1.58.0)
+
+* GitHub: <https://github.com/sales-lab/graphite>
+* Email: <mailto:gabriele.sales@unipd.it>
+* GitHub mirror: <https://github.com/cran/graphite>
+
+Run `revdepcheck::revdep_details(, "graphite")` for more info
+
+## Newly broken
+
+*   checking tests ... ERROR
+     ```
+     ...
+     Complete output:
+       > library(testthat)
+       > library(graphite)
+       > 
+       > test_check("graphite")
+       Saving _problems/test_clipper-80.R
+       Saving _problems/test_topologygsa-72.R
+       [ FAIL 2 | WARN 0 | SKIP 0 | PASS 93 ]
+       
+       ══ Failed tests ════════════════════════════════════════════════════════════════
+       ── Failure ('test_clipper.R:80:3'): parallel and serial analyses of a PathwayList produce the same results ──
+       Expected `serial` to be identical to `parallel`.
+       Differences:
+       Component "warnings": Names: 1 string mismatch
+       Component "warnings": Length mismatch: comparison on first 1 components
+       Component "warnings": Component 1: 1 string mismatch
+       ── Failure ('test_topologygsa.R:72:3'): parallel and serial analyses of a PathwayList produce the same results ──
+       Expected `serial` to be identical to `parallel`.
+       Differences:
+       Component "warnings": Length mismatch: comparison on first 1 components
+       
+       [ FAIL 2 | WARN 0 | SKIP 0 | PASS 93 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+     ```
+     ...
+     Loading required package: hgu95av2.db
+     
+     Warning in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  :
+       texi2dvi script/program not available, using emulation
+     Error: processing vignette 'graphite.Rnw' failed with diagnostics:
+     unable to run pdflatex on 'graphite.tex'
+     LaTeX errors:
+     ! LaTeX Error: File `beramono.sty' not found.
+     
+     Type X to quit or <RETURN> to proceed,
+     or enter new name. (Default extension: sty)
+     
+     ! Emergency stop.
+     <read *> 
+              
+     l.94 \RequirePackage
+                         [T1]{fontenc}^^M
+     !  ==> Fatal error occurred, no output PDF file produced!
+     --- failed re-building ‘graphite.Rnw’
+     
+     SUMMARY: processing the following file failed:
+       ‘graphite.Rnw’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+# GWENA (1.22.0)
+
+* GitHub: <https://github.com/Kumquatum/GWENA>
+* Email: <mailto:lemoine.gwenaelle@gmail.com>
+* GitHub mirror: <https://github.com/cran/GWENA>
+
+Run `revdepcheck::revdep_details(, "GWENA")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     Running examples in ‘GWENA-Ex.R’ failed
+     The error most likely occurred in:
+     
+     > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+     > ### Name: plot_modules_merge
+     > ### Title: Modules merge plot
+     > ### Aliases: plot_modules_merge
+     > 
+     > ### ** Examples
+     > 
+     > df <- kuehne_expr[1:24, 1:350]
+     > net <- build_net(df, n_threads = 1)
+     Warning in build_net(df, n_threads = 1) :
+       The power fitted is above the reference (confidence  interval included): 8. You might want to increase your fit threshold and/or check the scale-free topology fitting through the fit table. See FAQ for more details on power fit troubles.
+     > detection <- detect_modules(df, net$network, detailled_result = TRUE)
+     > plot_modules_merge(modules_premerge = detection$modules_premerge,
+     +                    modules_merged = detection$modules)
+     Error: object 'l' not found
+     Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+     --- re-building ‘GWENA_guide.Rmd’ using rmarkdown
+     
+     Quitting from GWENA_guide.Rmd:245-254 [bipartite_graph_merge]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     <error/rlang_error>
+     Error:
+     ! object 'l' not found
+     ---
+     Backtrace:
+         ▆
+      1. ├─GWENA::plot_modules_merge(...)
+      2. │ └─igraph::layout_as_bipartite(g) %>% ...
+      3. └─igraph::norm_coords(...)
+      4.   └─igraph (local) .old_signature(...)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'GWENA_guide.Rmd' failed with diagnostics:
+     object 'l' not found
+     --- failed re-building ‘GWENA_guide.Rmd’
+     
+     SUMMARY: processing the following file failed:
+       ‘GWENA_guide.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking whether package ‘GWENA’ can be installed ... WARNING
+     ```
+     Found the following significant warnings:
+       Warning: bad markup (extra space?) at compare_conditions.Rd:91:72
+       Warning: bad markup (extra space?) at compare_conditions.Rd:96:77
+       Warning: bad markup (extra space?) at compare_conditions.Rd:98:74
+       Warning: bad markup (extra space?) at compare_conditions.Rd:100:69
+     See ‘<lib>/GWENA.Rcheck/00install.out’ for details.
+     ```
+
+*   checking Rd files ... WARNING
+     ```
+     prepare_Rd: bad markup (extra space?) at compare_conditions.Rd:91:72
+     prepare_Rd: bad markup (extra space?) at compare_conditions.Rd:96:77
+     prepare_Rd: bad markup (extra space?) at compare_conditions.Rd:98:74
+     prepare_Rd: bad markup (extra space?) at compare_conditions.Rd:100:69
+     ```
+
+*   checking top-level files ... NOTE
+     ```
+     Non-standard files/directories found at top level:
+       ‘LICENSE.md’ ‘data-raw’
+     ```
+
+*   checking package subdirectories ... NOTE
+     ```
+     Problems with news in ‘NEWS.md’:
+     No news entries found.
+     ```
+
+*   checking Rd cross-references ... NOTE
+     ```
+     Found the following Rd file(s) with Rd \link{} targets missing package
+     anchors:
+       build_net.Rd: adjacency.fromSimilarity
+       get_fit.cor.Rd: pickSoftThreshold.fromSimilarity
+       get_fit.expr.Rd: pickSoftThreshold.fromSimilarity
+       plot_module.Rd: igraph.plotting
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
      ```
 
 # manynet (2.3.1)
@@ -894,6 +1761,140 @@ Run `revdepcheck::revdep_details(, "nethist")` for more info
        ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
      ```
 
+# OmnipathR (4.0.0)
+
+* GitHub: <https://github.com/saezlab/OmnipathR>
+* Email: <mailto:turei.denes@gmail.com>
+* GitHub mirror: <https://github.com/cran/OmnipathR>
+
+Run `revdepcheck::revdep_details(, "OmnipathR")` for more info
+
+## Newly broken
+
+*   checking whether package ‘OmnipathR’ can be installed ... WARNING
+     ```
+     Found the following significant warnings:
+       Warning: `as.directed()` was deprecated in igraph 2.1.0.
+       Warning: `get.edgelist()` was deprecated in igraph 2.0.0.
+     See ‘<lib>/OmnipathR.Rcheck/00install.out’ for details.
+     ```
+
+## In both
+
+*   checking examples ... ERROR
+     ```
+     ...
+       7. │   ├─purrr:::with_indexed_errors(...)
+       8. │   │ └─base::withCallingHandlers(...)
+       9. │   ├─purrr:::call_with_cleanup(...)
+      10. │   └─OmnipathR (local) .f(.x[[i]], ...)
+      11. │     ├─... %>% if_null_len0(NA)
+      12. │     └─OmnipathR::get_db("organisms")
+      13. │       └─OmnipathR::load_db(key, param = param, reload = reload)
+      14. │         ├─rlang::exec(loader, !!!param)
+      15. │         └─OmnipathR (local) `<fn>`()
+      16. │           └─... %>% ...
+      17. ├─OmnipathR:::if_null_len0(., NA)
+      18. │ └─value1 %>% is_empty_2 %>% if (value2) value1
+      19. ├─OmnipathR:::is_empty_2(.)
+      20. │ └─value %>% ...
+      21. ├─dplyr::pull(., name_type)
+      22. ├─dplyr::filter(...)
+      23. ├─dplyr::mutate(...)
+      24. ├─dplyr::full_join(...)
+      25. ├─dplyr::full_join(...)
+      26. └─dplyr:::full_join.data.frame(...)
+      27.   └─dplyr:::join_mutate(...)
+      28.     └─dplyr:::join_cols(...)
+      29.       └─dplyr:::check_join_vars(by$y, y_names, by$condition, "y", error_call = error_call)
+      30.         └─rlang::abort(bullets, call = error_call)
+     Execution halted
+     ```
+
+*   checking tests ... ERROR
+     ```
+     ...
+        42. │ └─dplyr:::join_mutate(...)
+        43. │   └─dplyr:::join_cols(...)
+        44. │     └─dplyr:::check_join_vars(by$y, y_names, by$condition, "y", error_call = error_call)
+        45. │       └─rlang::abort(bullets, call = error_call)
+        46. │         └─rlang:::signal_abort(cnd, .file)
+        47. │           └─base::signalCondition(cnd)
+        48. ├─purrr (local) `<fn>`(`<rlng_rrr>`)
+        49. │ └─cli::cli_abort(...)
+        50. │   └─rlang::abort(...)
+        51. │     └─rlang:::signal_abort(cnd, .file)
+        52. │       └─base::signalCondition(cnd)
+        53. └─purrr (local) `<fn>`(`<prrr_rr_>`)
+        54.   └─cli::cli_abort(...)
+        55.     └─rlang::abort(...)
+       ── Error ('test_import.R:182:13'): (code run outside of `test_that()`) ─────────
+       Error in `eval(code, test_env)`: object 'response' not found
+       Backtrace:
+           ▆
+        1. ├─response %<>% separate_rows(sources, sep = ";") at test_import.R:182:13
+        2. └─tidyr::separate_rows(., sources, sep = ";")
+       
+       [ FAIL 2 | WARN 2 | SKIP 0 | PASS 56 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+      31. ├─OmnipathR:::is_empty_2(.)
+      32. │ └─value %>% ...
+      33. ├─dplyr::pull(., name_type)
+      34. ├─dplyr::filter(...)
+      35. ├─dplyr::mutate(...)
+      36. ├─dplyr::full_join(...)
+      37. ├─dplyr::full_join(...)
+      38. └─dplyr:::full_join.data.frame(...)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'paths.Rmd' failed with diagnostics:
+     ℹ In index: 1.
+     Caused by error in `map_int()`:
+     ℹ In index: 1.
+     Caused by error in `full_join()`:
+     ! Join columns in `y` must be present in the data.
+     ✖ Problem with `ncbi_tax_id`.
+     --- failed re-building ‘paths.Rmd’
+     
+     SUMMARY: processing the following files failed:
+       ‘bioc_workshop.Rmd’ ‘cosmos.Rmd’ ‘db_manager.Rmd’ ‘drug_targets.Rmd’
+       ‘extra_attrs.Rmd’ ‘omnipath_intro.Rmd’ ‘paths.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+*   checking top-level files ... NOTE
+     ```
+     Non-standard file/directory found at top level:
+       ‘AGENTS.md’
+     ```
+
+*   checking R code for possible problems ... NOTE
+     ```
+     Found the following assignments to the global environment:
+     File ‘OmnipathR/R/nichenet.R’:
+       assign("ncitations", nichenetr %::% ncitations, envir = .GlobalEnv)
+       assign("geneinfo_human", nichenetr %::% geneinfo_human, envir = .GlobalEnv)
+       assign("lr_network", NULL, .GlobalEnv)
+     
+     Possibly missing '()' after 'return' in the following function:
+       ‘.slow_doctest’
+     ```
+
+*   checking for non-standard things in the check directory ... NOTE
+     ```
+     Found the following files/directories:
+       ‘omnipathr-log’
+     ```
+
 # optbdmaeAT (1.0.2)
 
 * Email: <mailto:diboobayu@gmail.com>
@@ -969,6 +1970,240 @@ Run `revdepcheck::revdep_details(, "optrcdmaeAT")` for more info
       3.     └─lifecycle::deprecate_stop("3.0.0", "tkplot()")
       4.       └─lifecycle:::deprecate_stop0(msg)
       5.         └─rlang::cnd_signal(...)
+     Execution halted
+     ```
+
+# PANR (1.58.0)
+
+* Email: <mailto:xin_wang@hms.harvard.edu>
+* GitHub mirror: <https://github.com/cran/PANR>
+
+Run `revdepcheck::revdep_details(, "PANR")` for more info
+
+## Newly broken
+
+*   checking whether package ‘PANR’ can be installed ... WARNING
+     ```
+     Found the following significant warnings:
+       Warning: `graph.empty()` was deprecated in igraph 2.1.0.
+     See ‘<lib>/PANR.Rcheck/00install.out’ for details.
+     ```
+
+## In both
+
+*   checking sizes of PDF files under ‘inst/doc’ ... WARNING
+     ```
+       ‘gs+qpdf’ made some significant size reductions:
+          compacted ‘PANR-Vignette.pdf’ from 708Kb to 367Kb
+       consider running tools::compactPDF(gs_quality = "ebook") on these files,
+       or build the source package with --compact-vignettes=both
+     ```
+
+*   checking R code for possible problems ... NOTE
+     ```
+     SNR2p,BetaMixture-numeric_Or_integer: no visible global function
+       definition for ‘runif’
+     SNR2p,BetaMixture-numeric_Or_integer: no visible global function
+       definition for ‘pbeta’
+     p2SNR,BetaMixture-numeric_Or_integer: no visible global function
+       definition for ‘qbeta’
+     Undefined global functions or variables:
+       pbeta qbeta runif
+     Consider adding
+       importFrom("stats", "pbeta", "qbeta", "runif")
+     to your NAMESPACE file.
+     ```
+
+*   checking Rd files ... NOTE
+     ```
+     ...
+            |                                                      ^
+     checkRd: (-1) buildPAN.Rd:27: Lost braces
+         27 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) exportPAN.Rd:34: Lost braces
+         34 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) fitBM.Rd:28: Lost braces
+         28 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) fitNULL.Rd:37: Lost braces
+         37 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) infer.Rd:27: Lost braces
+         27 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) pvclustModule.Rd:38: Lost braces
+         38 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) viewNestedModules.Rd:30: Lost braces
+         30 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     checkRd: (-1) viewPAN.Rd:33: Lost braces
+         33 | a logical value to switch on (if \code{TRUE}) or off {if \code{FALSE}} detailed
+            |                                                      ^
+     ```
+
+# phyloseq (1.56.0)
+
+* GitHub: <https://github.com/joey711/phyloseq>
+* Email: <mailto:joey711@gmail.com>
+* GitHub mirror: <https://github.com/cran/phyloseq>
+
+Run `revdepcheck::revdep_details(, "phyloseq")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     > data(enterotype)
+     > plot_net(enterotype, color="SeqTech", maxdist = 0.3)
+     Warning: `graph.data.frame()` was deprecated in igraph 2.0.0.
+     ℹ Please use `graph_from_data_frame()` instead.
+     ℹ The deprecated feature was likely used in the phyloseq package.
+       Please report the issue at <https://github.com/joey711/phyloseq/issues>.
+     > plot_net(enterotype, color="SeqTech", maxdist = 0.3, laymeth = "auto")
+     Warning: `layout.auto()` was deprecated in igraph 2.0.0.
+     ℹ Please use `layout_nicely()` instead.
+     ℹ The deprecated feature was likely used in the phyloseq package.
+       Please report the issue at <https://github.com/joey711/phyloseq/issues>.
+     > plot_net(enterotype, color="SeqTech", maxdist = 0.3, laymeth = "svd")
+     Error:
+     ! `layout.svd()` was deprecated in igraph 2.1.0 and is now defunct.
+     ℹ Please use `layout_with_fr()` instead.
+     Backtrace:
+         ▆
+      1. └─phyloseq::plot_net(...)
+      2.   └─phyloseq (local) vertex_layout(LinksData0, physeq, type, available_layouts[[laymeth]])
+      3.     ├─data.table::data.table(...)
+      4.     └─igraph (local) laymeth(g, ...)
+      5.       └─lifecycle::deprecate_stop("2.1.0", "layout.svd()", "layout_with_fr()")
+      6.         └─lifecycle:::deprecate_stop0(msg)
+      7.           └─rlang::cnd_signal(...)
+     Execution halted
+     ```
+
+## In both
+
+*   checking for hidden files and directories ... NOTE
+     ```
+     Found the following hidden files and directories:
+       .travis.yml
+     These were most likely included in error. See section ‘Package
+     structure’ in the ‘Writing R Extensions’ manual.
+     ```
+
+*   checking top-level files ... NOTE
+     ```
+     Non-standard files/directories found at top level:
+       ‘README.html’ ‘TODO.txt’
+     ```
+
+*   checking R code for possible problems ... NOTE
+     ```
+     Found if() conditions comparing class() to string:
+     File ‘phyloseq/R/IO-methods.R’: if (class(tree) == "phylo") ...
+     File ‘phyloseq/R/network-methods.R’: if (class(distance) == "dist") ...
+     File ‘phyloseq/R/network-methods.R’: if (class(distance) == "character") ...
+     File ‘phyloseq/R/network-methods.R’: if (class(distance) == "dist") ...
+     File ‘phyloseq/R/network-methods.R’: if (class(distance) == "character") ...
+     File ‘phyloseq/R/ordination-methods.R’: if (class(distance) == "character") ...
+     File ‘phyloseq/R/plot-methods.R’: if (class(DF[, key.var]) == "factor") ...
+     Use inherits() (or maybe is()) instead.
+     ```
+
+*   checking Rd line widths ... NOTE
+     ```
+     ...
+          p0 = plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family", taxa.order="Phylum", sample.order="SampleType")
+          p1 = plot_heatmap(gpac, method=NULL, sample.label="SampleType", taxa.label="Family", taxa.order="Phylum", sample.order="SampleType")
+          # Example: Order matters. Random ordering of OTU indices is difficult to interpret, even with structured sample order
+          plot_heatmap(gpac, method=NULL, sample.label="SampleType", taxa.label="Family", taxa.order=rando, sample.order="SampleType")
+          plot_heatmap(gpac, taxa.order="Family", sample.order="SampleType", first.taxa="546313", first.sample="NP2")
+          plot_heatmap(gpac, sample.label="SampleType", taxa.label="Family", taxa.order="Family", sample.order="SampleType", first.taxa="546313", ... [TRUNCATED]
+     
+     Rd file 'plot_richness.Rd':
+       \examples lines wider than 100 characters:
+          plot_richness(GlobalPatterns, x="SampleType", measures=c("Chao1", "ACE", "InvSimpson"), nrow=3, sortby = "Chao1")
+     
+     Rd file 'prune_samples-methods.Rd':
+       \examples lines wider than 100 characters:
+           # (p <- plot_tree(GP.chl, color="SampleType", shape="Family", label.tips="Genus", size="abundance"))
+     
+     Rd file 'tip_glom.Rd':
+       \examples lines wider than 100 characters:
+          plot_tree(tip_glom(esophagus, h=0.2), label.tips="taxa_names", size="abundance", title="After tip_glom()")
+     
+     Rd file 'tree_layout.Rd':
+       \examples lines wider than 100 characters:
+          p0 = ggplot(treeSegs0$edgeDT, edgeMap) + geom_segment() + geom_segment(vertMap, data=treeSegs0$vertDT)
+          p1 = ggplot(treeSegs1$edgeDT, edgeMap) + geom_segment() + geom_segment(vertMap, data=treeSegs1$vertDT)
+     
+     These lines will be truncated in the PDF manual.
+     ```
+
+*   checking Rd cross-references ... NOTE
+     ```
+     Found the following Rd file(s) with Rd \link{} targets missing package
+     anchors:
+       UniFrac-methods.Rd: foreach-package
+       distance.Rd: designdist
+       import_biom.Rd: foreach
+       import_qiime_otu_tax.Rd: foreach-package
+       import_uparse.Rd: data.table
+       ordinate.Rd: cca, rda
+       phyloseq.Rd: ape-package
+       plot_bar.Rd: melt, ggplot, qplot
+       plot_heatmap.Rd: log_trans, ggplot
+       plot_net.Rd: igraph-package, ggplot, ggsave
+       plot_network.Rd: ggplot
+       plot_ordination.Rd: ggplot
+       plot_richness.Rd: ggplot
+       plot_scree.Rd: ggplot
+       plot_tree.Rd: ape, ggplot, plot.phylo
+       subset_ord_plot.Rd: ggplot
+       tree_layout.Rd: data.table, ape-package
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
+     ```
+
+# PPInfer (1.38.0)
+
+* Email: <mailto:dmdmjung@gmail.com>
+* GitHub mirror: <https://github.com/cran/PPInfer>
+
+Run `revdepcheck::revdep_details(, "PPInfer")` for more info
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+     ```
+     ...
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+                    not set up for use with LaTeX.
+     
+     See the LaTeX manual or LaTeX Companion for explanation.
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+                    not set up for use with LaTeX.
+     
+     See the LaTeX manual or LaTeX Companion for explanation.
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+                    not set up for use with LaTeX.
+     
+     See the LaTeX manual or LaTeX Companion for explanation.
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+           
+     --- failed re-building ‘PPInfer.Rnw’
+     
+     SUMMARY: processing the following file failed:
+       ‘PPInfer.Rnw’
+     
+     Error: Vignette re-building failed.
      Execution halted
      ```
 
@@ -1155,6 +2390,292 @@ Run `revdepcheck::revdep_details(, "sfclust")` for more info
        Execution halted
      ```
 
+# singleCellTK (2.22.0)
+
+* GitHub: <https://github.com/compbiomed/singleCellTK>
+* Email: <mailto:camp@bu.edu>
+* GitHub mirror: <https://github.com/cran/singleCellTK>
+
+Run `revdepcheck::revdep_details(, "singleCellTK")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     > ### Title: Run EnrichR on SCE object
+     > ### Aliases: runEnrichR
+     > 
+     > ### ** Examples
+     > 
+     > data("mouseBrainSubsetSCE")
+     > if (Biobase::testBioCConnection()) {
+     +   mouseBrainSubsetSCE <- runEnrichR(mouseBrainSubsetSCE, features =  c("Vamp7","Cntn2","Olig1"),
+     +                                     db = "GO_Cellular_Component_2025",
+     +                                     analysisName = "analysis1")
+     + }
+     Warning in readLines(biocURL) :
+       incomplete final line found on 'http://www.bioconductor.org/main.html'
+     Welcome to enrichR
+     Checking connections ... 
+     Server error: (503) Service Unavailable
+     Enrichr ... Server error: (503) Service Unavailable
+     FlyEnrichr ... Server error: (503) Service Unavailable
+     WormEnrichr ... YeastEnrichr ... Connection is Live!
+     FishEnrichr ... Connection is Live!
+     OxEnrichr ... Connection is Live!
+     Server error: (503) Service Unavailable
+     Error in runEnrichR(mouseBrainSubsetSCE, features = c("Vamp7", "Cntn2",  : 
+       Database(s) GO_Cellular_Component_2025 were not found in Enrichr.
+     Execution halted
+     ```
+
+*   checking tests ... ERROR
+     ```
+     ...
+       [----|----|----|----|----|----|----|----|----|----|
+       **************************************************|
+       0%   10   20   30   40   50   60   70   80   90   100%
+       [----|----|----|----|----|----|----|----|----|----|
+       **************************************************|
+       0%   10   20   30   40   50   60   70   80   90   100%
+       [----|----|----|----|----|----|----|----|----|----|
+       **************************************************|
+       Performing log-normalization
+       0%   10   20   30   40   50   60   70   80   90   100%
+       [----|----|----|----|----|----|----|----|----|----|
+       **************************************************|
+       [ FAIL 1 | WARN 85 | SKIP 0 | PASS 223 ]
+       
+       ══ Failed tests ════════════════════════════════════════════════════════════════
+       ── Error ('test-enrichment.R:46:5'): Testing correct function usage ────────────
+       Error in `runEnrichR(sce, rownames(sce)[1:5], "analysis2", featureName = "feature_name", db = "HDSigDB_Human_2021")`: Database(s) HDSigDB_Human_2021 were not found in Enrichr.
+       Backtrace:
+           ▆
+        1. └─singleCellTK::runEnrichR(...) at test-enrichment.R:46:5
+       
+       [ FAIL 1 | WARN 85 | SKIP 0 | PASS 223 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+## Newly fixed
+
+*   checking examples ... WARNING
+     ```
+     ...
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in fitTrendVar(fm, fv, ...) : 'fitTrendVar' is deprecated.
+       Warning in .local(x, ...) : 'pairwiseWilcox' is deprecated.
+       Warning in .local(x, ...) : 'pairwiseWilcox' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'sumCountsAcrossCells' is deprecated.
+       Warning in .local(x, ...) : 'summarizeAssayByGroup' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in fitTrendVar(fm, fv, ...) : 'fitTrendVar' is deprecated.
+       Warning in .local(x, ...) : 'aggregateAcrossCells' is deprecated.
+       Warning in .local(x, ...) : 'aggregateAcrossCells' is deprecated.
+       Warning in .local(x, ...) : 'aggregateAcrossCells' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+       Warning in fitTrendVar(fm, fv, ...) : 'fitTrendVar' is deprecated.
+       Warning in .local(x, ...) : 'normalizeCounts' is deprecated.
+     Deprecated functions may be defunct as soon as of the next release of
+     R.
+     See ?Deprecated.
+     ```
+
+## In both
+
+*   checking dependencies in R code ... WARNING
+     ```
+     Missing or unexported object: 'harmony::HarmonyMatrix'
+     ```
+
+*   checking Rd cross-references ... WARNING
+     ```
+     ...
+       runTSCAN.Rd: SingleCellExperiment-class
+       runTSCANClusterDEAnalysis.Rd: SingleCellExperiment-class
+       runTSCANDEG.Rd: SingleCellExperiment-class
+       runTSNE.Rd: SingleCellExperiment-class
+       runUMAP.Rd: SingleCellExperiment-class, BiocParallelParam-class
+       runVAM.Rd: SingleCellExperiment-class
+       runZINBWaVE.Rd: SingleCellExperiment-class, colData,
+         BiocParallelParam-class
+       sampleSummaryStats.Rd: SingleCellExperiment-class, assay, colData
+       scaterPCA.Rd: SingleCellExperiment-class, BiocParallelParam-class
+       scaterlogNormCounts.Rd: logNormCounts
+       sctkListGeneSetCollections.Rd: GeneSetCollection-class
+       sctkPythonInstallConda.Rd: conda_install, reticulate, conda_create
+       sctkPythonInstallVirtualEnv.Rd: virtualenv_install, reticulate,
+         virtualenv_create
+       selectSCTKConda.Rd: reticulate
+       selectSCTKVirtualEnvironment.Rd: reticulate
+       setRowNames.Rd: SingleCellExperiment-class
+       setSCTKDisplayRow.Rd: SingleCellExperiment-class
+       singleCellTK.Rd: SingleCellExperiment-class
+       subsetSCECols.Rd: SingleCellExperiment-class
+       subsetSCERows.Rd: SingleCellExperiment-class, altExp
+       summarizeSCE.Rd: SingleCellExperiment-class
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
+     ```
+
+# slingshot (2.20.0)
+
+* GitHub: <https://github.com/kstreet13/slingshot>
+* Email: <mailto:street.kelly@gmail.com>
+* GitHub mirror: <https://github.com/cran/slingshot>
+
+Run `revdepcheck::revdep_details(, "slingshot")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     > u <- matrix(rpois(140*50, 5), nrow = 50)
+     > sce <- SingleCellExperiment(assays = list(counts = u), 
+     +                             reducedDims = SimpleList(PCA = rd),
+     +                             colData = data.frame(clus = cl))
+     > sce <- slingshot(sce, clusterLabels = 'clus', reducedDim = 'PCA')
+     Warning: `graph.adjacency()` was deprecated in igraph 2.0.0.
+     ℹ Please use `graph_from_adjacency_matrix()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Warning: `minimum.spanning.tree()` was deprecated in igraph 2.0.0.
+     ℹ Please use `mst()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Warning: `get.edge.ids()` was deprecated in igraph 2.1.0.
+     ℹ Please use `get_edge_ids()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Warning: `delete.edges()` was deprecated in igraph 2.0.0.
+     ℹ Please use `delete_edges()` instead.
+     ℹ The deprecated feature was likely used in the TrajectoryUtils package.
+       Please report the issue at <https://github.com/LTLA/TrajectoryUtils/issues>.
+     Error in vapply(forest, function(tree) { : values must be length 1,
+      but FUN(X[[1]]) result is length 0
+     Calls: slingshot ... getLineages -> getLineages -> getLineages -> .local -> vapply
+     Execution halted
+     ```
+
+*   checking tests ... ERROR
+     ```
+     ...
+         9.         └─slingshot::getLineages(...)
+        10.           └─slingshot (local) .local(data, clusterLabels, ...)
+        11.             └─base::vapply(...)
+       ── Error ('test_slingshot.R:795:5'): conversion functions work as expected ─────
+       Error in `vapply(forest, function(tree) {     if (length(igraph::V(tree)) == 1) {         return(names(igraph::V(tree)))     }     if (any(start.clus %in% names(igraph::V(tree)))) {         return(start.clus[start.clus %in% names(igraph::V(tree))][1])     }     adj <- igraph::as_adjacency_matrix(tree, sparse = FALSE)     leaves <- rownames(adj)[rowSums(adj) == 1]     avg.lineage.length <- vapply(leaves, function(l) {         ends <- leaves[leaves != l]         paths <- igraph::shortest_paths(tree, from = l, to = ends, mode = "out", output = "vpath")$vpath         mean(vapply(paths, length, 0))     }, 0)     return(names(avg.lineage.length)[which.max(avg.lineage.length)]) }, FUN.VALUE = "")`: values must be length 1,
+        but FUN(X[[1]]) result is length 0
+       Backtrace:
+            ▆
+         1. ├─slingshot::slingshot(sce, reducedDim = "PCA", clusterLabels = cl) at test_slingshot.R:795:5
+         2. └─slingshot::slingshot(sce, reducedDim = "PCA", clusterLabels = cl)
+         3.   └─slingshot (local) .local(data, clusterLabels, ...)
+         4.     ├─slingshot::slingshot(...)
+         5.     └─slingshot::slingshot(...)
+         6.       └─slingshot (local) .local(data, clusterLabels, ...)
+         7.         ├─slingshot::getLineages(...)
+         8.         └─slingshot::getLineages(...)
+         9.           ├─slingshot::getLineages(...)
+        10.           └─slingshot::getLineages(...)
+        11.             └─slingshot (local) .local(data, clusterLabels, ...)
+        12.               └─base::vapply(...)
+       
+       [ FAIL 12 | WARN 4 | SKIP 0 | PASS 39 ]
+       Error:
+       ! Test failures.
+       Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+       2. └─slingshot::slingshot(sce, clusterLabels = "GMM", reducedDim = "PCA")
+       3.   └─slingshot (local) .local(data, clusterLabels, ...)
+       4.     ├─slingshot::slingshot(...)
+       5.     └─slingshot::slingshot(...)
+       6.       ├─slingshot::slingshot(...)
+       7.       └─slingshot::slingshot(...)
+       8.         └─slingshot (local) .local(data, clusterLabels, ...)
+       9.           ├─slingshot::getLineages(...)
+      10.           └─slingshot::getLineages(...)
+      11.             ├─slingshot::getLineages(...)
+      12.             └─slingshot::getLineages(...)
+      13.               └─slingshot (local) .local(data, clusterLabels, ...)
+      14.                 └─base::vapply(...)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'vignette.Rmd' failed with diagnostics:
+     values must be length 1,
+      but FUN(X[[1]]) result is length 0
+     --- failed re-building ‘vignette.Rmd’
+     
+     SUMMARY: processing the following files failed:
+       ‘conditionsVignette.Rmd’ ‘vignette.Rmd’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking Rd files ... NOTE
+     ```
+     ...
+     checkRd: (-1) getCurves.Rd:99-100: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) getCurves.Rd:101-102: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) newSlingshotDataSet.Rd:58: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:59-60: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:61-62: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:63-64: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:65-66: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:69-71: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:72-75: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:76-80: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:81-88: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) newSlingshotDataSet.Rd:89-93: Lost braces in \itemize; meant \describe ?
+     checkRd: (-1) slingParams.Rd:25-27: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:28-29: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:30-31: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:32-33: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:34-36: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:37-38: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:42-44: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:45-48: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:49-53: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:54-61: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:62-66: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:67-68: Lost braces in \itemize; \value handles \item{}{} directly
+     checkRd: (-1) slingParams.Rd:68-70: Lost braces in \itemize; \value handles \item{}{} directly
+     ```
+
+*   checking Rd cross-references ... NOTE
+     ```
+     Found the following Rd file(s) with Rd \link{} targets missing package
+     anchors:
+       SlingshotDataSet-class.Rd: PseudotimeOrdering
+       embedCurves.Rd: PseudotimeOrdering
+       getCurves.Rd: SingleCellExperiment, PseudotimeOrdering
+       getLineages.Rd: SingleCellExperiment, PseudotimeOrdering
+       slingBranchGraph.Rd: PseudotimeOrdering, SingleCellExperiment
+       slingBranchID.Rd: PseudotimeOrdering, SingleCellExperiment
+       slingshot.Rd: SingleCellExperiment, PseudotimeOrdering
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
+     ```
+
 # SpaDES.core (3.2.1)
 
 * GitHub: <https://github.com/PredictiveEcology/SpaDES.core>
@@ -1193,6 +2714,85 @@ Run `revdepcheck::revdep_details(, "SpaDES.core")` for more info
        ! Test failures.
        Execution halted
        Ran 1/1 deferred expressions
+     ```
+
+# STRINGdb (2.24.1)
+
+* Email: <mailto:damian.szklarczyk@imls.uzh.ch>
+* GitHub mirror: <https://github.com/cran/STRINGdb>
+
+Run `revdepcheck::revdep_details(, "STRINGdb")` for more info
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+     ```
+     ...
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+                    not set up for use with LaTeX.
+     
+     See the LaTeX manual or LaTeX Companion for explanation.
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+                    not set up for use with LaTeX.
+     
+     See the LaTeX manual or LaTeX Companion for explanation.
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+                    not set up for use with LaTeX.
+     
+     See the LaTeX manual or LaTeX Companion for explanation.
+     Type  H <return>  for immediate help.
+     ! LaTeX Error: Unicode character ─ (U+2500)
+          
+     --- failed re-building ‘STRINGdb.Rnw’
+     
+     SUMMARY: processing the following file failed:
+       ‘STRINGdb.Rnw’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking sizes of PDF files under ‘inst/doc’ ... WARNING
+     ```
+       ‘gs+qpdf’ made some significant size reductions:
+          compacted ‘STRINGdb.pdf’ from 3292Kb to 581Kb
+       consider running tools::compactPDF(gs_quality = "ebook") on these files,
+       or build the source package with --compact-vignettes=both
+     ```
+
+*   checking Rd line widths ... NOTE
+     ```
+     ...
+     Rd file 'get_link.Rd':
+       \usage lines wider than 90 characters:
+          get_link(string_ids=NULL, required_score=NULL, network_flavor="evidence", payload_id=NULL, network_term_id=NULL, hide_node_labels=NULL, ... [TRUNCATED]
+     
+     Rd file 'get_png.Rd':
+       \usage lines wider than 90 characters:
+          get_png(string_ids=NULL, required_score=NULL, network_flavor="evidence", file=NULL, payload_id=NULL, output_format="image", network_ter ... [TRUNCATED]
+     
+     Rd file 'map.Rd':
+       \usage lines wider than 90 characters:
+          map(my_data_frame, my_data_frame_id_col_names, takeFirst=TRUE, removeUnmappedRows=FALSE, quiet=FALSE, usePreferredSources=TRUE)
+     
+     Rd file 'multi_map_df.Rd':
+       \usage lines wider than 90 characters:
+          multi_map_df(dfToMap, dfMap, strColsFrom, strColFromDfMap, strColToDfMap, caseSensitive=FALSE)
+     
+     Rd file 'plot_network.Rd':
+       \usage lines wider than 90 characters:
+          plot_network(string_ids, payload_id=NULL, required_score=NULL, add_link=FALSE, network_flavor="evidence", add_summary=TRUE, typed_physi ... [TRUNCATED]
+     
+     Rd file 'post_payload.Rd':
+       \usage lines wider than 90 characters:
+          post_payload(stringIds, colors=NULL, comments=NULL, links=NULL, iframe_urls=NULL, logo_imgF=NULL, legend_imgF=NULL )
+     
+     These lines will be truncated in the PDF manual.
      ```
 
 # tidygraph (1.3.1)
@@ -1279,6 +2879,121 @@ Run `revdepcheck::revdep_details(, "tidygraph")` for more info
      ```
      Compilation used the following non-portable flag(s):
        ‘-Wdate-time’ ‘-Werror=format-security’ ‘-Wformat’
+     ```
+
+# TSCAN (1.50.0)
+
+* Email: <mailto:zji4@jhu.edu>
+* GitHub mirror: <https://github.com/cran/TSCAN>
+
+Run `revdepcheck::revdep_details(, "TSCAN")` for more info
+
+## Newly broken
+
+*   checking examples ... ERROR
+     ```
+     ...
+     > ### Title: TSCANorder
+     > ### Aliases: TSCANorder
+     > 
+     > ### ** Examples
+     > 
+     > data(lpsdata)
+     > procdata <- preprocess(lpsdata)
+     > lpsmclust <- exprmclust(procdata)
+     Warning: `graph.adjacency()` was deprecated in igraph 2.0.0.
+     ℹ Please use `graph_from_adjacency_matrix()` instead.
+     ℹ The deprecated feature was likely used in the TSCAN package.
+       Please report the issue to the authors.
+     Warning: `minimum.spanning.tree()` was deprecated in igraph 2.0.0.
+     ℹ Please use `mst()` instead.
+     ℹ The deprecated feature was likely used in the TSCAN package.
+       Please report the issue to the authors.
+     > TSCANorder(lpsmclust)
+     Warning: `get.shortest.paths()` was deprecated in igraph 2.0.0.
+     ℹ Please use `shortest_paths()` instead.
+     ℹ The deprecated feature was likely used in the TSCAN package.
+       Please report the issue to the authors.
+     Error in apply(cludist, 1, which.min) : 
+       dim(X) must have a positive length
+     Calls: TSCANorder -> internalorderfunc -> apply
+     Execution halted
+     ```
+
+*   checking re-building of vignette outputs ... ERROR
+     ```
+     ...
+       ...
+     --- re-building ‘TSCAN.Rnw’ using knitr
+     
+     Quitting from TSCAN.Rnw:69-72 [unnamed-chunk-4]
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     <error/rlang_error>
+     Error in `apply()`:
+     ! dim(X) must have a positive length
+     ---
+     Backtrace:
+         x
+      1. \-TSCAN::TSCANorder(lpsmclust)
+      2.   \-TSCAN (local) internalorderfunc(MSTorder, 1)
+      3.     \-base::apply(cludist, 1, which.min)
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     
+     Error: processing vignette 'TSCAN.Rnw' failed with diagnostics:
+     dim(X) must have a positive length
+     --- failed re-building ‘TSCAN.Rnw’
+     
+     SUMMARY: processing the following file failed:
+       ‘TSCAN.Rnw’
+     
+     Error: Vignette re-building failed.
+     Execution halted
+     ```
+
+## In both
+
+*   checking R code for possible problems ... NOTE
+     ```
+     exprmclust: no visible global function definition for ‘dist’
+     plotmclust: no visible binding for global variable ‘pca_dim_1’
+     plotmclust: no visible binding for global variable ‘pca_dim_2’
+     plotmclust: no visible binding for global variable ‘sample_name’
+     preprocess: no visible global function definition for ‘dist’
+     Undefined global functions or variables:
+       dist pca_dim_1 pca_dim_2 sample_name
+     Consider adding
+       importFrom("stats", "dist")
+     to your NAMESPACE file.
+     ```
+
+*   checking Rd line widths ... NOTE
+     ```
+     Rd file 'orderscore.Rd':
+       \examples lines wider than 100 characters:
+          subpopulation <- data.frame(cell = colnames(procdata), sub = ifelse(grepl("Unstimulated",colnames(procdata)),0,1), stringsAsFactors = F ... [TRUNCATED]
+     
+     These lines will be truncated in the PDF manual.
+     ```
+
+*   checking Rd cross-references ... NOTE
+     ```
+     Found the following Rd file(s) with Rd \link{} targets missing package
+     anchors:
+       mapCellsToEdges.Rd: SummarizedExperiment-class,
+         SingleCellExperiment-class, assays, reducedDims, graph,
+         DataFrame-class
+       orderCells.Rd: DataFrame-class, graph, PseudotimeOrdering-class,
+         pathStats, cellData, metadata
+       perCellEntropy.Rd: SummarizedExperiment-class
+       quickPseudotime.Rd: SummarizedExperiment-class,
+         SingleCellExperiment-class, assays, reducedDims, List-class, graph,
+         PseudotimeOrdering-class
+       reportEdges.Rd: SummarizedExperiment-class,
+         SingleCellExperiment-class, assays, reducedDims, graph
+       testPseudotime.Rd: SummarizedExperiment-class,
+         PseudotimeOrdering-class, pathStat, DataFrame-class
+     Please provide package anchors for all Rd \link{} targets not in the
+     package itself and the base packages.
      ```
 
 # vkR (0.2)

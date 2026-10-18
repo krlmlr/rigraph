@@ -1,107 +1,130 @@
 ## revdepcheck results
 
-We checked 3470 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 4174 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 26 new problems
- * We failed to check 8 packages
+ * We saw 17 new problems
+ * We failed to check 53 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* Boptbd
-  checking examples ... ERROR
-
-* c3net
-  checking examples ... ERROR
-
-* cfid
+* annoLinker
   checking tests ... ERROR
 
-* comato
-  checking examples ... ERROR
-
-* cranly
+* batchelor
   checking re-building of vignette outputs ... ERROR
 
-* dci
+* BulkSignalR
+  checking whether the package can be loaded ... ERROR
+
+* CBNplot
   checking examples ... ERROR
   checking tests ... ERROR
   checking re-building of vignette outputs ... ERROR
 
-* degreenet
-  checking examples ... ERROR
-
-* ECoL
-  checking examples ... ERROR
-  checking tests ... ERROR
-
-* ggm
-  checking examples ... ERROR
-
-* ggraph
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... ERROR
-
-* glyrepr
-  checking tests ... ERROR
-
-* GoodFitSBM
-  checking examples ... ERROR
-
-* manynet
-  checking tests ... ERROR
-
-* MetaNet
-  checking examples ... ERROR
-
-* migraph
-  checking tests ... ERROR
-
-* nat
+* condiments
   checking examples ... ERROR
   checking tests ... ERROR
   checking re-building of vignette outputs ... ERROR
 
-* nethist
-  checking tests ... ERROR
+* FELLA
+  checking re-building of vignette outputs ... ERROR
+  checking whether package ‘FELLA’ can be installed ... WARNING
 
-* optbdmaeAT
-  checking examples ... ERROR
-
-* optrcdmaeAT
-  checking examples ... ERROR
-
-* R6causal
-  checking whether package ‘R6causal’ can be installed ... WARNING
-
-* scistreer
-  checking examples ... ERROR
-
-* SEMgraph
-  checking examples ... ERROR
-
-* sfclust
-  checking tests ... ERROR
-
-* SpaDES.core
-  checking tests ... ERROR
-
-* tidygraph
+* glycoTraitR
   checking examples ... ERROR
   checking tests ... ERROR
+  checking re-building of vignette outputs ... ERROR
 
-* vkR
-  checking dependencies in R code ... WARNING
+* graphite
+  checking tests ... ERROR
+
+* GWENA
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... ERROR
+
+* OmnipathR
+  checking whether package ‘OmnipathR’ can be installed ... WARNING
+
+* PANR
+  checking whether package ‘PANR’ can be installed ... WARNING
+
+* phyloseq
+  checking examples ... ERROR
+
+* PPInfer
+  checking re-building of vignette outputs ... WARNING
+
+* singleCellTK
+  checking examples ... ERROR
+  checking tests ... ERROR
+
+* slingshot
+  checking examples ... ERROR
+  checking tests ... ERROR
+  checking re-building of vignette outputs ... ERROR
+
+* STRINGdb
+  checking re-building of vignette outputs ... WARNING
+
+* TSCAN
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... ERROR
 
 ### Failed to check
 
-* ctmm            (NA)
-* E2E             (NA)
-* gllvm           (NA)
-* hespdiv         (NA)
-* orchaRd         (NA)
-* PortfolioTesteR (NA)
-* sphet           (NA)
-* xpect           (NA)
+* BloodCancerMultiOmics2017 (NA)
+* Boptbd                    (NA)
+* c3net                     (NA)
+* cellmig                   (NA)
+* cfid                      (NA)
+* ChemmineOB                (NA)
+* ClustIRR                  (NA)
+* comato                    (NA)
+* consICA                   (NA)
+* COTAN                     (NA)
+* cranly                    (NA)
+* ctmm                      (NA)
+* CuratedAtlasQueryR        (NA)
+* dci                       (NA)
+* degreenet                 (NA)
+* E2E                       (NA)
+* ECoL                      (NA)
+* EMTscoreData              (NA)
+* geneXtendeR               (NA)
+* GeomxTools                (NA)
+* ggm                       (NA)
+* ggraph                    (NA)
+* gllvm                     (NA)
+* glyrepr                   (NA)
+* GoodFitSBM                (NA)
+* hespdiv                   (NA)
+* HMP2Data                  (NA)
+* IPO                       (NA)
+* lefser                    (NA)
+* manynet                   (NA)
+* MetaNet                   (NA)
+* mia                       (NA)
+* migraph                   (NA)
+* msPurity                  (NA)
+* nat                       (NA)
+* nethist                   (NA)
+* omicsGMF                  (NA)
+* optbdmaeAT                (NA)
+* optrcdmaeAT               (NA)
+* orchaRd                   (NA)
+* pageRank                  (NA)
+* PortfolioTesteR           (NA)
+* R6causal                  (NA)
+* scistreer                 (NA)
+* SEMgraph                  (NA)
+* sfclust                   (NA)
+* singIST                   (NA)
+* SpaDES.core               (NA)
+* sphet                     (NA)
+* TENET                     (NA)
+* tidygraph                 (NA)
+* vkR                       (NA)
+* xpect                     (NA)

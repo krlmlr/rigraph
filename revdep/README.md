@@ -3,57 +3,93 @@
 | field | value |
 | --- | --- |
 | package | igraph |
-| dev | 2.3.3.9033 |
-| CRAN | 2.3.3 |
-| commit | c5c185f49 |
+| dev | 2.3.3.9042.301 |
+| CRAN | 2.3.4 |
+| commit | 6548acb41 |
 | R | 4.6 |
 | platform | x86_64-pc-linux-gnu |
-| run | 33777134786 |
-| date | 2026-09-03 |
+| run | 39129331817 |
+| date | 2026-10-18 |
 
 # Revdeps
 
-## Failed to check (8)
+## Failed to check (53)
 
-|package         |version |error |warning |note |
-|:---------------|:-------|:-----|:-------|:----|
-|ctmm            |?       |      |        |     |
-|E2E             |?       |      |        |     |
-|gllvm           |2.0.13  |1     |        |     |
-|hespdiv         |?       |      |        |     |
-|orchaRd         |?       |      |        |     |
-|PortfolioTesteR |?       |      |        |     |
-|sphet           |?       |      |        |     |
-|xpect           |?       |      |        |     |
+|package                   |version |error |warning |note |
+|:-------------------------|:-------|:-----|:-------|:----|
+|BloodCancerMultiOmics2017 |?       |      |        |     |
+|Boptbd                    |?       |      |        |     |
+|c3net                     |?       |      |        |     |
+|cellmig                   |1.2.0   |1     |        |     |
+|cfid                      |?       |      |        |     |
+|ChemmineOB                |1.50.0  |1     |        |     |
+|ClustIRR                  |1.10.0  |1     |        |     |
+|comato                    |?       |      |        |     |
+|consICA                   |?       |      |        |     |
+|COTAN                     |?       |      |        |     |
+|cranly                    |?       |      |        |     |
+|ctmm                      |?       |      |        |     |
+|CuratedAtlasQueryR        |?       |      |        |     |
+|dci                       |?       |      |        |     |
+|degreenet                 |?       |      |        |     |
+|E2E                       |?       |      |        |     |
+|ECoL                      |?       |      |        |     |
+|EMTscoreData              |?       |      |        |     |
+|geneXtendeR               |1.37.0  |1     |        |     |
+|GeomxTools                |?       |      |        |     |
+|ggm                       |?       |      |        |     |
+|ggraph                    |?       |      |        |     |
+|gllvm                     |?       |      |        |     |
+|glyrepr                   |?       |      |        |     |
+|GoodFitSBM                |?       |      |        |     |
+|hespdiv                   |?       |      |        |     |
+|HMP2Data                  |1.25.0  |1     |        |     |
+|IPO                       |?       |      |        |     |
+|lefser                    |?       |      |        |     |
+|manynet                   |?       |      |        |     |
+|MetaNet                   |?       |      |        |     |
+|mia                       |?       |      |        |     |
+|migraph                   |?       |      |        |     |
+|msPurity                  |?       |      |        |     |
+|nat                       |?       |      |        |     |
+|nethist                   |?       |      |        |     |
+|omicsGMF                  |?       |      |        |     |
+|optbdmaeAT                |?       |      |        |     |
+|optrcdmaeAT               |?       |      |        |     |
+|orchaRd                   |?       |      |        |     |
+|pageRank                  |?       |      |        |     |
+|PortfolioTesteR           |?       |      |        |     |
+|R6causal                  |?       |      |        |     |
+|scistreer                 |?       |      |        |     |
+|SEMgraph                  |?       |      |        |     |
+|sfclust                   |?       |      |        |     |
+|singIST                   |?       |      |        |     |
+|SpaDES.core               |?       |      |        |     |
+|sphet                     |?       |      |        |     |
+|TENET                     |?       |      |        |     |
+|tidygraph                 |?       |      |        |     |
+|vkR                       |?       |      |        |     |
+|xpect                     |?       |      |        |     |
 
-## New problems (26)
+## New problems (17)
 
-|package     |version |error  |warning  |note |
-|:-----------|:-------|:------|:--------|:----|
-|[Boptbd](problems.md#boptbd)|1.0.7   |__+1__ |         |     |
-|[c3net](problems.md#c3net)|1.1.1.1 |__+1__ |         |     |
-|[cfid](problems.md#cfid)|0.1.8   |__+1__ |         |     |
-|[comato](problems.md#comato)|1.1     |__+1__ |         |2    |
-|[cranly](problems.md#cranly)|0.6.0   |__+1__ |         |     |
-|[dci](problems.md#dci)|1.0.3   |__+3__ |         |     |
-|[degreenet](problems.md#degreenet)|1.3-7   |__+1__ |         |1    |
-|[ECoL](problems.md#ecol)|0.4.4   |__+2__ |         |     |
-|[ggm](problems.md#ggm)|2.5.4   |__+1__ |         |     |
-|[ggraph](problems.md#ggraph)|2.2.2   |__+2__ |         |1    |
-|[glyrepr](problems.md#glyrepr)|1.0.0   |__+1__ |         |     |
-|[GoodFitSBM](problems.md#goodfitsbm)|0.0.1   |__+1__ |         |     |
-|[manynet](problems.md#manynet)|2.3.1   |__+1__ |         |     |
-|[MetaNet](problems.md#metanet)|0.3.2   |__+1__ |         |     |
-|[migraph](problems.md#migraph)|1.7.0   |__+1__ |         |     |
-|[nat](problems.md#nat)|1.8.26  |__+3__ |         |-1   |
-|[nethist](problems.md#nethist)|1.0.0   |__+1__ |         |1    |
-|[optbdmaeAT](problems.md#optbdmaeat)|1.0.2   |__+1__ |         |     |
-|[optrcdmaeAT](problems.md#optrcdmaeat)|1.0.1   |__+1__ |         |     |
-|[R6causal](problems.md#r6causal)|0.8.3   |       |1 __+1__ |     |
-|[scistreer](problems.md#scistreer)|1.2.1   |__+1__ |1        |2    |
-|[SEMgraph](problems.md#semgraph)|1.2.4   |__+1__ |         |     |
-|[sfclust](problems.md#sfclust)|1.1.0   |__+1__ |         |     |
-|[SpaDES.core](problems.md#spadescore)|3.2.1   |__+1__ |         |     |
-|[tidygraph](problems.md#tidygraph)|1.3.1   |__+2__ |         |2    |
-|[vkR](problems.md#vkr)|0.2     |       |__+1__   |     |
+|package      |version |error    |warning     |note |
+|:------------|:-------|:--------|:-----------|:----|
+|[annoLinker](problems.md#annolinker)|1.0.0   |__+1__   |            |     |
+|[batchelor](problems.md#batchelor)|1.28.0  |1 __+1__ |1           |4    |
+|[BulkSignalR](problems.md#bulksignalr)|1.4.0   |__+1__   |            |1 -1 |
+|[CBNplot](problems.md#cbnplot)|1.12.0  |__+3__   |            |     |
+|[condiments](problems.md#condiments)|1.20.0  |__+3__   |            |2    |
+|[FELLA](problems.md#fella)|1.32.0  |__+1__   |1 -1 __+1__ |2    |
+|[glycoTraitR](problems.md#glycotraitr)|1.0.0   |__+3__   |            |     |
+|[graphite](problems.md#graphite)|1.58.0  |__+1__   |1           |     |
+|[GWENA](problems.md#gwena)|1.22.0  |__+2__   |2           |3    |
+|[OmnipathR](problems.md#omnipathr)|4.0.0   |3        |__+1__      |3    |
+|[PANR](problems.md#panr)|1.58.0  |         |1 __+1__    |2    |
+|[phyloseq](problems.md#phyloseq)|1.56.0  |__+1__   |            |5    |
+|[PPInfer](problems.md#ppinfer)|1.38.0  |         |__+1__      |     |
+|[singleCellTK](problems.md#singlecelltk)|2.22.0  |__+2__   |2 -1        |     |
+|[slingshot](problems.md#slingshot)|2.20.0  |__+3__   |            |2    |
+|[STRINGdb](problems.md#stringdb)|2.24.1  |         |1 __+1__    |1    |
+|[TSCAN](problems.md#tscan)|1.50.0  |__+2__   |            |3    |
 
