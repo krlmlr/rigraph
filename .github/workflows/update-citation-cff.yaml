@@ -11,7 +11,6 @@ on:
     branches:
       - master
       - main
-      - cran-*
     paths:
       - DESCRIPTION
       - inst/CITATION
@@ -21,19 +20,26 @@ on:
 
 name: Update CITATION.cff
 
+permissions: {}
+
 jobs:
   update-citation-cff:
-    runs-on: macos-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30 # longest run seen: 2 min
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v6
-      - uses: r-lib/actions/setup-r@v2
-      - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - name: Configure the Git identity
+        uses: cynkra/cynkratemplate/.github/actions/git-identity@main
+
+      - name: Install R and the package dependencies
+        uses: cynkra/cynkratemplate/.github/actions/install@main
         with:
-          extra-packages: |
-            any::cffr
-            any::V8
+          token: ${{ secrets.GITHUB_TOKEN }}
+          extra-packages: any::cffr any::V8
+          cache-version: cff-1
 
       - name: Update CITATION.cff
         run: |
@@ -54,16 +60,11 @@ jobs:
       - name: Use three-component version numbers
         # Can't easily use keys in cffr above because need to update reference[[1]]$notes
         run: |
-          sed -r -i '' 's/([0-9]+[.][0-9]+[.][0-9]+)[.]9[0-9][0-9][0-9]/\1/' CITATION.cff
+          sed -E -i 's/([0-9]+[.][0-9]+[.][0-9]+)[.]9[0-9][0-9][0-9]/\1/' CITATION.cff
         shell: bash
 
       - name: Commit results
         run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add CITATION.cff
           git commit -m 'Update CITATION.cff' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
-
-
-
