@@ -35,8 +35,8 @@ jobs:
         uses: cynkra/cynkratemplate/.github/actions/install@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # cffr reads DESCRIPTION and inst/CITATION as files and needs none of the package's dependencies.
-          packages: any::cffr, any::V8
+          # cffr builds the references from the installed dependencies' metadata.
+          packages: deps::., any::cffr, any::V8
           extra-packages: ""
           cache-version: cff-1
 
