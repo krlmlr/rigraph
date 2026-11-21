@@ -1,12 +1,9 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # The action runs when:
-# - A new release is published
 # - The DESCRIPTION or inst/CITATION are modified
 # - Can be run manually
 # For customizing the triggers, visit https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
 on:
-  release:
-    types: [published]
   push:
     branches:
       - master
@@ -38,7 +35,9 @@ jobs:
         uses: cynkra/cynkratemplate/.github/actions/install@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          extra-packages: any::cffr any::V8
+          # cffr reads DESCRIPTION and inst/CITATION as files and needs none of the package's dependencies.
+          packages: any::cffr, any::V8
+          extra-packages: ""
           cache-version: cff-1
 
       - name: Update CITATION.cff
