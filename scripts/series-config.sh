@@ -69,12 +69,28 @@ series_keep=(src include vendor interfaces AUTHORS COPYING ACKNOWLEDGEMENTS.md C
 # (scripts/series-forward-build.sh).
 # The R/C interface, the cpp11 registration and the glue's source lists are
 # generated as well, but from tools/stimulus/ and the glue, which are `main`'s,
-# so they travel as a diff; a landing reviews them with the strand
-# (scripts/series-land.sh). duckdb-r's are its Makevars, hence the name.
+# as much as from the tree, so they travel as a diff. duckdb-r's are its
+# Makevars, hence the name.
 series_strand=(src/vendor/cigraph src/vendor/igraph_version.h src/vendor/igraph_threading.h
   src/vendor/io patch src/sources-igraph.mk src/sources-glpk.mk src/sources-mini-gmp.mk)
 series_makevars=(src/rinterface.c 'R/aaa-*.R' src/cpp11.cpp R/cpp11.R
   src/sources-glue-c.mk src/sources-glue-cpp.mk)
+
+# What a review of the R side hides besides the workflows and `DESCRIPTION`'s
+# version (scripts/series-land.sh --review).
+# Left undefined, it is the strand and `series_makevars`,
+# which suits duckdb-r, whose generated files change only with tools/stimulus/.
+# Here it is the strand and what is generated for the compiler,
+# but not `R/aaa-*.R` and not `man/`.
+# Stimulus also reads the vendored `interfaces/functions.yaml`,
+# so an `_impl()` function the engine adds or removes changes `R/aaa-*.R`
+# with no edit under tools/stimulus/,
+# and that is the one place the change shows in R terms.
+# `src/rinterface.c` says it again in C, and the registration, the source and
+# dependency lists are generated from what the review shows.
+# `man/` is shown, because a reviewer needs the rendered documentation changes.
+series_review_hidden=("${series_strand[@]}" src/rinterface.c src/cpp11.cpp R/cpp11.R
+  src/sources-glue-c.mk src/sources-glue-cpp.mk 'src/*.dd')
 
 # How vendoring regenerates the tree from an upstream checkout, in two phases
 # around the patch stack (scripts/vendor-one.sh, scripts/vendor.sh): the tree
@@ -234,12 +250,18 @@ series_tag_of_release() { # <X.Y.Z> -> the tag
 series_package=igraph
 series_canonical_repo=igraph/rigraph
 
-# Does the engine version $1 predate the version $2? The reading
-# `engine_before()` in tests/testthat/helper-skip.R makes, so an engine gate
-# expires in the scripts where it expires in the suite. igraph's CMake writes
-# `git describe --tags`: a release is `X.Y.Z`, and `X.Y.Z-N-g<sha>` is N commits
-# past it, so it follows `X.Y.Z` and precedes the next release. A string that
-# is not a version predates nothing.
+# The note a vendor commit leaves where it removed a test whose function
+# upstream removed, at the top level of the test file:
+#   # upstream igraph@<sha>: <what upstream removed>
+# scripts/series-tests.sh reads the SHA after this prefix, seven digits or more
+# (handbook/operations/vendoring/adaptation/README.md).
+series_test_note_prefix='# upstream igraph@'
+
+# Does the engine version $1 predate the version $2? scripts/series-tests.sh
+# asks it to tell a rewind, a commit vendoring an engine older than `main`'s.
+# igraph's CMake writes `git describe --tags`: a release is `X.Y.Z`, and
+# `X.Y.Z-N-g<sha>` is N commits past it, so it follows `X.Y.Z` and precedes the
+# next release. A string that is not a version predates nothing.
 series_version_before() { # <engine> <version>
   local re='^([0-9]+)\.([0-9]+)\.([0-9]+)(-([0-9]+)-g[0-9a-f]+)?$' i
   local -a lhs rhs

@@ -8,7 +8,7 @@
 # including glue, which is why the carry is a difference and not an allow-list.
 # A forward series inherits only the first when its buffer is replayed out of
 # `-build`, and both when it is replayed out of `-dev`
-# (scripts/series-forward-build.sh). Twenty things are checked.
+# (scripts/series-forward-build.sh). Twenty-two things are checked.
 #
 #   1. A buffered commit whose base `-dev` twin folded a test-side fix is minted
 #      with that fix in the same commit -- not stacked above it -- carrying the
@@ -59,8 +59,9 @@
 #      the base series folded.
 #  18. A carry never stops a test the forward runs: a twin that deleted a test
 #      file or skipped a test for good leaves the forward's copy where it is,
-#      and the commit message says so, while an engine gate and a snapshot
-#      fold in the same twin carry as usual.
+#      and the commit message says so, while a test removed with its function
+#      upstream, noted where it stood, and a snapshot fold in the same twin
+#      carry as usual.
 #  19. A buffer replayed from the base `-dev` carries nothing twice: the twin's
 #      fix is in the buffer commit under a blob `main`'s drift moved on, the
 #      twin's own change reverse-applies there, and the chunk is a plain ref
@@ -69,6 +70,13 @@
 #      `-dev` already vendored, carrying `(tag ...)` -- is consumed rather than
 #      taken for the anchor, and a forward series keeps its marker when the base
 #      has a twin for the plain commit only.
+#  21. The chunk is the series' own: the `chunk` `main`'s scripts/series.yaml
+#      declares bounds what one run appends, and `--chunk` overrides it.
+#  22. `--no-push-dev` moves green, its canonical copy and `-build-base` as
+#      always, and mints the extension into `refs/series/<S>-dev-next` without
+#      writing `-dev`; the push it prints publishes it. A replay stopped under
+#      the option keeps it through a `--continue` that leaves it off, and
+#      `--abort` drops the unpushed ref.
 #
 # Usage:
 #   scripts/series-advance-test.sh
@@ -238,6 +246,15 @@ bvendor fff1111 1.0.0.9000.1 f.c
 bvendor fff2222 1.0.0.9000.2 g.c
 git branch solo-build-base base-seed
 
+# --- a series whose chunk `main` declares (claim 21) ------------------------
+git checkout -q -b chunked-dev base-seed
+git branch chunked-green chunked-dev
+git checkout -q -b chunked-build base-seed
+bvendor ccc1111 1.0.0.9000.1 s.c
+bvendor ccc2222 1.0.0.9000.2 t.c
+bvendor ccc3333 1.0.0.9000.3 u.c
+git branch chunked-build-base base-seed
+
 # --- a series for the stage-3 finding note (claim 13) -----------------------
 # Same shape as `solo`, so the note is checked on a chunk that would otherwise
 # have taken the plain ref move -- which is the route the note has to override.
@@ -325,25 +342,28 @@ git branch tsync-green tsync-dev
 git branch tsync-build-base "$TSYNC_V1"
 
 # --- a base whose rewind took tests away, and its forward (claim 18) --------
-# The seed runs three tests; the base twin of the one buffer commit deletes the
-# first, skips the second for good, gates the third and folds a snapshot, as a
-# rewind did on `v2.0-cyanoptera-fwd`.
+# The seed runs four tests; the base twin of the one buffer commit deletes the
+# first, skips the second for good, as a rewind did on `v2.0-cyanoptera-fwd`,
+# removes the third with the function upstream removed, and folds a snapshot.
 git checkout -q -b loss-seed base-seed
-for t in gone skip gate; do
+for t in gone skip; do
   printf 'test_that("%s", {\n  expect_true(TRUE)\n})\n' "$t" > "tests/testthat/test-$t.R"
 done
+for t in stays removed; do
+  printf 'test_that("%s", {\n  expect_true(TRUE)\n})\n\n' "$t"
+done > tests/testthat/test-removed.R
 git add -A
-git commit -qm 'test: Three tests main runs'
+git commit -qm 'test: Four tests main runs'
 git checkout -q -b loss-build loss-seed
 bvendor ace1111 1.0.0.9000.1 o.c
 git checkout -q -b loss-dev loss-seed
 bvendor ace1111 1.0.0.9000.1 o.c
 git rm -q tests/testthat/test-gone.R
 printf 'test_that("skip", {\n  skip_on_cran()\n  expect_true(TRUE)\n})\n' > tests/testthat/test-skip.R
-printf 'test_that("gate", {\n  skip_if_engine_before("9.9.9", "not yet")\n  expect_true(TRUE)\n})\n' \
-  > tests/testthat/test-gate.R
+printf 'test_that("stays", {\n  expect_true(TRUE)\n})\n\n# upstream igraph@ace1111: removed() is removed.\n' \
+  > tests/testthat/test-removed.R
 echo 'snapshot one, as ace1111 renders it' > tests/testthat/_snaps/sql.md
-amend 'Rewound: test-gone.R removed, test-skip.R skipped, test-gate.R gated.'
+amend 'Rewound: test-gone.R removed, test-skip.R skipped, and removed() went upstream with its test.'
 git branch loss-green loss-dev
 git branch loss-build-base loss-build
 git branch loss-fwd-build loss-build
@@ -399,9 +419,34 @@ git branch late-fwd-dev base-seed
 git branch late-fwd-green base-seed
 git branch late-fwd-build-base base-seed
 
+# --- an extension minted for folding, not pushed (claim 22) -----------------
+# `hold` has one commit in flight with a successful verdict, so stage 3 has a
+# green to move, mirror and match on the buffer, and two buffer commits above it
+# on `-dev`'s line: the plain ref move. `stay` is the replay: `-dev` carries a
+# repair the buffer's first commit conflicts with, so the run stops there.
+git checkout -q -b hold-dev base-seed
+bvendor dad1111 1.0.0.9000.1 v.c
+HOLD_OK=$(git rev-parse HEAD)
+git branch hold-green base-seed
+git checkout -q -b hold-build hold-dev
+bvendor dad2222 1.0.0.9000.2 w.c
+bvendor dad3333 1.0.0.9000.3 x.c
+git branch hold-build-base base-seed
+
+git checkout -q -b stay-dev base-seed
+echo 'foo <- function() 3' > R/foo.R
+git add -A
+git commit -qm 'fix: foo() returns 3, a repair -dev carries'
+git branch stay-green base-seed
+git checkout -q -b stay-build base-seed
+echo 'foo <- function() 4' > R/foo.R
+bvendor bee1111 1.0.0.9000.1 y.c
+bvendor bee2222 1.0.0.9000.2 z.c
+git branch stay-build-base base-seed
+
 # The store stub: stage 5 refuses over a `failure` and reads `missing` for
 # anything absent, which is what a freshly pushed commit looks like. The `red`
-# series is the one case that needs real records, so it gets two.
+# and `hold` series are the cases that need real records.
 git checkout -q --orphan rcc2
 git rm -rqf .
 rec() { # <sha> <state>
@@ -411,13 +456,28 @@ rec() { # <sha> <state>
 }
 rec "$RED_OK" success
 rec "$RED_BAD" failure
+rec "$HOLD_OK" success
 git add -A
 git commit -q -m 'chore: store stub'
 
+# `main` declares a chunk for one series, so every other series here takes the
+# default (claim 21).
 git checkout -q main
+cat > scripts/series.yaml <<'EOF'
+flavors:
+  - flavor: igraph.chunked
+    kind: dev
+    series: chunked
+    releases_from: main
+    chunk: 1
+    publishes_from: chunked-green
+EOF
+git add scripts/series.yaml
+git commit -qm 'chore: Declare the chunked series'
 git push -q origin main base-seed base-build base-dev base-green base-build-base \
   base-fwd-build base-fwd-dev base-fwd-green base-fwd-build-base \
   solo-build solo-dev solo-green solo-build-base \
+  chunked-build chunked-dev chunked-green chunked-build-base \
   note-build note-dev note-green note-build-base \
   bare-build bare-dev bare-green bare-build-base \
   dup-build dup-dev dup-green dup-build-base \
@@ -428,7 +488,9 @@ git push -q origin main base-seed base-build base-dev base-green base-build-base
   loss-fwd-build loss-fwd-dev loss-fwd-green loss-fwd-build-base \
   kept-dev kept-fwd-build kept-fwd-dev kept-fwd-green kept-fwd-build-base \
   late-build late-dev late-green late-build-base \
-  late-fwd-build late-fwd-dev late-fwd-green late-fwd-build-base rcc2
+  late-fwd-build late-fwd-dev late-fwd-green late-fwd-build-base \
+  hold-build hold-dev hold-green hold-build-base \
+  stay-build stay-dev stay-green stay-build-base rcc2
 git fetch -q origin
 
 # A canonical remote, because `red` is the one series here whose green moves,
@@ -584,6 +646,20 @@ has   "and moves the ref"           "$out" 'dev ->'
 git fetch -q origin
 is "the dev tip is a buffer commit verbatim, not a replay" \
   "$(git rev-parse origin/solo-dev)" "$(git rev-parse origin/solo-build)"
+
+# --- claim 21: the chunk is the series' own ----------------------------------
+echo
+echo "== a series whose chunk main declares"
+out=$(run chunked)
+hasnt "reads the declaration from main" "$out" 'no main ref carries'
+has   "and moves the ref"               "$out" 'dev ->'
+git fetch -q origin
+is "one run appends the declared chunk, not the whole buffer" \
+  "$(git rev-list --count origin/chunked-green..origin/chunked-dev)" 1
+run chunked --chunk 2 >/dev/null
+git fetch -q origin
+is "and --chunk overrides it for one run" \
+  "$(git rev-parse origin/chunked-dev)" "$(git rev-parse origin/chunked-build)"
 
 # --- claim 11: a base series with a live forward counterpart still consumes ---
 echo
@@ -773,11 +849,14 @@ has "the chunk completes" "$out" 'EXIT=0'
 has "it names what it kept" "$out" 'kept tests/testthat/test-gone.R'
 is "a deleted test is still there" "$(git show "$L:tests/testthat/test-gone.R" | head -n 1)" 'test_that("gone", {'
 hasnt "a test skipped for good is not skipped" "$(git show "$L:tests/testthat/test-skip.R")" 'skip_on_cran'
-has "a gated test carries its gate" "$(git show "$L:tests/testthat/test-gate.R")" 'skip_if_engine_before("9.9.9"'
+has "a test removed with its function carries its note" "$(git show "$L:tests/testthat/test-removed.R")" \
+  '# upstream igraph@ace1111: removed() is removed.'
+hasnt "and goes" "$(git show "$L:tests/testthat/test-removed.R")" 'test_that("removed"'
 is "and the snapshot fold carries" "$(git show "$L:tests/testthat/_snaps/sql.md")" 'snapshot one, as ace1111 renders it'
 has "the message says what was not carried" "$(git log -1 --format=%B "$L")" \
   'Not carried, because it would stop a test this series runs:'
 has "naming the path" "$(git log -1 --format=%B "$L")" "\`tests/testthat/test-skip.R\`"
+hasnt "but not the removal" "$(git log -1 --format=%B "$L")" "\`tests/testthat/test-removed.R\`"
 
 echo
 echo "== a buffer replayed from the base -dev carries nothing twice"
@@ -792,6 +871,59 @@ K=$(at kept-fwd kkk1111)
 hasnt "so it carries no provenance trailer" "$(git log -1 --format=%B "$K")" 'Carried from'
 is "the snapshot holds the fix and main's line both" \
   "$(git show "$K:tests/testthat/_snaps/sql.md" | tr '\n' '|')" 'snapshot one, corrected|main added a snapshot|'
+
+# --- claim 22: --no-push-dev mints the extension and leaves the push ----------
+echo
+echo "== --no-push-dev on the plain ref move"
+before=$(git rev-parse origin/hold-dev)
+out=$(run hold --no-push-dev)
+[ -z "${KEEP:-}" ] || echo "$out"
+git fetch -q origin
+has "the run completes" "$out" 'EXIT=0'
+is "green takes the commit CI proved" "$(git rev-parse origin/hold-green)" "$HOLD_OK"
+is "and the canonical copy takes it too" "$(git --git-dir="$CANON" rev-parse hold-green)" "$HOLD_OK"
+is "and -build-base is set to its match" "$(git rev-parse origin/hold-build-base)" "$HOLD_OK"
+is "-dev is not written" "$(git rev-parse origin/hold-dev)" "$before"
+is "the extension is minted into the local ref" \
+  "$(git rev-parse refs/series/hold-dev-next)" "$(git rev-parse origin/hold-build)"
+has "the run says it did not push" "$out" 'dev not pushed: refs/series/hold-dev-next'
+hasnt "and does not claim -dev moved" "$out" 'dev ->'
+push=$(sed -n 's/^  \(git push --force-with-lease=.*\)$/\1/p' <<<"$out")
+is "the push it prints leases the -dev the run read" \
+  "$push" "git push --force-with-lease=refs/heads/hold-dev:$before origin refs/series/hold-dev-next:refs/heads/hold-dev"
+read -r -a argv <<<"$push"
+[ ${#argv[@]} -eq 0 ] || "${argv[@]}" -q
+git fetch -q origin
+is "and publishes the extension" "$(git rev-parse origin/hold-dev)" "$(git rev-parse origin/hold-build)"
+has "after which the buffer is consumed" "$(run hold)" 'buffer empty'
+
+echo
+echo "== --no-push-dev through a stopped replay"
+before=$(git rev-parse origin/stay-dev)
+out=$(run stay --no-push-dev)
+has "stops on the conflicting pick" "$out" 'conflicted'
+is "the stop records the option" "$(awk '{print $5}' .git/series-advance-stay)" no-push-dev
+WT=$(awk '{print $1}' .git/series-advance-stay)
+echo 'foo <- function() 4' > "$WT/R/foo.R"
+git -C "$WT" add R/foo.R
+out=$(run stay --continue)
+[ -z "${KEEP:-}" ] || echo "$out"
+has "a --continue without the option finishes the chunk" "$out" 'EXIT=0'
+has "and still does not push" "$out" 'dev not pushed: refs/series/stay-dev-next'
+git fetch -q origin
+is "-dev is not written" "$(git rev-parse origin/stay-dev)" "$before"
+is "both buffer commits are minted onto -dev's repair" \
+  "$(git rev-list --count origin/stay-dev..refs/series/stay-dev-next)" 2
+is "with the counter risen once per vendor commit" \
+  "$(git show refs/series/stay-dev-next:DESCRIPTION | sed -n 's/^Version: //p')" 1.0.0.9000.2
+is "no state file survives" "$([ -f .git/series-advance-stay ] && echo yes || echo no)" no
+is "the kept worktree is gone" "$([ -d "$WT" ] && echo yes || echo no)" no
+out=$(run stay --abort)
+has "--abort drops the unpushed extension" "$out" 'unpushed extension'
+is "the local ref is gone" \
+  "$(git rev-parse -q --verify refs/series/stay-dev-next || echo gone)" gone
+git fetch -q origin
+is "and -dev is still where it was" "$(git rev-parse origin/stay-dev)" "$before"
 
 echo
 echo "$pass passed, $fail failed"

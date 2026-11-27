@@ -43,7 +43,7 @@ and published by r-universe from `main-green`, which `scripts/series-advance.sh`
 |---|---|---|
 | `main-vendor` | the routine; force-pushed only by it, to fold a fix into a strand commit nothing has picked yet | Every upstream first-parent commit vendored once, by `vendor-one.sh --strand`: the vendor paths alone (`series_vendor_paths` in [`scripts/series-config.sh`](/scripts/series-config.sh)), no counter, no glue gate. Not mirrored, and no CI runs here. The strand the buffer is derived from. |
 | `main-build` | the routine, unconditionally | `main-vendor`'s commits picked one to one by `series-vendor.sh`, with what the buffer regenerates, the counter stamped, and the glue compiling at every commit. **No CI runs here** (`each.yaml` never matches `*-build`). The buffer. |
-| `main-dev` | the routine, force-push | `main-build` commits, consumed up to 100 at a time, with R-side fixes folded in as CI demands. What CI builds, commit by commit. |
+| `main-dev` | the routine, force-push | `main-build` commits, consumed a chunk at a time (stage 5), with R-side fixes folded in as CI demands. What CI builds, commit by commit. |
 | `main-green` | the routine, fast-forward only | The newest commit such that every commit in `main-green..it` has a `success` verdict. What r-universe builds `igraph.dev` from. |
 | `main-build-base` | the routine, force-push | The `main-build` commit vendoring the same upstream SHA as `main-green`. A marker with no consumer, recomputed every stage 3. |
 
@@ -80,8 +80,7 @@ What duckdb-r needs for more than one line is not ported, and nothing here calls
 * **Release-branch series**, their cut, reflavor and preview prefix:
   igraph cuts no release branch the package serves; one that ever needs its own flavor is the trigger.
 * **The alpha strand**, which served duckdb's extension downloads: igraph has nothing like them.
-* **The store sweep and drop** (`rcc-logs.sh`, `rcc-drop.sh`):
-  triggered by a firing that needs a record no leg ever published, or by a run of verdicts the job decided rather than the tree.
+* **The store sweep** (`rcc-logs.sh`): triggered by a firing that needs a record no leg ever published.
 * **Generated mirror rules and badge tables**: the fork mirrors one branch, by one rule written by hand; a second is the trigger.
 
 ## One firing
@@ -97,9 +96,11 @@ The ones a firing runs or reads on every pass:
   with a `PATCH DRIFT`, a `TESTS`, a `LATE TAG` and a `VENDOR` line where they apply,
   the third for a release the buffer vendored before upstream tagged it, the last for a strand missing, ahead of the buffer or behind it;
 * [`scripts/vendor-one.sh`](/scripts/vendor-one.sh) `--strand` and [`scripts/series-vendor.sh`](/scripts/series-vendor.sh), stage 1;
+* [`scripts/series-vendor-audit.sh`](/scripts/series-vendor-audit.sh), read-only, stages 1 and 2:
+  whether each vendor commit carries upstream's tree at the commit its subject names, with its `patch/` stack applied;
 * [`scripts/series-fold.sh`](/scripts/series-fold.sh) and [`scripts/rcc-one.sh`](/scripts/rcc-one.sh), stage 2;
 * [`scripts/series-advance.sh`](/scripts/series-advance.sh), stages 3 and 5:
-  fast-forwards `-green` and mirrors it, sets `-build-base` to the vendored-SHA match, extends `-dev` by ≤ 100;
+  fast-forwards `-green` and mirrors it, sets `-build-base` to the vendored-SHA match, extends `-dev` by one chunk;
   advances `-green` over the verified prefix and then stops on a red above it, and refuses a `-green` that would not fast-forward;
 * [`scripts/r-universe-check.sh`](/scripts/r-universe-check.sh), read-only, stage 3;
 * [`scripts/series-port.sh`](/scripts/series-port.sh), stage 4: cherry-picks from `main`, a tooling sync on both refs,
@@ -166,6 +167,7 @@ git worktree add --detach "$B" origin/main-build
 git -C "$U" fetch -q --prune --tags origin
 git -C "$U" checkout -q --detach origin/main
 VENDOR_REPO=$V scripts/vendor-one.sh --strand --commits 100 "$U"
+scripts/series-vendor-audit.sh main "origin/main-vendor..$(git -C "$V" rev-parse HEAD)" --upstream "$U"
 git -C "$V" push origin HEAD:refs/heads/main-vendor
 (cd "$B" && "$M"/scripts/series-vendor.sh main --push)
 ```
@@ -184,6 +186,10 @@ git -C "$V" push origin HEAD:refs/heads/main-vendor
   * **5** the strand is off the clone HEAD's line: check out igraph/igraph's `main`, rerun;
   * **6** a shallow or untagged clone (fix it as above);
   * **7** `GENERATOR FAILED`, CMake, flex or bison: install what is missing, or for a grammar add a `patch/` entry, then the strand fold-in.
+* **The audit gates the push of the strand.**
+  `series-vendor-audit.sh` exits 1 with a `DIVERGED` line for each new strand commit whose tree is not upstream's:
+  the vendor run is at fault, not upstream, so push nothing, keep `$V`, and stop the stage;
+  the cause is a stage 7 pull request.
 * The strand fold-in puts the fix into the strand commit that needs it, before anything picks it,
   and writes the message with `-F`, never an editor:
 
@@ -228,6 +234,10 @@ Every commit in `main-green..main-dev` is decided by an `each-rcc` leg, and that
   The run list says which kind of waiting it is.
   After **12 hours** with the run that should have decided it finished and silent, push `retry-main-dev` at it (below).
   Never amend a commit that has a record.
+* **Audit the vendored trees before folding anything**: `scripts/series-vendor-audit.sh main --upstream "$U"` reads `main-green..main-dev`.
+  A `DIVERGED` commit carries a tree upstream never had, whatever its verdict, and may be why the reds above it are red:
+  repair the oldest first, folding in the files it names as upstream has them
+  ([`references/1-vendor.md`](references/1-vendor.md#the-audit)), and audit again.
 * **Classify each `failure` by what the commit's log contains:**
 
   | evidence | meaning | action |
@@ -238,7 +248,7 @@ Every commit in `main-green..main-dev` is decided by an `each-rcc` leg, and that
   | `Changes detected in workflow_dispatch build` | style or roxygen drift | `air format .`, `devtools::document()`, fold at the offending commit |
   | the record's failed stage is `regen` | the generated R/C interface or cpp11 registration does not reproduce | regenerate, fixing `tools/stimulus/` where needed, and fold |
   | `Error: R CMD check found WARNINGs` / `ERRORs`, with `❯ checking …` headers naming the checks | `R CMD check --as-cran` is unhappy with the tree, or with the environment CI built it in | read the named checks; fix at the offending commit, or on `main` when the cause is the job's own setup |
-  | killed at the shard budget, or a stage "exceeded its … budget" | the gate did not finish | repair; a rerun buys the same kill |
+  | killed at the shard budget as its leg's first commit (a later one is deferred, with no record), or a stage "exceeded its … budget" | the gate did not finish | repair; a rerun buys the same kill |
   | a gate reached out and was refused (`cannot open URL`, `SSL connect error`, a refused or reset connection) while the tests passed | infrastructure, not the tree | rerun the commit: `retry-main-dev` |
   | the record names another failed stage (`"failed_stages":["install"]`) and no rule above matched | the stage failed on its merits, most often an `install` the glue or a link stopped | fix at the offending commit; never a rerun |
   | none of the above, no test phase, and no failed stage in the record | cancelled or infrastructure | rerun the commit: `retry-main-dev` |
@@ -249,11 +259,12 @@ Every commit in `main-green..main-dev` is decided by an `each-rcc` leg, and that
   Write the fix as a commit on the offending commit and let `series-fold.sh` fold it and replay the tail:
 
   ```sh
+  M=$(pwd)
   W=$(cd .. && pwd)/repair
   git worktree add --detach "$W" <offending commit>
   # write the fix in $W, then
   git -C "$W" commit -q -m '<what was adapted>' -- <the fix>
-  (cd "$W" && scripts/series-fold.sh origin/main-dev --fold <offending commit>=HEAD:'R-side fix: <what was adapted, and why>')
+  (cd "$W" && "$M"/scripts/series-fold.sh origin/main-dev --fold <offending commit>=HEAD:'R-side fix: <what was adapted, and why>')
   # build and check the repaired commit locally before this push (below)
   git -C "$W" push --force-with-lease=refs/heads/main-dev:$(git rev-parse origin/main-dev) origin HEAD:refs/heads/main-dev
   ```
@@ -276,17 +287,23 @@ Every commit in `main-green..main-dev` is decided by an `each-rcc` leg, and that
   3. R code;
   4. snapshots, only after confirming the new output is correct;
   5. tests, as a last resort, with a comment `# upstream igraph@<short-sha>: <reason>`.
-* **A series never stops a test `main` runs.**
-  Where an older engine cannot pass a test, gate it with `skip_if_engine_before("<version>", "<why>")`
-  ([`tests/testthat/helper-skip.R`](/tests/testthat/helper-skip.R)) at the top of the `test_that()` body, folded like any repair,
-  and take the gate out in the same pass where the series already holds that version.
-  Never delete, rewrite or skip a test without a version to end the skip.
+* **A test follows its engine, commit by commit, and a series stops no other test `main` runs.**
+  A test a vendor commit breaks is adapted in that commit.
+  One whose function upstream removed goes in the vendor commit that removes the function, with its snapshot entries,
+  leaving `# upstream igraph@<short-sha>: <what upstream removed>` at the top level of the file where it stood,
+  the SHA being the one the commit's subject names.
+  One that only a later engine supports is added in the vendor commit that brings that engine.
+  Never check the engine's version inside a test, and never delete or skip a test for another reason.
   A `TESTS` line from `series-check.sh` is this stage's work too.
 * **A transiently broken upstream commit is folded into the next one** when that one fixes it, the newer subject kept;
   a `patch/` entry only when the next commit is red too.
 * **Snapshot drift**: fetch `snapshot-<sha>-rcc-smoke-null`, review the diff as a code review, fold;
-  a deleted snapshot file is a test that stopped running.
+  a deleted snapshot file is a test that stopped running, unless upstream removed the function of every test that wrote it.
 * **A red on a flavor commit is the rename's**: fix the flavor tooling on `main`, and fold the same change into the flavor commit.
+* **A gate the job's tooling or environment breaks on every commit is the harness's**, which each commit carries:
+  fix it on `main` first, then cherry-pick that commit, with what else from `main` it needs, onto `main-green`
+  as a standalone commit in front of every vendor commit, and replay the rest of the window on top; never fold it into a vendor commit.
+  A refusal every commit meets the same way is this, not the network.
 
 Reference: [`references/2-repair.md`](references/2-repair.md).
 
@@ -344,9 +361,15 @@ Reference: [`references/4-port.md`](references/4-port.md).
 
 ### 5. Extend `main-dev`
 
-`series-advance.sh main` (above) appends the next ≤ 100 commits from `main-build`, restamps the fifth component, and pushes.
+`series-advance.sh main` (above) appends the next chunk of `main-build`, restamps the fifth component, and pushes.
 
+* **Start small, and grow the chunk as rounds come back green.**
+  The series' `chunk:` in [`scripts/series.yaml`](/scripts/series.yaml) is the size while it adapts, after a seed or a rewind of `main-dev`,
+  because a fold low in the window rewrites everything above it;
+  once a round comes back mostly green, pass a larger `--chunk`, and go back to the declared size at the next red low in the window.
 * **Extend on pending, never on red**: a reported `failure` in `main-green..main-dev` stops the stage until stage 2 has folded its fix.
+* **Mint without pushing when a fold has to come before CI**, as when R-side fixes or a doc sweep wait for the commits the chunk adds.
+  `--no-push-dev` keeps the extension in `refs/series/main-dev-next` and prints the leased push to run once the folds are in.
 * A conflicting replay **stops the stage with the worktree kept**:
 
   ```sh
@@ -410,8 +433,8 @@ git push --force-with-lease origin "<the failing commit>:refs/heads/retry-main-d
   means it has had its one rerun and failed again, which is REPAIR, never RETRY;
   pointing elsewhere, force-update it and rerun.
 * The verdict reaches the loop from the rerun's own run, which carries the higher run id.
-* A verdict the job decided rather than the tree is dropped from `rcc2`, so the next run plans the commit again;
-  the script for it is not ported, so a drop is a hand-made commit on `rcc2`, done only for that cause.
+* A verdict the job decided rather than the tree, and only that, is dropped with `scripts/rcc-drop.sh <sha>...`.
+  The next run plans the commit again.
 * A commit whose tree predates `each.yaml` retries by hand: dispatch `each-rcc` on `retry-main-dev` with `force=true` and `max-commits=1`.
 
 Reference: [`references/retry.md`](references/retry.md).
@@ -433,6 +456,7 @@ Read [`references/traps.md`](references/traps.md) before a vendor run, a local b
 Its entries:
 relative paths resolve against the buffer worktree;
 a remote-tracking or tagless replay is invisible to the vendor run;
+`git status` can miss an upstream edit that kept a file's size;
 clean every build product between local builds;
 the style gate must be clean;
 never `git reset --hard` while HEAD is on a branch you keep;

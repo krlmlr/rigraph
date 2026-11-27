@@ -855,6 +855,17 @@ test_that("laplacian_matrix() works", {
   expect_snapshot(laplacian_matrix(Ai, normalization = "unnormalized"))
 })
 
+test_that("laplacian_matrix(normalized =) is deprecated but still works", {
+  rlang::local_options(lifecycle_verbosity = "warning")
+  g <- make_ring(5)
+  expected <- laplacian_matrix(g, normalization = "symmetric", sparse = FALSE)
+  expect_snapshot_igraph(
+    L <- laplacian_matrix(g, normalized = TRUE, sparse = FALSE)
+  )
+  expect_equal(L, expected)
+  expect_no_warning(laplacian_matrix(g, sparse = FALSE))
+})
+
 test_that("mean_distance works", {
   igraph_local_seed(42)
   avg_path_length <- function(graph) {
@@ -1018,6 +1029,17 @@ test_that("edge_density works", {
   gd <- edge_density(g)
   gd2 <- ecount(g) / vcount(g) / (vcount(g) - 1)
   expect_equal(gd, gd2)
+})
+
+test_that("edge_density() ignores edge weights", {
+  g <- make_ring(4)
+  unweighted <- edge_density(g)
+  E(g)$weight <- 2
+  expect_equal(edge_density(g), unweighted)
+  expect_equal(
+    edge_density(g, loops = TRUE),
+    edge_density(make_ring(4), loops = TRUE)
+  )
 })
 
 test_that("knn works", {

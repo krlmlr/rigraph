@@ -42,7 +42,8 @@ Setup always runs, so that every read below sees whole histories with every bran
 each stage after it is skipped when it has nothing to do, and they run in this order:
 
 * **Vendor onto `main-vendor`, then pick onto `main-build`.**
-  Each upstream commit is vendored once, onto the strand, as what upstream and `patch/` alone determine;
+  Each upstream commit is vendored once, onto the strand, as what upstream and `patch/` alone determine,
+  and the strand is pushed only once each new commit's tree has been checked against upstream's;
   the pick onto the buffer regenerates the R side, stamps the version and checks that the glue compiles,
   and a fix that check or the generator asks for rides in the buffer commit that needs it ([`pipeline/`](/handbook/operations/vendoring/pipeline/README.md)).
   CI never builds the buffer, so vendoring runs ahead of verification and red never blocks it.
@@ -57,15 +58,16 @@ each stage after it is skipped when it has nothing to do, and they run in this o
 * **Port `main`**, so that `.github/`, `scripts/` and `.claude/` on `main-dev` are byte-identical to `main`'s,
   and sync the buffer's tooling too, because a workflow fires from the branch it sits on.
 * **Extend `main-dev`** from the buffer while verdicts are pending, but never above a red.
-  A firing takes at most 100 commits, the default of `--chunk` in [`scripts/series-advance.sh`](/scripts/series-advance.sh),
+  A firing takes at most one chunk, the `chunk:` [`scripts/series.yaml`](/scripts/series.yaml) declares for the series, 10 for `main`,
+  kept small while the series adapts to a new engine, because a fold low in the window rewrites everything above it,
   and then realigns `main-rc-dev` where it exists.
 * **Open a pull request** against igraph/rigraph's `main` for whatever the tooling got wrong and the firing had to work around.
 
 **A test a vendor commit stops would reach `main`.**
-The adaptation rules say a series never stops a test `main` runs, and the loop is where that binds:
+The adaptation rules say a series stops no test `main` runs but one whose function upstream removed, and the loop is where that binds:
 a landing replays vendor commits only, so a deletion or a skip folded into one travels to `main`,
 while a restore made later as a commit of its own travels with nothing.
-That is why a test an older engine cannot pass is gated inside the vendor commit, naming the version that ends the gate.
+That is why a test changes only inside the vendor commit whose engine asks for the change, never behind a check of the engine's version.
 
 When a stage stops, the cause is told apart in [`troubleshooting/`](/handbook/operations/vendoring/troubleshooting/README.md).
 
@@ -109,11 +111,12 @@ The skills and the scripts they drive are ported from duckdb-r ([`meta/local/`](
 
 Every `scripts/series-*.sh` takes the same options, so that one name is never passed where another belongs:
 
-* positional is only what the script names: a series, or the two refs `series-forward-build.sh` and `series-tests.sh` compare;
+* positional is only what the script names: a series, with the range `series-vendor-audit.sh` may take after it,
+  or the two refs `series-forward-build.sh` and `series-tests.sh` compare;
 * `--remote <name>`, the remote carrying the series refs: `$SERIES_REMOTE`, then `origin`;
 * `--canonical <name>`, the remote of igraph/rigraph, where `main` lives and `main-green`'s copy goes:
   `$SERIES_CANONICAL`, then `upstream`; an empty `SERIES_CANONICAL` turns the mirror off, and an unset one does not;
-* `--upstream <path>`, an igraph/igraph checkout on disk, read by `series-check.sh` alone: `$UPSTREAM_CLONE`;
+* `--upstream <path>`, an igraph/igraph checkout on disk, read by `series-check.sh` and `series-vendor-audit.sh` alone: `$UPSTREAM_CLONE`;
 * `-h` and `--help` print the usage on stdout and exit 0 before the script touches git;
 * any other option, an option missing its value, or a positional the script does not name prints the usage on stderr and exits 2,
   so a caller can tell a wrong invocation from a wrong answer.

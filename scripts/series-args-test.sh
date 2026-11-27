@@ -71,7 +71,7 @@ out() { # <script> <args...> -> first line of stdout; the usage goes there
 # duckdb/duckdb-r (.series-source) left out series-alpha.sh, series-converge.sh,
 # series-cut.sh, series-cutover.sh, series-glue.sh, series-learned.sh and
 # series-prune.sh, and the standalone preview-prefix.sh and reflavor.sh, so
-# their checks are gone with them.
+# their checks are gone with them. series-vendor-audit.sh is rigraph's own.
 scripts=(
   series-advance.sh
   series-check.sh
@@ -82,6 +82,7 @@ scripts=(
   series-rc.sh
   series-tests.sh
   series-vendor.sh
+  series-vendor-audit.sh
 )
 remote_scripts=(
   series-advance.sh
@@ -91,8 +92,9 @@ remote_scripts=(
   series-port.sh
   series-rc.sh
   series-vendor.sh
+  series-vendor-audit.sh
 )
-upstream_scripts=(series-check.sh)
+upstream_scripts=(series-check.sh series-vendor-audit.sh)
 canonical_scripts=(series-advance.sh series-check.sh series-land.sh series-port.sh)
 
 echo "== -h and --help print the usage and exit 0"
@@ -153,6 +155,7 @@ echo "== --chunk takes a number"
 isnt "series-advance.sh --chunk 25 is not a usage error" \
   "$(rc series-advance.sh s --chunk 25)" 2
 is "series-advance.sh --chunk origin" "$(rc series-advance.sh s --chunk origin)" 2
+is "series-advance.sh --chunk ''" "$(rc series-advance.sh s --chunk '')" 2
 
 echo
 echo "== --dev-note takes a file, and only where a commit is minted"
@@ -163,8 +166,15 @@ is "series-port.sh --dev-note without --apply" \
   "$(rc series-port.sh s --dev-note /dev/null)" 2
 
 echo
+echo "== --no-push-dev is a flag of series-advance.sh"
+isnt "series-advance.sh --no-push-dev is not a usage error" \
+  "$(rc series-advance.sh s --no-push-dev)" 2
+is "series-advance.sh offers it" \
+  "$(out series-advance.sh --help | grep -c -- '--no-push-dev')" 1
+
+echo
 echo "== a missing series is a usage error too"
-for s in series-advance.sh series-land.sh series-patch-sync.sh series-port.sh; do
+for s in series-advance.sh series-land.sh series-patch-sync.sh series-port.sh series-vendor-audit.sh; do
   is "$s with no series" "$(rc "$s")" 2
 done
 # series-check.sh is the one whose series list is optional: it discovers them.

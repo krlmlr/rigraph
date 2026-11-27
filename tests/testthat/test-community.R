@@ -197,7 +197,7 @@ test_that("label.propagation.community works", {
   expect_equal(karate_lpc$modularity, modularity(karate, karate_lpc$membership))
 
   expect_in(length(karate_lpc), 1:5)
-  expect_in(membership(karate_lpc), seq_len(length(karate_lpc)))
+  expect_in(membership(karate_lpc), seq_along(karate_lpc))
   expect_s3_class(sizes(karate_lpc), "table")
   expect_equal(sum(sizes(karate_lpc)), vcount(karate))
   expect_identical(
@@ -455,6 +455,67 @@ test_that("cluster_leiden works", {
   )
 })
 
+test_that("cluster_leiden() rejects directed graphs", {
+  ring <- make_ring(6, directed = TRUE)
+  expect_error(
+    cluster_leiden(ring, objective_function = "modularity"),
+    "only implemented for undirected graphs"
+  )
+  expect_error(
+    cluster_leiden(ring, objective_function = "CPM"),
+    "only implemented for undirected graphs"
+  )
+
+  E(ring)$weight <- seq_len(ecount(ring))
+  expect_error(
+    cluster_leiden(ring, objective_function = "modularity"),
+    "only implemented for undirected graphs"
+  )
+})
+
+test_that("cluster_leiden() reports modularity as its quality", {
+  karate <- make_graph("Zachary")
+  for (resolution in c(0.5, 1, 2)) {
+    igraph_local_seed(42)
+    karate_leiden <- cluster_leiden(
+      karate,
+      "modularity",
+      resolution = resolution
+    )
+    expect_equal(
+      karate_leiden$quality,
+      modularity(karate, membership(karate_leiden), resolution = resolution)
+    )
+  }
+
+  triangles <- make_graph(~ 1-2-3-1, 4-5-6-4, 3-4)
+  E(triangles)$weight <- c(2, 2, 2, 3, 3, 3, 1)
+  igraph_local_seed(42)
+  triangles_leiden <- cluster_leiden(triangles, "modularity")
+  expect_equal(unname(membership(triangles_leiden)), c(1, 1, 1, 2, 2, 2))
+  expect_equal(
+    triangles_leiden$quality,
+    modularity(triangles, membership(triangles_leiden))
+  )
+})
+
+test_that("cluster_leiden() resolution controls the number of communities", {
+  triangles <- make_graph(~ 1-2-3-1, 4-5-6-4, 3-4)
+  E(triangles)$weight <- c(2, 2, 2, 3, 3, 3, 1)
+
+  igraph_local_seed(42)
+  low <- cluster_leiden(triangles, "modularity", resolution = 0.01)
+  expect_length(low, 1)
+  expect_equal(
+    low$quality,
+    modularity(triangles, membership(low), resolution = 0.01)
+  )
+
+  igraph_local_seed(42)
+  high <- cluster_leiden(triangles, "modularity", resolution = 50)
+  expect_length(high, vcount(triangles))
+})
+
 test_that("modularity_matrix works", {
   karate <- make_graph("zachary")
 
@@ -493,7 +554,7 @@ test_that("cluster_louvain works", {
     max(karate_mc$modularity)
   )
   expect_in(length(karate_mc), 3:4)
-  expect_in(membership(karate_mc), seq_len(length(karate_mc)))
+  expect_in(membership(karate_mc), seq_along(karate_mc))
   expect_s3_class(sizes(karate_mc), "table")
   expect_equal(sum(sizes(karate_mc)), vcount(karate))
   expect_identical(
@@ -980,4 +1041,12 @@ test_that("modularity_matrix() covers migrated tail args and positional recovery
   expect_snapshot_igraph_error({
     modularity_matrix(karate, rep(1, vcount(karate)), rep(1, ecount(karate)))
   })
+})
+
+test_that("cluster_infomap() code length on the karate graph", {
+  # Pins the vendored Infomap implementation.
+  igraph_local_seed(42)
+  karate <- make_graph("Zachary")
+  res <- cluster_infomap(karate, nb.trials = 1)
+  expect_equal(code_len(res), 4.606059, tolerance = 1e-6)
 })

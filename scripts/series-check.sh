@@ -21,10 +21,11 @@
 # PATCH DRIFT line: the buffer regenerates its tree from its own patch stack, so
 # an entry that never reached it is one the next vendor run will not apply.
 #
-# A series one of whose vendor commits stopped a test `main` runs, or left an
-# expired engine gate in one, gets a TESTS line (scripts/series-tests.sh): the
-# change travels with that commit into every forward and landing, and a restore
-# made later as a commit of its own travels with neither.
+# A series one of whose vendor commits stopped a test `main` runs, other than by
+# removing it with the function upstream removed, gets a TESTS line
+# (scripts/series-tests.sh): the change travels with that commit into every
+# forward and landing, and a restore made later as a commit of its own travels
+# with neither.
 #
 # A series whose buffer vendored a release before upstream tagged it gets a
 # LATE TAG line: the commit stamps the previous release's version, and a
@@ -55,7 +56,9 @@
 # The record decides before the log does, for the one thing the log cannot say:
 # a commit the shard's `timeout` killed at its budget (exit 124) stops mid-run
 # with its stage output still buffered, which reads exactly like a cancelled
-# leg. That is a REPAIR — the commit did not finish — and calling it transient
+# leg. The shard records that only for the first commit of its leg, which had
+# the whole budget; one cut short after others is deferred and leaves no record.
+# That is a REPAIR, since the commit did not finish, and calling it transient
 # spends another whole budget to learn the same thing.
 #
 # RETRY and REPAIR split on the retry ledger: `retry-<S>-dev` pointing at the
@@ -201,9 +204,10 @@ run_branch_of() { # <sha> -> head_branch of the harvested run, empty if none
 
 # The shard's own verdict on how the commit ended. `timeout` in
 # scripts/each-shard.sh reports 124 when it kills rcc-one.sh at the budget, and
-# that is the one thing the log cannot say: the killed stage buffers its output
-# through run_stage and loses it, so the log simply stops mid-run and reads like
-# a cancelled leg. Without this the log rules below call a commit that ran out
+# the shard records it for the first commit of its leg, which had the whole
+# budget (a later one is deferred). That is the one thing the log cannot say:
+# the killed stage buffers its output through run_stage and loses it, so the
+# log simply stops mid-run and reads like a cancelled leg. Without this the log rules below call a commit that ran out
 # of budget `transient` and the loop reruns it, which costs another full budget
 # to learn the same thing.
 exit_code_of() { # <sha> -> exit code the shard recorded, empty if none
@@ -637,21 +641,21 @@ for S in "${series[@]}"; do
   fi
 
   # A test `main` runs that a vendor commit of this series stopped, deleted or
-  # skipped without an engine gate, and a gate that has expired and is due to
-  # go (handbook/operations/vendoring/series-loop/README.md). A landing refuses
+  # skipped, but not one it removed with the function upstream removed
+  # (handbook/operations/vendoring/adaptation/README.md). A landing refuses
   # each, so it is named on every firing, while the commit that took it may
   # still be above green. Only a vendor commit's, because a test `main` added
   # since the last port is stage 4's, and only what the tip still lacks.
   if [ -n "$main_ref" ]; then
     lost=$("$(dirname "$0")/series-tests.sh" "$main_ref" "$dev" --vendored --porcelain 2>/dev/null || true)
-    lost=$(awk -F'\t' '$1 ~ /^(deleted|block|snapshot|skip|expired)$/' <<<"$lost")
+    lost=$(awk -F'\t' '$1 ~ /^(deleted|block|snapshot|skip)$/' <<<"$lost")
     if [ -n "$lost" ]; then
-      echo "  TESTS  $(grep -c . <<<"$lost") of main's test(s) stopped or still gated by a vendor commit of $S-dev:"
+      echo "  TESTS  $(grep -c . <<<"$lost") of main's test(s) stopped by a vendor commit of $S-dev:"
       while IFS=$'\t' read -r k p w c; do
         printf '         %-8s %s, by %s\n' "$k" "$p" "$(git log -1 --format='%h %s' "$c" | cut -c1-72)"
         [ "$k" = deleted ] || printf '                  %s\n' "${w:0:110}"
       done <<<"$lost"
-      echo "         Restore each in the commit that took it, or gate it (.claude/skills/series-loop/SKILL.md stage 2):"
+      echo "         Restore each in the commit that took it, or note a removal (.claude/skills/series-loop/SKILL.md stage 2):"
       echo "         scripts/series-tests.sh ${main_ref#refs/remotes/} $dev"
     fi
   fi

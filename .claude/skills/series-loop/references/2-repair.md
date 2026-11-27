@@ -84,7 +84,7 @@ It has not been judged: wait, do not guess.
 The run list says which kind of waiting it is:
 
 - a run on the branch is queued or in progress: it is coming, and a long tail behind a large push is normal;
-- a completed run planned it, but its leg deferred it at the leg deadline or could not check it out:
+- a completed run planned it, but its leg could not check it out or deferred it at the deadline, unstarted or cut short after others:
   the ordinary rule replans it on the next push;
 - no run covers it at all: nothing was ever triggered; push, or dispatch `each-rcc` on the branch.
 
@@ -115,6 +115,8 @@ The table in the playbook is ordered the way [`scripts/series-check.sh`](/script
   which reads exactly like a cancelled leg;
   [`scripts/rcc-one.sh`](/scripts/rcc-one.sh) also bounds each stage, printing "exceeded its … budget -- presumed stuck".
   Either is a REPAIR: the commit did not finish, and a rerun buys the same kill.
+  The shard records the kill only for its leg's first commit, which had the whole budget;
+  one cut short after others had only what they left, so it gets no record and is retried like a commit the leg never started.
 - **Snapshots, tests, style, check**, in that order, because each names what to fix more precisely than the next.
 - **The network**, only after those, so a real test failure that happens to mention a URL is not mistaken for a flake.
 - **A failed stage in the record** is definite: the stage ran and failed on its merits, so it is a REPAIR however little the log shows.
@@ -132,8 +134,11 @@ Fold the fix into the offending commit, extending its message with what was adap
 [`scripts/series-fold.sh`](/scripts/series-fold.sh) does the folding and the replay:
 it keeps the commit's author and message, adds the fix's note above the trailers,
 and stops on a conflict where a later commit leaned on what the fix changed;
-resolve, `git add`, and `scripts/series-fold.sh --continue`.
+resolve, `git add`, and `"$M"/scripts/series-fold.sh --continue`.
+`$M` is the `main` checkout: run the fold and `--continue` as `main`'s copy from the worktree they rewrite,
+because the worktree's own copy is the offending commit's, older or missing.
 It leaves the result detached in the current worktree, which must be clean, and moves no ref; the push is yours.
+It ends by checking that every fix is in its target, and exits 3 when one is not: push nothing, and fold again.
 If other failures have a demonstrably different cause, they may be fixed in the same pass;
 otherwise let CI judge the tail again.
 
@@ -151,26 +156,33 @@ a snapshot accepted blind is a behaviour change nobody decided;
 and a test weakened is a check `main` loses.
 `patch/` takes the next free number and never renumbers, and is written as the diff you would send to `igraph/igraph`.
 
-## A test the engine cannot pass yet is gated, never deleted or rewritten
+## A test follows its engine, commit by commit
 
-On the replay the engine is older than the one `main`'s tests may have been written against,
-so a red there can be a test asking for behaviour that has not arrived yet.
-Put `skip_if_engine_before("<version>", "<why>")` ([`tests/testthat/helper-skip.R`](/tests/testthat/helper-skip.R))
-on a line of its own at the top of each such `test_that()` body, only where an older engine cannot pass the test.
-The version is the `IGRAPH_VERSION` (in `src/vendor/igraph_version.h`) of the upstream commit that brings the behaviour back,
-`X.Y.Z` or `X.Y.Z-N-g<sha>`, read the same way by the helper and by [`scripts/series-tests.sh`](/scripts/series-tests.sh).
-Fold it into the offending commit like any repair.
+Every commit's tests are written for the engine that commit vendors,
+so the suite needs no check of the engine's version and nothing waits for a later commit to lift it
+([`adaptation/`](/handbook/operations/vendoring/adaptation/README.md)).
 
-Do not delete the file or the block, rewrite what it expects, or skip it with no version to end the skip:
-each travels with its vendor commit into every landing, and a later restore made as a commit of its own does not,
+- **A test the vendor commit breaks** is adapted in that commit, folded like any repair, by the fix order above.
+- **A test whose function upstream removed** goes in the vendor commit that removes the function,
+  its `test_that()` blocks and their entries in `_snaps/` alike.
+  Where the blocks stood, at the top level of the file, leave one comment: `# upstream igraph@<short-sha>: <what upstream removed>`.
+  Its SHA is the one the commit's subject names, and the `R-side fix` section says what went.
+  A file the removal empties keeps the comment and nothing else.
+  [`scripts/series-tests.sh`](/scripts/series-tests.sh) reports such a test as `removed`.
+  It counts the test as lost when the comment is missing, stands elsewhere in the file, or names another upstream commit.
+- **A test that only a later engine supports**, a new function's or a behaviour upstream has not brought yet,
+  is added in the vendor commit that brings that engine, never earlier behind a version check.
+
+Never delete a test, or skip one, for any other reason:
+the change travels with its vendor commit into every landing, and a later restore made as a commit of its own does not,
 because a landing replays vendor commits only.
 That is how a test left one of duckdb-r's forwards at a rewind while its base restored it,
 and reached the landing review (duckdb/duckdb-r#2899).
-Where the series already holds the commit at that version, take the gate out there in the same pass.
-A gate whose removal never comes is inert, and a landing asks for it then.
 
-`series-check.sh` prints a `TESTS` line for a series whose vendor commit stopped a test `main` runs, or left an expired gate.
-That is this stage's work as much as a red is: restore each in the commit that took it, gating it where that engine cannot pass it.
+`series-check.sh` prints a `TESTS` line for a series whose vendor commit stopped a test `main` runs, other than by a removal.
+That is this stage's work as much as a red is.
+Restore each in the commit that took it, adapted to that commit's engine.
+Where upstream removed the test's function, leave the comment that makes the loss a removal instead.
 
 ## A transiently broken upstream commit
 
@@ -205,7 +217,8 @@ a commit on top of the failing one carrying the new `tests/testthat/_snaps/*.md`
 Fetch, **review the diff carefully**, and fold.
 The diff must read as the engine change the vendor commit describes;
 accepting it is accepting new behaviour as correct, so it deserves the same scrutiny as a code review.
-A **deleted** snapshot file is a bad sign: a snapshot only disappears when its test stopped running, which is its own failure.
+A **deleted** snapshot file is a bad sign: a snapshot only disappears when its test stopped running, which is its own failure,
+unless the commit removed every test that wrote it, with the function upstream removed.
 If the diff is surprising in any way, do not fold blind:
 build locally, run the tests, `testthat::snapshot_accept()`, and run them again.
 The branches are per run; read the one for the SHA being repaired.
@@ -219,6 +232,25 @@ Fix it on `main`, so the next seed is right,
 in [`scripts/flavor.sh`](/scripts/flavor.sh), its template or [`scripts/flavor-package-name.R`](/scripts/flavor-package-name.R),
 and fold the same change into the flavor commit on `main-dev`.
 Keep the two flavor subjects as `flavor.sh` wrote them: [`scripts/series-rc.sh`](/scripts/series-rc.sh) finds the flavor diff by them.
+
+## A gate the harness breaks on every commit
+
+Every commit is judged by the harness it carries:
+[`scripts/each-shard.sh`](/scripts/each-shard.sh) resets the workspace to each commit and runs that commit's own `scripts/rcc-one.sh`,
+against that commit's own `DESCRIPTION`.
+So when the job's tooling or environment, not the tree, fails a gate on every commit,
+a fix on `main` reaches `main-dev` through stage 4 at the tip alone, and every commit below it stays red for good.
+Fix it on `main` first.
+Then cherry-pick that commit onto `main-green`, with whatever else from `main` it needs except version bumps (`series-port.sh`'s VERSION),
+as a standalone commit in front of every vendor commit, and replay the rest of the window on top of it.
+Never fold it into a vendor commit:
+a vendor commit carries the vendoring and its R-side adaptations alone, and a landing replays vendor commits only,
+so `main`'s own change stays a commit of its own.
+`main-green` fast-forwards over it once CI has judged it, and stage 4 later finds the change already there.
+On 2026-10-16 the `roxygen` gate failed on every vendor commit:
+its external roclet downloaded the C manual's index for the exact engine version, and a replay commit's `0.10.17-1-g16081ce60` has no manual
+([igraph/rigraph#2955](https://github.com/igraph/rigraph/pull/2955) vendors the roclet with its link tables committed).
+A refusal every commit meets the same way is this case, not the network, and a rerun buys the same refusal.
 
 ## Read what the series already learned
 

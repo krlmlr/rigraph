@@ -72,6 +72,8 @@ and packs contiguous runs of commits into shards under a build-time budget ([`sc
 `build` is one job per shard ([`scripts/each-shard.sh`](/scripts/each-shard.sh)):
 it installs R and the dependencies once, then resets the workspace and runs the gates for each commit, oldest first,
 and stops at its own deadline, deferring the rest to the next run.
+A commit cut short by the deadline is deferred too, but the leg's first had the whole budget, so its kill is recorded as a failure.
+[`scripts/each-shard-test.sh`](/scripts/each-shard-test.sh) checks both, offline and against stubbed gates.
 
 **Every commit weighs the same.**
 duckdb-r weighs a commit by how many objects of its unity build the change invalidates;
@@ -96,8 +98,11 @@ The branch is the simpler of the two as it stands, and the gain would be modest.
 [`scripts/rcc-consolidate.sh`](/scripts/rcc-consolidate.sh) drops what is older and squashes the history to two commits.
 It only reports unless `APPLY=1` is set, and its `OUT_DIR` is a checkout of `rcc2`.
 It is the one writer that rewrites the branch, so it is run by hand and never on a schedule, and its force-push carries a lease.
-Filling a record no leg published, and dropping verdicts the job rather than the tree decided, are not ported.
-The series loop names what would trigger them ([`series-loop`](/.claude/skills/series-loop/SKILL.md), "Not ported yet").
+[`scripts/rcc-drop.sh`](/scripts/rcc-drop.sh) is the one writer that only removes.
+It drops the record and log of each commit it is named, through `rcc-publish.sh`, so that the next run plans the commit again.
+It is run by hand, for a verdict the job decided rather than the tree ([`retry.md`](/.claude/skills/series-loop/references/retry.md) says when).
+Filling a record no leg published is not ported.
+The series loop names what would trigger it ([`series-loop`](/.claude/skills/series-loop/SKILL.md), "Not ported yet").
 
 ## Operating it
 

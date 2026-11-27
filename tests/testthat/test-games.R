@@ -596,6 +596,74 @@ test_that("permutation works for sample_correlated_gnp", {
   expect_equal(gnp_graph[], cor_gnp_graph[])
 })
 
+test_that("sample_correlated_gnp() accepts integer-valued double permutations", {
+  igraph_local_seed(42)
+
+  gnp_graph <- sample_gnp(10, 0.3)
+  perm <- sample(vcount(gnp_graph))
+
+  cor_gnp_graph <- sample_correlated_gnp(
+    gnp_graph,
+    corr = 1,
+    p = 0.3,
+    permutation = as.numeric(perm)
+  )
+  expect_equal(cor_gnp_graph[], permute(gnp_graph, perm)[])
+
+  cor_gnp_pair <- sample_correlated_gnp_pair(
+    10,
+    corr = 1,
+    p = 0.3,
+    permutation = as.numeric(perm)
+  )
+  expect_equal(cor_gnp_pair[[2]][], permute(cor_gnp_pair[[1]], perm)[])
+})
+
+test_that("sample_correlated_gnp() validates the permutation", {
+  gnp_graph <- make_ring(4)
+
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp(gnp_graph, corr = 0.5, permutation = c(1, 2, 3))
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp(gnp_graph, corr = 0.5, permutation = c(NA, 2, 3, 4))
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp(gnp_graph, corr = 0.5, permutation = c(1.5, 2, 3, 4))
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp(gnp_graph, corr = 0.5, permutation = c(1, 2, 3, 5))
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp(gnp_graph, corr = 0.5, permutation = c(1, 1, 2, 3))
+  )
+})
+
+test_that("sample_correlated_gnp_pair() validates the permutation", {
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp_pair(4, corr = 0.5, p = 0.5, permutation = "1")
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp_pair(4, corr = 0.5, p = 0.5, permutation = 1:5)
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp_pair(
+      4,
+      corr = 0.5,
+      p = 0.5,
+      permutation = c(0, 1, 2, 3)
+    )
+  )
+  expect_snapshot_igraph_error(
+    sample_correlated_gnp_pair(
+      4,
+      corr = 0.5,
+      p = 0.5,
+      permutation = c(4, 4, 4, 1)
+    )
+  )
+})
+
 test_that("HSBM works", {
   igraph_local_seed(42)
 
@@ -1700,5 +1768,15 @@ test_that("sample_correlated_gnp() recovers positional p", {
   expect_identical_graphs(
     g_legacy,
     sample_correlated_gnp(base_graph, 0.8, p = 0.3)
+  )
+})
+
+test_that("sample_islands() random stream for a fixed seed", {
+  # Pins the random numbers the C core draws for this generator.
+  igraph_local_seed(42)
+  g <- sample_islands(2, 3, 0.5, 1)
+  expect_equal(
+    as_edgelist(g),
+    rbind(c(1, 3), c(2, 3), c(3, 6), c(4, 5), c(4, 6))
   )
 })
