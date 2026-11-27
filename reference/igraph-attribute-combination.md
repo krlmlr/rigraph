@@ -176,7 +176,7 @@ igraph_options(print.edge.attributes = TRUE)
 
 ## new attribute is the sum of the old ones
 simplify(g, edge_attr_combine = "sum")
-#> ── <igraph> ───────────────────────────────────────────────────────── 0668562 ──
+#> ── <igraph> ───────────────────────────────────────────────────────── 5d6f175 ──
 #> ℹ directed · weighted
 #> ℹ 4 vertices · 3 edges
 #> 
@@ -188,7 +188,7 @@ simplify(g, edge_attr_combine = "sum")
 
 ## collect attributes into a string
 simplify(g, edge_attr_combine = toString)
-#> ── <igraph> ───────────────────────────────────────────────────────── 2e2b1f5 ──
+#> ── <igraph> ───────────────────────────────────────────────────────── 66485cd ──
 #> ℹ directed · weighted
 #> ℹ 4 vertices · 3 edges
 #> 
@@ -201,7 +201,7 @@ simplify(g, edge_attr_combine = toString)
 ## concatenate them into a vector, this creates a complex
 ## attribute
 simplify(g, edge_attr_combine = "concat")
-#> ── <igraph> ───────────────────────────────────────────────────────── 19ae0c0 ──
+#> ── <igraph> ───────────────────────────────────────────────────────── 318e4d4 ──
 #> ℹ directed · weighted
 #> ℹ 4 vertices · 3 edges
 #> 
@@ -215,7 +215,7 @@ E(g)$name <- letters[seq_len(ecount(g))]
 
 ## both attributes are collected into strings
 simplify(g, edge_attr_combine = toString)
-#> ── <igraph> ───────────────────────────────────────────────────────── d829fff ──
+#> ── <igraph> ───────────────────────────────────────────────────────── a924c0e ──
 #> ℹ directed · weighted
 #> ℹ 4 vertices · 3 edges
 #> 
@@ -230,7 +230,7 @@ simplify(g, edge_attr_combine = list(
   weight = function(x) length(x) / sum(1 / x),
   name = "ignore"
 ))
-#> ── <igraph> ───────────────────────────────────────────────────────── 6e5d653 ──
+#> ── <igraph> ───────────────────────────────────────────────────────── 409f390 ──
 #> ℹ directed · weighted
 #> ℹ 4 vertices · 3 edges
 #> 
